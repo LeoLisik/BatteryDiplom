@@ -1,0 +1,44 @@
+G:\Coledge\УП C# Айрат 3ИП\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.csproj.AssemblyReference.cache
+G:\Coledge\УП C# Айрат 3ИП\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.csproj.SuggestedBindingRedirects.cache
+G:\Coledge\УП C# Айрат 3ИП\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.autorizationForm.resources
+G:\Coledge\УП C# Айрат 3ИП\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.Properties.Resources.resources
+G:\Coledge\УП C# Айрат 3ИП\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.csproj.GenerateResource.cache
+G:\Coledge\УП C# Айрат 3ИП\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.csproj.CoreCompileInputs.cache
+G:\Coledge\УП C# Айрат 3ИП\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.Forms.adminForm.resources
+G:\Coledge\УП C# Айрат 3ИП\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.Forms.registerForm.resources
+G:\Coledge\УП C# Айрат 3ИП\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.Controls.bucketListItem.resources
+G:\Coledge\УП C# Айрат 3ИП\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.Controls.listItem.resources
+G:\Coledge\УП C# Айрат 3ИП\tuningAtelier\tuningAtelier\bin\Debug\tuningAtelier.exe.config
+G:\Coledge\УП C# Айрат 3ИП\tuningAtelier\tuningAtelier\bin\Debug\tuningAtelier.exe
+G:\Coledge\УП C# Айрат 3ИП\tuningAtelier\tuningAtelier\bin\Debug\tuningAtelier.pdb
+G:\Coledge\УП C# Айрат 3ИП\tuningAtelier\tuningAtelier\bin\Debug\EntityFramework.dll
+G:\Coledge\УП C# Айрат 3ИП\tuningAtelier\tuningAtelier\bin\Debug\EntityFramework.SqlServer.dll
+G:\Coledge\УП C# Айрат 3ИП\tuningAtelier\tuningAtelier\bin\Debug\EntityFramework.xml
+G:\Coledge\УП C# Айрат 3ИП\tuningAtelier\tuningAtelier\bin\Debug\EntityFramework.SqlServer.xml
+G:\Coledge\УП C# Айрат 3ИП\tuningAtelier\tuningAtelier\bin\Debug\ru\EntityFramework.resources.dll
+G:\Coledge\УП C# Айрат 3ИП\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.csproj.CopyComplete
+G:\Coledge\УП C# Айрат 3ИП\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.exe
+G:\Coledge\УП C# Айрат 3ИП\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.pdb
+G:\Coledge\УП C# Айрат 3ИП\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.Forms.userForm.resources
+C:\Users\User\Desktop\tuningAtelier\tuningAtelier\bin\Debug\tuningAtelier.exe.config
+C:\Users\User\Desktop\tuningAtelier\tuningAtelier\bin\Debug\tuningAtelier.exe
+C:\Users\User\Desktop\tuningAtelier\tuningAtelier\bin\Debug\tuningAtelier.pdb
+C:\Users\User\Desktop\tuningAtelier\tuningAtelier\bin\Debug\EntityFramework.dll
+C:\Users\User\Desktop\tuningAtelier\tuningAtelier\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\User\Desktop\tuningAtelier\tuningAtelier\bin\Debug\EntityFramework.xml
+C:\Users\User\Desktop\tuningAtelier\tuningAtelier\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\User\Desktop\tuningAtelier\tuningAtelier\bin\Debug\ru\EntityFramework.resources.dll
+C:\Users\User\Desktop\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.csproj.AssemblyReference.cache
+C:\Users\User\Desktop\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.csproj.SuggestedBindingRedirects.cache
+C:\Users\User\Desktop\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.Controls.bucketListItem.resources
+C:\Users\User\Desktop\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.Controls.listItem.resources
+C:\Users\User\Desktop\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.Forms.adminForm.resources
+C:\Users\User\Desktop\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.autorizationForm.resources
+C:\Users\User\Desktop\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.Forms.registerForm.resources
+C:\Users\User\Desktop\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.Forms.userForm.resources
+C:\Users\User\Desktop\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.Properties.Resources.resources
+C:\Users\User\Desktop\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.csproj.GenerateResource.cache
+C:\Users\User\Desktop\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.csproj.CopyComplete
+C:\Users\User\Desktop\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.exe
+C:\Users\User\Desktop\tuningAtelier\tuningAtelier\obj\Debug\tuningAtelier.pdb

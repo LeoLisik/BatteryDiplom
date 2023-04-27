@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище atelierModelContainer" CdmEntityContainer="tuning">
+    <EntitySetMapping Name="menu">
+      <EntityTypeMapping TypeName="atelierModel.menu">
+        <MappingFragment StoreEntitySet="menu">
+          <ScalarProperty Name="idDish" ColumnName="idDish" />
+          <ScalarProperty Name="nameDish" ColumnName="nameDish" />
+          <ScalarProperty Name="descriptionDish" ColumnName="descriptionDish" />
+          <ScalarProperty Name="priceDish" ColumnName="priceDish" />
+          <ScalarProperty Name="photoDish" ColumnName="photoDish" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="order">
+      <EntityTypeMapping TypeName="atelierModel.order">
+        <MappingFragment StoreEntitySet="order">
+          <ScalarProperty Name="idOrder" ColumnName="idOrder" />
+          <ScalarProperty Name="idUser" ColumnName="idUser" />
+          <ScalarProperty Name="idAtelier" ColumnName="idAtelier" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="totalPrice" ColumnName="totalPrice" />
+          <ScalarProperty Name="orderDate" ColumnName="orderDate" />
+          <ScalarProperty Name="orderTime" ColumnName="orderTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="statusOrder">
+      <EntityTypeMapping TypeName="atelierModel.statusOrder">
+        <MappingFragment StoreEntitySet="statusOrder">
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="atelierModel.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tuningAtelier">
+      <EntityTypeMapping TypeName="atelierModel.tuningAtelier">
+        <MappingFragment StoreEntitySet="tuningAtelier">
+          <ScalarProperty Name="idAtelier" ColumnName="idAtelier" />
+          <ScalarProperty Name="nameAtelier" ColumnName="nameAtelier" />
+          <ScalarProperty Name="addres" ColumnName="addres" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tuningBucket">
+      <EntityTypeMapping TypeName="atelierModel.tuningBucket">
+        <MappingFragment StoreEntitySet="tuningBucket">
+          <ScalarProperty Name="idBucket" ColumnName="idBucket" />
+          <ScalarProperty Name="idOrder" ColumnName="idOrder" />
+          <ScalarProperty Name="idDish" ColumnName="idDish" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="user">
+      <EntityTypeMapping TypeName="atelierModel.user">
+        <MappingFragment StoreEntitySet="user">
+          <ScalarProperty Name="idUser" ColumnName="idUser" />
+          <ScalarProperty Name="login" ColumnName="login" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="gender" ColumnName="gender" />
+          <ScalarProperty Name="surname" ColumnName="surname" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="patronymic" ColumnName="patronymic" />
+          <ScalarProperty Name="userPhoto" ColumnName="userPhoto" />
+          <ScalarProperty Name="role" ColumnName="role" />
+          <ScalarProperty Name="birthday" ColumnName="birthday" />
+          <ScalarProperty Name="phoneNumber" ColumnName="phoneNumber" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="userGenders">
+      <EntityTypeMapping TypeName="atelierModel.userGenders">
+        <MappingFragment StoreEntitySet="userGenders">
+          <ScalarProperty Name="userGender" ColumnName="userGender" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="userRoles">
+      <EntityTypeMapping TypeName="atelierModel.userRoles">
+        <MappingFragment StoreEntitySet="userRoles">
+          <ScalarProperty Name="role" ColumnName="role" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="userStatus">
+      <EntityTypeMapping TypeName="atelierModel.userStatus">
+        <MappingFragment StoreEntitySet="userStatus">
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

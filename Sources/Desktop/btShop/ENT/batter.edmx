@@ -1,0 +1,582 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище BatteriesModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="batteriesBucket">
+          <Key>
+            <PropertyRef Name="idBucket" />
+          </Key>
+          <Property Name="idBucket" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idOrder" Type="int" Nullable="false" />
+          <Property Name="idBatteries" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="menu">
+          <Key>
+            <PropertyRef Name="idBatteries" />
+          </Key>
+          <Property Name="idBatteries" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nameBatteries" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="descriptionBatteries" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="priceBatteries" Type="float" Nullable="false" />
+          <Property Name="photoBatteries" Type="image" />
+        </EntityType>
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="idOrder" />
+          </Key>
+          <Property Name="idOrder" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idUser" Type="int" Nullable="false" />
+          <Property Name="idShop" Type="int" />
+          <Property Name="status" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="totalPrice" Type="float" />
+          <Property Name="orderDate" Type="date" Nullable="false" />
+          <Property Name="orderTime" Type="time" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Shop">
+          <Key>
+            <PropertyRef Name="idShop" />
+          </Key>
+          <Property Name="idShop" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nameShop" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="addres" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="statusOrder">
+          <Key>
+            <PropertyRef Name="status" />
+          </Key>
+          <Property Name="status" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="idUser" />
+          </Key>
+          <Property Name="idUser" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="login" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="gender" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="surname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="patronymic" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="userPhoto" Type="image" />
+          <Property Name="role" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="birthday" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="phoneNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="status" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="userGenders">
+          <Key>
+            <PropertyRef Name="userGender" />
+          </Key>
+          <Property Name="userGender" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="userRoles">
+          <Key>
+            <PropertyRef Name="role" />
+          </Key>
+          <Property Name="role" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="userStatus">
+          <Key>
+            <PropertyRef Name="status" />
+          </Key>
+          <Property Name="status" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__order__idShop__6B24EA82">
+          <End Role="Shop" Type="Self.Shop" Multiplicity="0..1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shop">
+              <PropertyRef Name="idShop" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="idShop" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_batteriesBucket_menu">
+          <End Role="menu" Type="Self.menu" Multiplicity="1" />
+          <End Role="batteriesBucket" Type="Self.batteriesBucket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="menu">
+              <PropertyRef Name="idBatteries" />
+            </Principal>
+            <Dependent Role="batteriesBucket">
+              <PropertyRef Name="idBatteries" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_batteriesBucket_order">
+          <End Role="order" Type="Self.order" Multiplicity="1" />
+          <End Role="batteriesBucket" Type="Self.batteriesBucket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order">
+              <PropertyRef Name="idOrder" />
+            </Principal>
+            <Dependent Role="batteriesBucket">
+              <PropertyRef Name="idOrder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_statuses">
+          <End Role="statusOrder" Type="Self.statusOrder" Multiplicity="1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="statusOrder">
+              <PropertyRef Name="status" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_user">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="idUser" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_userGenders">
+          <End Role="userGenders" Type="Self.userGenders" Multiplicity="1" />
+          <End Role="user" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userGenders">
+              <PropertyRef Name="userGender" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="gender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_userRoles">
+          <End Role="userRoles" Type="Self.userRoles" Multiplicity="1" />
+          <End Role="user" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userRoles">
+              <PropertyRef Name="role" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_userStatus">
+          <End Role="userStatus" Type="Self.userStatus" Multiplicity="1" />
+          <End Role="user" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userStatus">
+              <PropertyRef Name="status" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище BatteriesModelContainer">
+          <EntitySet Name="batteriesBucket" EntityType="Self.batteriesBucket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="menu" EntityType="Self.menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="order" EntityType="Self.order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Shop" EntityType="Self.Shop" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="statusOrder" EntityType="Self.statusOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="userGenders" EntityType="Self.userGenders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="userRoles" EntityType="Self.userRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="userStatus" EntityType="Self.userStatus" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__order__idShop__6B24EA82" Association="Self.FK__order__idShop__6B24EA82">
+            <End Role="Shop" EntitySet="Shop" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_batteriesBucket_menu" Association="Self.FK_batteriesBucket_menu">
+            <End Role="menu" EntitySet="menu" />
+            <End Role="batteriesBucket" EntitySet="batteriesBucket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_batteriesBucket_order" Association="Self.FK_batteriesBucket_order">
+            <End Role="order" EntitySet="order" />
+            <End Role="batteriesBucket" EntitySet="batteriesBucket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_statuses" Association="Self.FK_order_statuses">
+            <End Role="statusOrder" EntitySet="statusOrder" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_user" Association="Self.FK_order_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_userGenders" Association="Self.FK_user_userGenders">
+            <End Role="userGenders" EntitySet="userGenders" />
+            <End Role="user" EntitySet="user" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_userRoles" Association="Self.FK_user_userRoles">
+            <End Role="userRoles" EntitySet="userRoles" />
+            <End Role="user" EntitySet="user" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_userStatus" Association="Self.FK_user_userStatus">
+            <End Role="userStatus" EntitySet="userStatus" />
+            <End Role="user" EntitySet="user" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BatteriesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="batteriesBucket">
+          <Key>
+            <PropertyRef Name="idBucket" />
+          </Key>
+          <Property Name="idBucket" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idOrder" Type="Int32" Nullable="false" />
+          <Property Name="idBatteries" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="menu" Relationship="Self.FK_batteriesBucket_menu" FromRole="batteriesBucket" ToRole="menu" />
+          <NavigationProperty Name="order" Relationship="Self.FK_batteriesBucket_order" FromRole="batteriesBucket" ToRole="order" />
+        </EntityType>
+        <EntityType Name="menu">
+          <Key>
+            <PropertyRef Name="idBatteries" />
+          </Key>
+          <Property Name="idBatteries" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nameBatteries" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="descriptionBatteries" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="priceBatteries" Type="Double" Nullable="false" />
+          <Property Name="photoBatteries" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="batteriesBucket" Relationship="Self.FK_batteriesBucket_menu" FromRole="menu" ToRole="batteriesBucket" />
+        </EntityType>
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="idOrder" />
+          </Key>
+          <Property Name="idOrder" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idUser" Type="Int32" Nullable="false" />
+          <Property Name="idShop" Type="Int32" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="totalPrice" Type="Double" />
+          <Property Name="orderDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="orderTime" Type="Time" Nullable="false" Precision="7" />
+          <NavigationProperty Name="batteriesBucket" Relationship="Self.FK_batteriesBucket_order" FromRole="order" ToRole="batteriesBucket" />
+          <NavigationProperty Name="Shop" Relationship="Self.FK__order__idShop__6B24EA82" FromRole="order" ToRole="Shop" />
+          <NavigationProperty Name="statusOrder" Relationship="Self.FK_order_statuses" FromRole="order" ToRole="statusOrder" />
+          <NavigationProperty Name="user" Relationship="Self.FK_order_user" FromRole="order" ToRole="user" />
+        </EntityType>
+        <EntityType Name="Shop">
+          <Key>
+            <PropertyRef Name="idShop" />
+          </Key>
+          <Property Name="idShop" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nameShop" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="addres" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="order" Relationship="Self.FK__order__idShop__6B24EA82" FromRole="Shop" ToRole="order" />
+        </EntityType>
+        <EntityType Name="statusOrder">
+          <Key>
+            <PropertyRef Name="status" />
+          </Key>
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="order" Relationship="Self.FK_order_statuses" FromRole="statusOrder" ToRole="order" />
+        </EntityType>
+        <EntityType Name="user">
+          <Key>
+            <PropertyRef Name="idUser" />
+          </Key>
+          <Property Name="idUser" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="userPhoto" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="birthday" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="order" Relationship="Self.FK_order_user" FromRole="user" ToRole="order" />
+          <NavigationProperty Name="userGenders" Relationship="Self.FK_user_userGenders" FromRole="user" ToRole="userGenders" />
+          <NavigationProperty Name="userRoles" Relationship="Self.FK_user_userRoles" FromRole="user" ToRole="userRoles" />
+          <NavigationProperty Name="userStatus" Relationship="Self.FK_user_userStatus" FromRole="user" ToRole="userStatus" />
+        </EntityType>
+        <EntityType Name="userGenders">
+          <Key>
+            <PropertyRef Name="userGender" />
+          </Key>
+          <Property Name="userGender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="user" Relationship="Self.FK_user_userGenders" FromRole="userGenders" ToRole="user" />
+        </EntityType>
+        <EntityType Name="userRoles">
+          <Key>
+            <PropertyRef Name="role" />
+          </Key>
+          <Property Name="role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="user" Relationship="Self.FK_user_userRoles" FromRole="userRoles" ToRole="user" />
+        </EntityType>
+        <EntityType Name="userStatus">
+          <Key>
+            <PropertyRef Name="status" />
+          </Key>
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="user" Relationship="Self.FK_user_userStatus" FromRole="userStatus" ToRole="user" />
+        </EntityType>
+        <Association Name="FK_batteriesBucket_menu">
+          <End Role="menu" Type="Self.menu" Multiplicity="1" />
+          <End Role="batteriesBucket" Type="Self.batteriesBucket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="menu">
+              <PropertyRef Name="idBatteries" />
+            </Principal>
+            <Dependent Role="batteriesBucket">
+              <PropertyRef Name="idBatteries" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_batteriesBucket_order">
+          <End Role="order" Type="Self.order" Multiplicity="1" />
+          <End Role="batteriesBucket" Type="Self.batteriesBucket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="order">
+              <PropertyRef Name="idOrder" />
+            </Principal>
+            <Dependent Role="batteriesBucket">
+              <PropertyRef Name="idOrder" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__order__idShop__6B24EA82">
+          <End Role="Shop" Type="Self.Shop" Multiplicity="0..1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shop">
+              <PropertyRef Name="idShop" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="idShop" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_statuses">
+          <End Role="statusOrder" Type="Self.statusOrder" Multiplicity="1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="statusOrder">
+              <PropertyRef Name="status" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_order_user">
+          <End Role="user" Type="Self.user" Multiplicity="1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user">
+              <PropertyRef Name="idUser" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_userGenders">
+          <End Role="userGenders" Type="Self.userGenders" Multiplicity="1" />
+          <End Role="user" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userGenders">
+              <PropertyRef Name="userGender" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="gender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_userRoles">
+          <End Role="userRoles" Type="Self.userRoles" Multiplicity="1" />
+          <End Role="user" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userRoles">
+              <PropertyRef Name="role" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_userStatus">
+          <End Role="userStatus" Type="Self.userStatus" Multiplicity="1" />
+          <End Role="user" Type="Self.user" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userStatus">
+              <PropertyRef Name="status" />
+            </Principal>
+            <Dependent Role="user">
+              <PropertyRef Name="status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BatteriesEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="batteriesBucket" EntityType="Self.batteriesBucket" />
+          <EntitySet Name="menu" EntityType="Self.menu" />
+          <EntitySet Name="order" EntityType="Self.order" />
+          <EntitySet Name="Shop" EntityType="Self.Shop" />
+          <EntitySet Name="statusOrder" EntityType="Self.statusOrder" />
+          <EntitySet Name="user" EntityType="Self.user" />
+          <EntitySet Name="userGenders" EntityType="Self.userGenders" />
+          <EntitySet Name="userRoles" EntityType="Self.userRoles" />
+          <EntitySet Name="userStatus" EntityType="Self.userStatus" />
+          <AssociationSet Name="FK_batteriesBucket_menu" Association="Self.FK_batteriesBucket_menu">
+            <End Role="menu" EntitySet="menu" />
+            <End Role="batteriesBucket" EntitySet="batteriesBucket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_batteriesBucket_order" Association="Self.FK_batteriesBucket_order">
+            <End Role="order" EntitySet="order" />
+            <End Role="batteriesBucket" EntitySet="batteriesBucket" />
+          </AssociationSet>
+          <AssociationSet Name="FK__order__idShop__6B24EA82" Association="Self.FK__order__idShop__6B24EA82">
+            <End Role="Shop" EntitySet="Shop" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_statuses" Association="Self.FK_order_statuses">
+            <End Role="statusOrder" EntitySet="statusOrder" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_user" Association="Self.FK_order_user">
+            <End Role="user" EntitySet="user" />
+            <End Role="order" EntitySet="order" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_userGenders" Association="Self.FK_user_userGenders">
+            <End Role="userGenders" EntitySet="userGenders" />
+            <End Role="user" EntitySet="user" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_userRoles" Association="Self.FK_user_userRoles">
+            <End Role="userRoles" EntitySet="userRoles" />
+            <End Role="user" EntitySet="user" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_userStatus" Association="Self.FK_user_userStatus">
+            <End Role="userStatus" EntitySet="userStatus" />
+            <End Role="user" EntitySet="user" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище BatteriesModelContainer" CdmEntityContainer="BatteriesEntities">
+          <EntitySetMapping Name="batteriesBucket">
+            <EntityTypeMapping TypeName="BatteriesModel.batteriesBucket">
+              <MappingFragment StoreEntitySet="batteriesBucket">
+                <ScalarProperty Name="idBucket" ColumnName="idBucket" />
+                <ScalarProperty Name="idOrder" ColumnName="idOrder" />
+                <ScalarProperty Name="idBatteries" ColumnName="idBatteries" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="menu">
+            <EntityTypeMapping TypeName="BatteriesModel.menu">
+              <MappingFragment StoreEntitySet="menu">
+                <ScalarProperty Name="idBatteries" ColumnName="idBatteries" />
+                <ScalarProperty Name="nameBatteries" ColumnName="nameBatteries" />
+                <ScalarProperty Name="descriptionBatteries" ColumnName="descriptionBatteries" />
+                <ScalarProperty Name="priceBatteries" ColumnName="priceBatteries" />
+                <ScalarProperty Name="photoBatteries" ColumnName="photoBatteries" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="order">
+            <EntityTypeMapping TypeName="BatteriesModel.order">
+              <MappingFragment StoreEntitySet="order">
+                <ScalarProperty Name="idOrder" ColumnName="idOrder" />
+                <ScalarProperty Name="idUser" ColumnName="idUser" />
+                <ScalarProperty Name="idShop" ColumnName="idShop" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="totalPrice" ColumnName="totalPrice" />
+                <ScalarProperty Name="orderDate" ColumnName="orderDate" />
+                <ScalarProperty Name="orderTime" ColumnName="orderTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Shop">
+            <EntityTypeMapping TypeName="BatteriesModel.Shop">
+              <MappingFragment StoreEntitySet="Shop">
+                <ScalarProperty Name="idShop" ColumnName="idShop" />
+                <ScalarProperty Name="nameShop" ColumnName="nameShop" />
+                <ScalarProperty Name="addres" ColumnName="addres" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="statusOrder">
+            <EntityTypeMapping TypeName="BatteriesModel.statusOrder">
+              <MappingFragment StoreEntitySet="statusOrder">
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user">
+            <EntityTypeMapping TypeName="BatteriesModel.user">
+              <MappingFragment StoreEntitySet="user">
+                <ScalarProperty Name="idUser" ColumnName="idUser" />
+                <ScalarProperty Name="login" ColumnName="login" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="surname" ColumnName="surname" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="patronymic" ColumnName="patronymic" />
+                <ScalarProperty Name="userPhoto" ColumnName="userPhoto" />
+                <ScalarProperty Name="role" ColumnName="role" />
+                <ScalarProperty Name="birthday" ColumnName="birthday" />
+                <ScalarProperty Name="phoneNumber" ColumnName="phoneNumber" />
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="userGenders">
+            <EntityTypeMapping TypeName="BatteriesModel.userGenders">
+              <MappingFragment StoreEntitySet="userGenders">
+                <ScalarProperty Name="userGender" ColumnName="userGender" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="userRoles">
+            <EntityTypeMapping TypeName="BatteriesModel.userRoles">
+              <MappingFragment StoreEntitySet="userRoles">
+                <ScalarProperty Name="role" ColumnName="role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="userStatus">
+            <EntityTypeMapping TypeName="BatteriesModel.userStatus">
+              <MappingFragment StoreEntitySet="userStatus">
+                <ScalarProperty Name="status" ColumnName="status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище atelierModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="menu">
+    <Key>
+      <PropertyRef Name="idDetail" />
+    </Key>
+    <Property Name="idDetail" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nameDetail" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="descriptionDetail" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="priceDetail" Type="float" Nullable="false" />
+    <Property Name="photoDetail" Type="image" />
+  </EntityType>
+  <EntityType Name="order">
+    <Key>
+      <PropertyRef Name="idOrder" />
+    </Key>
+    <Property Name="idOrder" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="idUser" Type="int" Nullable="false" />
+    <Property Name="idAtelier" Type="int" />
+    <Property Name="status" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="totalPrice" Type="float" />
+    <Property Name="orderDate" Type="date" Nullable="false" />
+    <Property Name="orderTime" Type="time" Precision="7" Nullable="false" />
+  </EntityType>
+  <EntityType Name="statusOrder">
+    <Key>
+      <PropertyRef Name="status" />
+    </Key>
+    <Property Name="status" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="tuningAtelier">
+    <Key>
+      <PropertyRef Name="idAtelier" />
+    </Key>
+    <Property Name="idAtelier" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nameAtelier" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="addres" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tuningBucket">
+    <Key>
+      <PropertyRef Name="idBucket" />
+    </Key>
+    <Property Name="idBucket" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="idOrder" Type="int" Nullable="false" />
+    <Property Name="idDetail" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="idUser" />
+    </Key>
+    <Property Name="idUser" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="login" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="gender" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="surname" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="patronymic" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="userPhoto" Type="image" />
+    <Property Name="role" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="birthday" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="phoneNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="status" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="userGenders">
+    <Key>
+      <PropertyRef Name="userGender" />
+    </Key>
+    <Property Name="userGender" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="userRoles">
+    <Key>
+      <PropertyRef Name="role" />
+    </Key>
+    <Property Name="role" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="userStatus">
+    <Key>
+      <PropertyRef Name="status" />
+    </Key>
+    <Property Name="status" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_foodBucket_menu">
+    <End Role="menu" Type="Self.menu" Multiplicity="1" />
+    <End Role="tuningBucket" Type="Self.tuningBucket" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="menu">
+        <PropertyRef Name="idDetail" />
+      </Principal>
+      <Dependent Role="tuningBucket">
+        <PropertyRef Name="idDetail" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_order_statuses">
+    <End Role="statusOrder" Type="Self.statusOrder" Multiplicity="1" />
+    <End Role="order" Type="Self.order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="statusOrder">
+        <PropertyRef Name="status" />
+      </Principal>
+      <Dependent Role="order">
+        <PropertyRef Name="status" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_order_tuningAtelier">
+    <End Role="tuningAtelier" Type="Self.tuningAtelier" Multiplicity="0..1" />
+    <End Role="order" Type="Self.order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tuningAtelier">
+        <PropertyRef Name="idAtelier" />
+      </Principal>
+      <Dependent Role="order">
+        <PropertyRef Name="idAtelier" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_order_user">
+    <End Role="user" Type="Self.user" Multiplicity="1" />
+    <End Role="order" Type="Self.order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="user">
+        <PropertyRef Name="idUser" />
+      </Principal>
+      <Dependent Role="order">
+        <PropertyRef Name="idUser" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tuningBucket_order">
+    <End Role="order" Type="Self.order" Multiplicity="1" />
+    <End Role="tuningBucket" Type="Self.tuningBucket" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="order">
+        <PropertyRef Name="idOrder" />
+      </Principal>
+      <Dependent Role="tuningBucket">
+        <PropertyRef Name="idOrder" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_user_userGenders">
+    <End Role="userGenders" Type="Self.userGenders" Multiplicity="1" />
+    <End Role="user" Type="Self.user" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="userGenders">
+        <PropertyRef Name="userGender" />
+      </Principal>
+      <Dependent Role="user">
+        <PropertyRef Name="gender" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_user_userRoles">
+    <End Role="userRoles" Type="Self.userRoles" Multiplicity="1" />
+    <End Role="user" Type="Self.user" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="userRoles">
+        <PropertyRef Name="role" />
+      </Principal>
+      <Dependent Role="user">
+        <PropertyRef Name="role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_user_userStatus">
+    <End Role="userStatus" Type="Self.userStatus" Multiplicity="1" />
+    <End Role="user" Type="Self.user" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="userStatus">
+        <PropertyRef Name="status" />
+      </Principal>
+      <Dependent Role="user">
+        <PropertyRef Name="status" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище atelierModelContainer">
+    <EntitySet Name="menu" EntityType="Self.menu" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="order" EntityType="Self.order" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="statusOrder" EntityType="Self.statusOrder" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tuningAtelier" EntityType="Self.tuningAtelier" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tuningBucket" EntityType="Self.tuningBucket" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="user" EntityType="Self.user" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="userGenders" EntityType="Self.userGenders" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="userRoles" EntityType="Self.userRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="userStatus" EntityType="Self.userStatus" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_foodBucket_menu" Association="Self.FK_foodBucket_menu">
+      <End Role="menu" EntitySet="menu" />
+      <End Role="tuningBucket" EntitySet="tuningBucket" />
+    </AssociationSet>
+    <AssociationSet Name="FK_order_statuses" Association="Self.FK_order_statuses">
+      <End Role="statusOrder" EntitySet="statusOrder" />
+      <End Role="order" EntitySet="order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_order_tuningAtelier" Association="Self.FK_order_tuningAtelier">
+      <End Role="tuningAtelier" EntitySet="tuningAtelier" />
+      <End Role="order" EntitySet="order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_order_user" Association="Self.FK_order_user">
+      <End Role="user" EntitySet="user" />
+      <End Role="order" EntitySet="order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tuningBucket_order" Association="Self.FK_tuningBucket_order">
+      <End Role="order" EntitySet="order" />
+      <End Role="tuningBucket" EntitySet="tuningBucket" />
+    </AssociationSet>
+    <AssociationSet Name="FK_user_userGenders" Association="Self.FK_user_userGenders">
+      <End Role="userGenders" EntitySet="userGenders" />
+      <End Role="user" EntitySet="user" />
+    </AssociationSet>
+    <AssociationSet Name="FK_user_userRoles" Association="Self.FK_user_userRoles">
+      <End Role="userRoles" EntitySet="userRoles" />
+      <End Role="user" EntitySet="user" />
+    </AssociationSet>
+    <AssociationSet Name="FK_user_userStatus" Association="Self.FK_user_userStatus">
+      <End Role="userStatus" EntitySet="userStatus" />
+      <End Role="user" EntitySet="user" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

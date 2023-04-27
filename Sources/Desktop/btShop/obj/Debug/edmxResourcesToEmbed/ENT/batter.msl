@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище BatteriesModelContainer" CdmEntityContainer="BatteriesEntities">
+    <EntitySetMapping Name="batteriesBucket">
+      <EntityTypeMapping TypeName="BatteriesModel.batteriesBucket">
+        <MappingFragment StoreEntitySet="batteriesBucket">
+          <ScalarProperty Name="idBucket" ColumnName="idBucket" />
+          <ScalarProperty Name="idOrder" ColumnName="idOrder" />
+          <ScalarProperty Name="idBatteries" ColumnName="idBatteries" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="menu">
+      <EntityTypeMapping TypeName="BatteriesModel.menu">
+        <MappingFragment StoreEntitySet="menu">
+          <ScalarProperty Name="idBatteries" ColumnName="idBatteries" />
+          <ScalarProperty Name="nameBatteries" ColumnName="nameBatteries" />
+          <ScalarProperty Name="descriptionBatteries" ColumnName="descriptionBatteries" />
+          <ScalarProperty Name="priceBatteries" ColumnName="priceBatteries" />
+          <ScalarProperty Name="photoBatteries" ColumnName="photoBatteries" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="order">
+      <EntityTypeMapping TypeName="BatteriesModel.order">
+        <MappingFragment StoreEntitySet="order">
+          <ScalarProperty Name="idOrder" ColumnName="idOrder" />
+          <ScalarProperty Name="idUser" ColumnName="idUser" />
+          <ScalarProperty Name="idShop" ColumnName="idShop" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="totalPrice" ColumnName="totalPrice" />
+          <ScalarProperty Name="orderDate" ColumnName="orderDate" />
+          <ScalarProperty Name="orderTime" ColumnName="orderTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Shop">
+      <EntityTypeMapping TypeName="BatteriesModel.Shop">
+        <MappingFragment StoreEntitySet="Shop">
+          <ScalarProperty Name="idShop" ColumnName="idShop" />
+          <ScalarProperty Name="nameShop" ColumnName="nameShop" />
+          <ScalarProperty Name="addres" ColumnName="addres" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="statusOrder">
+      <EntityTypeMapping TypeName="BatteriesModel.statusOrder">
+        <MappingFragment StoreEntitySet="statusOrder">
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="user">
+      <EntityTypeMapping TypeName="BatteriesModel.user">
+        <MappingFragment StoreEntitySet="user">
+          <ScalarProperty Name="idUser" ColumnName="idUser" />
+          <ScalarProperty Name="login" ColumnName="login" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="gender" ColumnName="gender" />
+          <ScalarProperty Name="surname" ColumnName="surname" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="patronymic" ColumnName="patronymic" />
+          <ScalarProperty Name="userPhoto" ColumnName="userPhoto" />
+          <ScalarProperty Name="role" ColumnName="role" />
+          <ScalarProperty Name="birthday" ColumnName="birthday" />
+          <ScalarProperty Name="phoneNumber" ColumnName="phoneNumber" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="userGenders">
+      <EntityTypeMapping TypeName="BatteriesModel.userGenders">
+        <MappingFragment StoreEntitySet="userGenders">
+          <ScalarProperty Name="userGender" ColumnName="userGender" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="userRoles">
+      <EntityTypeMapping TypeName="BatteriesModel.userRoles">
+        <MappingFragment StoreEntitySet="userRoles">
+          <ScalarProperty Name="role" ColumnName="role" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="userStatus">
+      <EntityTypeMapping TypeName="BatteriesModel.userStatus">
+        <MappingFragment StoreEntitySet="userStatus">
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
