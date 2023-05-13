@@ -1,5 +1,5 @@
 main {
-    padding: 2% 15%;
+    padding: 2% 20%;
 }
 
 table {
@@ -19,9 +19,9 @@ form button {
 
 .contact-block {
     display: inline-block;
-    width: 50%;
+    width: 49%;
 }
 
-#right-line {
+#da {
     float: right;
 }
