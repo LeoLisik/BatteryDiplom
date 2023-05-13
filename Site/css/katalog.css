@@ -1,0 +1,50 @@
+/*Main*/
+body {
+    margin: 0px;
+}
+
+main {
+    padding: 3% 5%;
+}
+
+.cards-header {
+    height: 100px;
+}
+
+.sort, .sort p {
+    display: inline;
+}
+
+.search {
+    float: right;
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    float: left;
+}
+
+.card {
+    width: 310px;
+    padding: 5px;
+    margin: 20px;
+}
+
+.card .stuff-name {
+    height: 54px;
+}
+
+.card button {
+    float: right;
+    background-color: greenyellow;
+}
+
+.card button:hover {
+    background-color: green;
+}
+
+.price {
+    display: inline;
+}
