@@ -16,6 +16,7 @@
 #header-logo {
     position: absolute;
     left: 50%;
+    transform: translate(-50%, 0);
 }   
 
 /*Dropdown*/
@@ -93,6 +94,7 @@
 /*Footer*/
 footer {
     padding: 0% 25%;
+    flex: 0 0 auto;
 }
 
 #right-footer {
@@ -105,4 +107,19 @@ footer {
 
 #email p {
     float: right;
+}
+
+/*Для прижатия footer к низу*/
+main {
+    flex: 1 0 auto;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+html,
+body {
+  height: 100%;
 }

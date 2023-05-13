@@ -1,0 +1,27 @@
+main {
+    padding: 2% 15%;
+}
+
+table {
+    width: 100%;
+}
+
+table td {
+    text-align: center;
+}
+
+form button {
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+    margin-top: 10px;
+}
+
+.contact-block {
+    display: inline-block;
+    width: 50%;
+}
+
+#right-line {
+    float: right;
+}
