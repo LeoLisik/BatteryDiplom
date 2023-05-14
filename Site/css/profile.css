@@ -1,0 +1,33 @@
+.wrapper {
+    padding: 5% 10%;
+    display: flex;
+    justify-content: space-around;
+    flex: 1 0 auto;
+}
+
+nav {
+    width: 30%;
+    display: inline;
+}
+
+nav li {
+    list-style-type: none;
+}
+
+main {
+    margin-left: 5%;
+}
+
+.form-item {
+    margin-bottom: 15px;
+}
+
+.form-item label {
+    float: left;
+    margin-right: 10px;
+}
+
+#label-photo {
+    display: block;
+    float: none;
+}

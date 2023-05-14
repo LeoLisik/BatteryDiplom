@@ -1,0 +1,31 @@
+.wrapper {
+    padding: 5% 10%;
+    display: flex;
+    justify-content: space-around;
+    flex: 1 0 auto;
+}
+
+nav {
+    width: 30%;
+    display: inline;
+}
+
+nav li {
+    list-style-type: none;
+}
+
+table {
+    width: 75%;
+}
+
+table th {
+    text-align: left;
+}
+
+main {
+    margin-left: 5%;
+}
+
+#final-cost {
+    text-align: right;
+}
