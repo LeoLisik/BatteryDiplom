@@ -1,0 +1,248 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="atelierModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="menu">
+    <Key>
+      <PropertyRef Name="idDetail" />
+    </Key>
+    <Property Name="idDetail" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nameDetail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="descriptionDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="priceDetail" Type="Double" Nullable="false" />
+    <Property Name="photoDetail" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <NavigationProperty Name="tuningBucket" Relationship="Self.FK_foodBucket_menu" FromRole="menu" ToRole="tuningBucket" />
+  </EntityType>
+  <EntityType Name="order">
+    <Key>
+      <PropertyRef Name="idOrder" />
+    </Key>
+    <Property Name="idOrder" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idUser" Type="Int32" Nullable="false" />
+    <Property Name="idAtelier" Type="Int32" />
+    <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="totalPrice" Type="Double" />
+    <Property Name="orderDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="orderTime" Type="Time" Nullable="false" Precision="7" />
+    <NavigationProperty Name="statusOrder" Relationship="Self.FK_order_statuses" FromRole="order" ToRole="statusOrder" />
+    <NavigationProperty Name="tuningAtelier" Relationship="Self.FK_order_tuningAtelier" FromRole="order" ToRole="tuningAtelier" />
+    <NavigationProperty Name="user" Relationship="Self.FK_order_user" FromRole="order" ToRole="user" />
+    <NavigationProperty Name="tuningBucket" Relationship="Self.FK_tuningBucket_order" FromRole="order" ToRole="tuningBucket" />
+  </EntityType>
+  <EntityType Name="statusOrder">
+    <Key>
+      <PropertyRef Name="status" />
+    </Key>
+    <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="order" Relationship="Self.FK_order_statuses" FromRole="statusOrder" ToRole="order" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="tuningAtelier">
+    <Key>
+      <PropertyRef Name="idAtelier" />
+    </Key>
+    <Property Name="idAtelier" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="nameAtelier" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="addres" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="order" Relationship="Self.FK_order_tuningAtelier" FromRole="tuningAtelier" ToRole="order" />
+  </EntityType>
+  <EntityType Name="tuningBucket">
+    <Key>
+      <PropertyRef Name="idBucket" />
+    </Key>
+    <Property Name="idBucket" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="idOrder" Type="Int32" Nullable="false" />
+    <Property Name="idDetail" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="menu" Relationship="Self.FK_foodBucket_menu" FromRole="tuningBucket" ToRole="menu" />
+    <NavigationProperty Name="order" Relationship="Self.FK_tuningBucket_order" FromRole="tuningBucket" ToRole="order" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="idUser" />
+    </Key>
+    <Property Name="idUser" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="gender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="surname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="userPhoto" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="birthday" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="phoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="order" Relationship="Self.FK_order_user" FromRole="user" ToRole="order" />
+    <NavigationProperty Name="userGenders" Relationship="Self.FK_user_userGenders" FromRole="user" ToRole="userGenders" />
+    <NavigationProperty Name="userRoles" Relationship="Self.FK_user_userRoles" FromRole="user" ToRole="userRoles" />
+    <NavigationProperty Name="userStatus" Relationship="Self.FK_user_userStatus" FromRole="user" ToRole="userStatus" />
+  </EntityType>
+  <EntityType Name="userGenders">
+    <Key>
+      <PropertyRef Name="userGender" />
+    </Key>
+    <Property Name="userGender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="user" Relationship="Self.FK_user_userGenders" FromRole="userGenders" ToRole="user" />
+  </EntityType>
+  <EntityType Name="userRoles">
+    <Key>
+      <PropertyRef Name="role" />
+    </Key>
+    <Property Name="role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="user" Relationship="Self.FK_user_userRoles" FromRole="userRoles" ToRole="user" />
+  </EntityType>
+  <EntityType Name="userStatus">
+    <Key>
+      <PropertyRef Name="status" />
+    </Key>
+    <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="user" Relationship="Self.FK_user_userStatus" FromRole="userStatus" ToRole="user" />
+  </EntityType>
+  <Association Name="FK_foodBucket_menu">
+    <End Role="menu" Type="Self.menu" Multiplicity="1" />
+    <End Role="tuningBucket" Type="Self.tuningBucket" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="menu">
+        <PropertyRef Name="idDetail" />
+      </Principal>
+      <Dependent Role="tuningBucket">
+        <PropertyRef Name="idDetail" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_order_statuses">
+    <End Role="statusOrder" Type="Self.statusOrder" Multiplicity="1" />
+    <End Role="order" Type="Self.order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="statusOrder">
+        <PropertyRef Name="status" />
+      </Principal>
+      <Dependent Role="order">
+        <PropertyRef Name="status" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_order_tuningAtelier">
+    <End Role="tuningAtelier" Type="Self.tuningAtelier" Multiplicity="0..1" />
+    <End Role="order" Type="Self.order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tuningAtelier">
+        <PropertyRef Name="idAtelier" />
+      </Principal>
+      <Dependent Role="order">
+        <PropertyRef Name="idAtelier" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_order_user">
+    <End Role="user" Type="Self.user" Multiplicity="1" />
+    <End Role="order" Type="Self.order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="user">
+        <PropertyRef Name="idUser" />
+      </Principal>
+      <Dependent Role="order">
+        <PropertyRef Name="idUser" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tuningBucket_order">
+    <End Role="order" Type="Self.order" Multiplicity="1" />
+    <End Role="tuningBucket" Type="Self.tuningBucket" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="order">
+        <PropertyRef Name="idOrder" />
+      </Principal>
+      <Dependent Role="tuningBucket">
+        <PropertyRef Name="idOrder" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_user_userGenders">
+    <End Role="userGenders" Type="Self.userGenders" Multiplicity="1" />
+    <End Role="user" Type="Self.user" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="userGenders">
+        <PropertyRef Name="userGender" />
+      </Principal>
+      <Dependent Role="user">
+        <PropertyRef Name="gender" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_user_userRoles">
+    <End Role="userRoles" Type="Self.userRoles" Multiplicity="1" />
+    <End Role="user" Type="Self.user" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="userRoles">
+        <PropertyRef Name="role" />
+      </Principal>
+      <Dependent Role="user">
+        <PropertyRef Name="role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_user_userStatus">
+    <End Role="userStatus" Type="Self.userStatus" Multiplicity="1" />
+    <End Role="user" Type="Self.user" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="userStatus">
+        <PropertyRef Name="status" />
+      </Principal>
+      <Dependent Role="user">
+        <PropertyRef Name="status" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="tuning" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="menu" EntityType="Self.menu" />
+    <EntitySet Name="order" EntityType="Self.order" />
+    <EntitySet Name="statusOrder" EntityType="Self.statusOrder" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="tuningAtelier" EntityType="Self.tuningAtelier" />
+    <EntitySet Name="tuningBucket" EntityType="Self.tuningBucket" />
+    <EntitySet Name="user" EntityType="Self.user" />
+    <EntitySet Name="userGenders" EntityType="Self.userGenders" />
+    <EntitySet Name="userRoles" EntityType="Self.userRoles" />
+    <EntitySet Name="userStatus" EntityType="Self.userStatus" />
+    <AssociationSet Name="FK_foodBucket_menu" Association="Self.FK_foodBucket_menu">
+      <End Role="menu" EntitySet="menu" />
+      <End Role="tuningBucket" EntitySet="tuningBucket" />
+    </AssociationSet>
+    <AssociationSet Name="FK_order_statuses" Association="Self.FK_order_statuses">
+      <End Role="statusOrder" EntitySet="statusOrder" />
+      <End Role="order" EntitySet="order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_order_tuningAtelier" Association="Self.FK_order_tuningAtelier">
+      <End Role="tuningAtelier" EntitySet="tuningAtelier" />
+      <End Role="order" EntitySet="order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_order_user" Association="Self.FK_order_user">
+      <End Role="user" EntitySet="user" />
+      <End Role="order" EntitySet="order" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tuningBucket_order" Association="Self.FK_tuningBucket_order">
+      <End Role="order" EntitySet="order" />
+      <End Role="tuningBucket" EntitySet="tuningBucket" />
+    </AssociationSet>
+    <AssociationSet Name="FK_user_userGenders" Association="Self.FK_user_userGenders">
+      <End Role="userGenders" EntitySet="userGenders" />
+      <End Role="user" EntitySet="user" />
+    </AssociationSet>
+    <AssociationSet Name="FK_user_userRoles" Association="Self.FK_user_userRoles">
+      <End Role="userRoles" EntitySet="userRoles" />
+      <End Role="user" EntitySet="user" />
+    </AssociationSet>
+    <AssociationSet Name="FK_user_userStatus" Association="Self.FK_user_userStatus">
+      <End Role="userStatus" EntitySet="userStatus" />
+      <End Role="user" EntitySet="user" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
