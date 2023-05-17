@@ -4,24 +4,151 @@ main {
 
 table {
     width: 100%;
+    /* min-width: 100%;  */
+    border-spacing: 0 12px;
+    font-family: sans-serif;
+    font-size: 15px;
+}
+
+.title{
+    font-family: sans-serif;
+    font-size: 17px;
 }
 
 table td {
+    width: auto;
     text-align: center;
+    /* width: 10%; */
+}
+
+.number {
+	display: inline-block;
+	position: relative;
+	width: 40%;
+}
+
+.number input[type="number"] {
+    /* width: 10%; */
+	display: block;
+	/* height: 32px; */
+	line-height: 28px;
+	width: 100%;
+	/* padding: 0; */
+	/* margin: 0; */
+	box-sizing: border-box;
+	text-align: center;
+	/* -moz-appearance: textfield;
+	-webkit-appearance: textfield;
+	appearance: textfield; */
+    border: none;
+    background: #f4f2f2;
+    /* box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.1);   */
+}
+
+.number input[type="number"]::-webkit-outer-spin-button,
+.number input[type="number"]::-webkit-inner-spin-button {
+	display: none;
+}
+
+.number-minus, .number-plus {
+	position: absolute;
+	top: 1px;
+	bottom: 1px;
+	width: 20px;
+	padding: 0;
+	/* display: block; */
+	/* text-align: center; */
+	border: none;
+	border-right: 1px 1px solid #ddd;
+    /* font-family: sans-serif; */
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.number-minus {
+	left: 1px;
+}
+
+.number-plus {
+	right: 1px;
+}
+
+.delete{
+    margin-left: 10px;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background-image: url('../images/cart/deleteIcon.png');
+    background-size: cover;
+    background-color: white;
+}
+
+#price{
+    text-align: right;
+    background: #040632;
+    color: white;
+    padding: 2%;
+    font-family: sans-serif;
+    font-size: 24px;
+}
+
+.contact-info{
+    background: #e9e8e8;
+    box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.1);
+    padding: 3%;    
+    margin: 3%;
+}
+
+.contact-info p{ 
+    margin: 0 2% 4% 0;
+    /* font-size: 15px;
+    font-family: sans-serif; */
+} 
+
+input {
+    border: none;
+    border-bottom: 2px solid rgb(0, 0, 0);
+    background-color: #f3f1f1;
+    font-size: 14px;
+    font-family: sans-serif;
+    height: 20px;
+}
+
+.s{
+    display: flex;
+}
+
+.warning{
+    color: #dd0808;
+    font-weight: bold;
+    font-size: 22px;
+    font-family: sans-serif;
+    margin-bottom: 20px;
 }
 
 form button {
     position: relative;
     left: 50%;
     transform: translate(-50%, 0);
-    margin-top: 10px;
+    margin-top: 50px;
+    font-size: 19px;
+    font-family: sans-serif;
+}
+
+#right-block{
+    margin-top: 7%;
 }
 
 .contact-block {
-    display: inline-block;
-    width: 49%;
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 15px;
+    font-family: sans-serif;
+    /* margin-top: 10%; */
 }
 
-#da {
-    float: right;
-}
+h2{
+    text-align: center;
+    margin: 30px 0 30px 0;
+    font-family: sans-serif;
+}   
