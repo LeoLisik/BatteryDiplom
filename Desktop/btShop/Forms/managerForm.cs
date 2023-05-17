@@ -16,6 +16,7 @@ namespace tuningAtelier.Forms
         public managerForm()
         {
             InitializeComponent();
+            //OrdersView.AutoGenerateColumns = false;
         }
 
         private void onFormLoad(object sender, EventArgs e)
@@ -29,8 +30,8 @@ namespace tuningAtelier.Forms
             {
                 OrdersView.DataSource = db.order.Select(p => new
                 {
-                    p.idOrder,
-                    FIO = db.user.FirstOrDefault(p1 => p1.idUser == p.idUser).surname + db.user.FirstOrDefault(p1 => p1.idUser == p.idUser).name + db.user.FirstOrDefault(p1 => p1.idUser == p.idUser).patronymic,
+                    idOrder = p.idOrder,
+                    FIO = db.user.FirstOrDefault(p1 => p1.idUser == p.idUser).surname + " " + db.user.FirstOrDefault(p1 => p1.idUser == p.idUser).name + " " + db.user.FirstOrDefault(p1 => p1.idUser == p.idUser).patronymic,
                     Phone = db.user.FirstOrDefault(p1 => p1.idUser == p.idUser).phoneNumber,
                     Date = p.orderDate,
                 }).ToList();

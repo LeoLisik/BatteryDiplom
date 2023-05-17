@@ -28,10 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             this.OrdersView = new System.Windows.Forms.DataGridView();
             this.idOrder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FIO = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -53,14 +52,14 @@
             this.OrdersView.Name = "OrdersView";
             this.OrdersView.RowHeadersWidth = 51;
             this.OrdersView.RowTemplate.Height = 100;
-            this.OrdersView.Size = new System.Drawing.Size(559, 236);
+            this.OrdersView.Size = new System.Drawing.Size(527, 123);
             this.OrdersView.TabIndex = 1;
             // 
             // idOrder
             // 
-            this.idOrder.DataPropertyName = "idUser";
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.idOrder.DefaultCellStyle = dataGridViewCellStyle1;
+            this.idOrder.DataPropertyName = "idOrder";
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.idOrder.DefaultCellStyle = dataGridViewCellStyle7;
             this.idOrder.HeaderText = "№ order";
             this.idOrder.MinimumWidth = 6;
             this.idOrder.Name = "idOrder";
@@ -68,9 +67,9 @@
             // 
             // FIO
             // 
-            this.FIO.DataPropertyName = "login";
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.FIO.DefaultCellStyle = dataGridViewCellStyle2;
+            this.FIO.DataPropertyName = "FIO";
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.FIO.DefaultCellStyle = dataGridViewCellStyle8;
             this.FIO.HeaderText = "FIO";
             this.FIO.MinimumWidth = 6;
             this.FIO.Name = "FIO";
@@ -78,9 +77,9 @@
             // 
             // Phone
             // 
-            this.Phone.DataPropertyName = "password";
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.Phone.DefaultCellStyle = dataGridViewCellStyle3;
+            this.Phone.DataPropertyName = "Phone";
+            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.Phone.DefaultCellStyle = dataGridViewCellStyle9;
             this.Phone.HeaderText = "Phone";
             this.Phone.MinimumWidth = 6;
             this.Phone.Name = "Phone";
@@ -88,19 +87,15 @@
             // 
             // Date
             // 
-            this.Date.DataPropertyName = "gender";
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.Date.DefaultCellStyle = dataGridViewCellStyle4;
+            this.Date.DataPropertyName = "Date";
             this.Date.HeaderText = "Date";
-            this.Date.MinimumWidth = 6;
             this.Date.Name = "Date";
-            this.Date.Width = 125;
             // 
             // managerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(557, 424);
+            this.ClientSize = new System.Drawing.Size(524, 424);
             this.Controls.Add(this.OrdersView);
             this.Name = "managerForm";
             this.Text = "managerForm";
