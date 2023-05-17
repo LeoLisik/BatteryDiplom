@@ -10,7 +10,7 @@
 }
 
 #menu-button {
-    margin: 5px;
+    margin-left: 10px;
 }
 
 #header-logo {
@@ -26,9 +26,20 @@
 }
 
 .dropdown-options {
-    display: none;
+    /* display: none;
     position: absolute;
     overflow: auto;
+    z-index: 1;
+    top: 93%;
+    left: 15%; */
+
+    display: none;
+  position: absolute;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  top: 84%;
+    left: 28%;
 }
 
 .dropdown:hover .dropdown-options {
@@ -36,18 +47,23 @@
 }
 
 .dropdown-options a {
-    display: block;
+    /* display: block;
     color: #000000;
-    padding: 5px;
     text-decoration: none;
-    padding: 20px 40px;
-    background-color: #6f71f1;
+    padding: 14px 34px;
+    background-color: #C2C2C2;
+    border: 2px solid #6D3636; */
+    background-color: #ece9e9;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
 }
 
 .dropdown-options a:hover {
-    color: #0a0a23;
-    background-color: #486aff;
-    border-radius: 5px;
+    color: black;
+    background-color: #A7A7A7;
+    border-radius: 8px;
 }
 
 /*Slider*/
@@ -66,14 +82,33 @@
 
 /*Preferences*/
 .preferences {
-    margin-left: 20%;
-    margin-right: 20%;
+    margin-left: 17%;
+    margin-right: 17%;
+}
+
+.preferences p {
+    font-size: 16px;
+    font-family: sans-serif;
+    width: 60%; 
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+}
+
+.preferences h2 {
+    font-size: 21px;
+    font-family: sans-serif;
+    font-weight: 700;
+    margin-top: 15px;
+    margin-bottom: 0px;
 }
 
 .preference-item {
+    width: 50%;
     text-align: center;
     display: inline-block;
-    margin: 30px;
+    /* margin-bottom: 20px; */
+    margin-top: 5%;
 }
 
 .right-item {
@@ -82,27 +117,65 @@
 
 /*About*/
 .about {
-    margin: 5% 20%;
-    position: relative;
+    float: left;
+    margin: 1% 15%; 
+    /* position: relative; */
+    padding: 4% 3%;
+    background: #f3f1f1;
+    box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.1);
+    min-width: 68%;
 }
 
 .about p {
     float: right;
-    width: 400px;
+    margin-top: 2%;
+    margin-left: 2%;
+    width: 48%;
+    font-size: 16px;
+    font-family: sans-serif;
 }
 
 /*Footer*/
 footer {
     padding: 0% 25%;
     flex: 0 0 auto;
+    background: #212020;
+    color: #ffffff;
 }
 
-#right-footer {
-    float: right;
+#right-footer, #center-footer {
+    /* float: right; */
+    display: inline-block;
+    margin-left: 20px;
+    margin-right: 60px;
+}
+
+#right-footer p, #left-footer p{
+    /* float: right; */
+    margin-bottom: 8px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-family: sans-serif;
+}
+
+#botton-footer{
+    font-size: 11px;
+    font-family: sans-serif;
+    color: #858282;
+    line-height:104%;
+    text-align:justify;
+    /* text-align: justify; */
+    /* width: 0%; */
 }
 
 #left-footer {
     display: inline-block;
+    margin-left: 60px;
+    margin-right: 60px;
+}
+
+.LLC{
+    
 }
 
 #email p {
@@ -121,5 +194,6 @@ body {
 
 html,
 body {
-  height: 99%;
+  height: 100%;
+  margin: 0px;
 }
