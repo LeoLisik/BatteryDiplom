@@ -1,6 +1,20 @@
-/*Header*/
+/*Для прижатия footer к низу*/
+main {
+    flex: 1 0 auto;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0px;
+}
+
 header{
-    /* box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.1); */
     box-shadow: 0px 4px 5px 2px rgba(0, 0, 0, 0.1);
 }
 
@@ -24,26 +38,18 @@ header{
     transform: translate(-50%, 0);
 }   
 
-/*Dropdown*/
 .dropdown {
     display: inline-block;
     position: relative;
 }
 
 .dropdown-options {
-    /* display: none;
-    position: absolute;
-    overflow: auto;
-    z-index: 1;
-    top: 93%;
-    left: 15%; */
-
     display: none;
-  position: absolute;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-  top: 84%;
+    position: absolute;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    top: 84%;
     left: 28%;
 }
 
@@ -52,12 +58,6 @@ header{
 }
 
 .dropdown-options a {
-    /* display: block;
-    color: #000000;
-    text-decoration: none;
-    padding: 14px 34px;
-    background-color: #C2C2C2;
-    border: 2px solid #6D3636; */
     background-color: #ece9e9;
     color: black;
     padding: 12px 16px;
@@ -112,7 +112,6 @@ header{
     width: 50%;
     text-align: center;
     display: inline-block;
-    /* margin-bottom: 20px; */
     margin-top: 5%;
 }
 
@@ -120,11 +119,9 @@ header{
     float: right;
 }
 
-/*About*/
 .about {
     float: left;
     margin: 1% 15%; 
-    /* position: relative; */
     padding: 4% 3%;
     background: #f3f1f1;
     box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.1);
@@ -140,7 +137,6 @@ header{
     font-family: sans-serif;
 }
 
-/*Footer*/
 footer {
     padding: 0% 25%;
     flex: 0 0 auto;
@@ -149,14 +145,12 @@ footer {
 }
 
 #right-footer, #center-footer {
-    /* float: right; */
     display: inline-block;
     margin-left: 20px;
     margin-right: 60px;
 }
 
 #right-footer p, #left-footer p{
-    /* float: right; */
     margin-bottom: 8px;
     margin-top: 8px;
     font-size: 14px;
@@ -169,8 +163,6 @@ footer {
     color: #858282;
     line-height:104%;
     text-align:justify;
-    /* text-align: justify; */
-    /* width: 0%; */
 }
 
 #left-footer {
@@ -179,26 +171,6 @@ footer {
     margin-right: 60px;
 }
 
-.LLC{
-    
-}
-
 #email p {
     float: right;
-}
-
-/*Для прижатия footer к низу*/
-main {
-    flex: 1 0 auto;
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-}
-
-html,
-body {
-  height: 100%;
-  margin: 0px;
 }

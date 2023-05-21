@@ -2,12 +2,12 @@
     font-family: sans-serif;
 }
 
-h2{
-    text-align: center;
-}
-
 main {
     margin: 2% 20%;
+}
+
+h2{
+    text-align: center;
 }
 
 #staff{
@@ -16,10 +16,23 @@ main {
     vertical-align: top;
 }
 
+#card-info {
+    display: inline-block;
+    margin-left: 6%;
+    margin-top: 5%;
+    width: 50%; 
+}
+
 #price{
     font-size: 24px;
     margin: 0%;
     font-weight:bold;
+}
+
+#discription{
+    text-align: justify;
+    line-height: 135%;
+    font-size: 14px;
 }
 
 #add, #pay{
@@ -53,17 +66,4 @@ main {
 
 #pay:hover{
     opacity: .7;
-}
-
-#card-info {
-    display: inline-block;
-    margin-left: 6%;
-    margin-top: 5%;
-    width: 50%; 
-}
-
-#test{
-    text-align: justify;
-    line-height: 135%;
-    font-size: 14px;
 }

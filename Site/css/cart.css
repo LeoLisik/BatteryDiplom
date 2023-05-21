@@ -2,23 +2,36 @@ main {
     padding: 2% 20%;
 }
 
+h2{
+    text-align: center;
+    margin: 30px 0 30px 0;
+    font-family: sans-serif;
+}   
+
 table {
     width: 100%;
-    /* min-width: 100%;  */
     border-spacing: 0 12px;
     font-family: sans-serif;
     font-size: 15px;
 }
 
-.title{
+input {
+    border: none;
+    border-bottom: 2px solid rgb(0, 0, 0);
+    background-color: #f3f1f1;
+    font-size: 14px;
     font-family: sans-serif;
-    font-size: 17px;
+    height: 20px;
 }
 
 table td {
     width: auto;
     text-align: center;
-    /* width: 10%; */
+}
+
+.title{
+    font-family: sans-serif;
+    font-size: 17px;
 }
 
 .number {
@@ -28,21 +41,13 @@ table td {
 }
 
 .number input[type="number"] {
-    /* width: 10%; */
 	display: block;
-	/* height: 32px; */
 	line-height: 28px;
 	width: 100%;
-	/* padding: 0; */
-	/* margin: 0; */
 	box-sizing: border-box;
 	text-align: center;
-	/* -moz-appearance: textfield;
-	-webkit-appearance: textfield;
-	appearance: textfield; */
     border: none;
     background: #f4f2f2;
-    /* box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.1);   */
 }
 
 .number input[type="number"]::-webkit-outer-spin-button,
@@ -56,11 +61,8 @@ table td {
 	bottom: 1px;
 	width: 20px;
 	padding: 0;
-	/* display: block; */
-	/* text-align: center; */
 	border: none;
 	border-right: 1px 1px solid #ddd;
-    /* font-family: sans-serif; */
 	font-size: 16px;
 	font-weight: 600;
 }
@@ -92,6 +94,13 @@ table td {
     font-size: 24px;
 }
 
+.contact-block {
+    display: flex;
+    justify-content: space-evenly;
+    font-size: 15px;
+    font-family: sans-serif;
+}
+
 .contact-info{
     background: #e9e8e8;
     box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.1);
@@ -101,20 +110,9 @@ table td {
 
 .contact-info p{ 
     margin: 0 2% 4% 0;
-    /* font-size: 15px;
-    font-family: sans-serif; */
 } 
 
-input {
-    border: none;
-    border-bottom: 2px solid rgb(0, 0, 0);
-    background-color: #f3f1f1;
-    font-size: 14px;
-    font-family: sans-serif;
-    height: 20px;
-}
-
-.s{
+.obligatory-field{
     display: flex;
 }
 
@@ -126,6 +124,10 @@ input {
     margin-bottom: 20px;
 }
 
+#right-block{
+    margin-top: 7%;
+}
+
 form button {
     position: relative;
     left: 50%;
@@ -134,21 +136,3 @@ form button {
     font-size: 19px;
     font-family: sans-serif;
 }
-
-#right-block{
-    margin-top: 7%;
-}
-
-.contact-block {
-    display: flex;
-    justify-content: space-evenly;
-    font-size: 15px;
-    font-family: sans-serif;
-    /* margin-top: 10%; */
-}
-
-h2{
-    text-align: center;
-    margin: 30px 0 30px 0;
-    font-family: sans-serif;
-}   
