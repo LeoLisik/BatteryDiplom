@@ -29,11 +29,11 @@
         <div class="cards-header">
             <div class="sort">
                 <p>Сортировать по </p>
-                <select>
-                    <option>алфавиту (А-Я)</option>
-                    <option>алфавиту (Я-А)</option>
-                    <option>возрастанию цены</option>
-                    <option>убыванию цены</option>
+                <select onchange="location=value">
+                    <option value="katalog.php?sort=1">алфавиту (А-Я)</option>
+                    <option <?php if($_GET['sort'] == 2) {echo "selected";} ?> value="katalog.php?sort=2">алфавиту (Я-А)</option>
+                    <option <?php if($_GET['sort'] == 3) {echo "selected";} ?> value="katalog.php?sort=3">возрастанию цены</option>
+                    <option <?php if($_GET['sort'] == 4) {echo "selected";} ?> value="katalog.php?sort=4">убыванию цены</option>
                 </select>
             </div>
             <div class="search">
@@ -58,7 +58,17 @@
                     die( print_r( sqlsrv_errors(), true));  
                 }
 
-                $tsql = "SELECT idBatteries, nameBatteries, priceBatteries, photoBatteries FROM menu";
+                if (!isset($_GET['sort'])) {
+                    $tsql = "SELECT idBatteries, nameBatteries, priceBatteries, photoBatteries FROM menu ORDER BY nameBatteries ASC";
+                } else if ($_GET['sort'] == 2) {
+                    $tsql = "SELECT idBatteries, nameBatteries, priceBatteries, photoBatteries FROM menu ORDER BY nameBatteries DESC";
+                } else if ($_GET['sort'] == 3) {
+                    $tsql = "SELECT idBatteries, nameBatteries, priceBatteries, photoBatteries FROM menu ORDER BY priceBatteries ASC";
+                } else if ($_GET['sort'] == 4) {
+                    $tsql = "SELECT idBatteries, nameBatteries, priceBatteries, photoBatteries FROM menu ORDER BY priceBatteries DESC";
+                } else {
+                    $tsql = "SELECT idBatteries, nameBatteries, priceBatteries, photoBatteries FROM menu ORDER BY nameBatteries ASC";
+                }
                 $stmt = sqlsrv_query($conn, $tsql);
                 if( $stmt === false )  
                 {  
