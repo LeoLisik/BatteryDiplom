@@ -82,9 +82,9 @@
                         echo '
                             <div class="card">
                                 <img width="298px" height="298px" src="data:image/jpeg;base64,'.base64_encode($row[3]).'">
-                                <p class="stuff-name">'.$row[1].'</p>
+                                <a href="card.php?product='.$row[0].'"><p class="stuff-name">'.$row[1].'</p></a>
                                 <p class="price">'.$row[2].' руб.</p>
-                                <button id="add" idStaff='.$row[0].'>Купить</button>
+                                <button id="add" idStaff='.$row[0].'>В корзину</button>
                             </div>
                         ';
                     }
