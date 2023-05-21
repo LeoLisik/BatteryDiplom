@@ -27,19 +27,21 @@
 
     <main>
         <div class="cards-header">
+            <form action="#" method="get">
             <div class="sort">
                 <p>Сортировать по </p>
-                <select onchange="location=value">
-                    <option value="katalog.php?sort=1">алфавиту (А-Я)</option>
-                    <option <?php if($_GET['sort'] == 2) {echo "selected";} ?> value="katalog.php?sort=2">алфавиту (Я-А)</option>
-                    <option <?php if($_GET['sort'] == 3) {echo "selected";} ?> value="katalog.php?sort=3">возрастанию цены</option>
-                    <option <?php if($_GET['sort'] == 4) {echo "selected";} ?> value="katalog.php?sort=4">убыванию цены</option>
+                <select onchange="form.submit()" name="sort">
+                    <option value="1">алфавиту (А-Я)</option>
+                    <option <?php if($_GET['sort'] == 2) {echo "selected";} ?> value="2">алфавиту (Я-А)</option>
+                    <option <?php if($_GET['sort'] == 3) {echo "selected";} ?> value="3">возрастанию цены</option>
+                    <option <?php if($_GET['sort'] == 4) {echo "selected";} ?> value="4">убыванию цены</option>
                 </select>
             </div>
             <div class="search">
-                <img width="19px" height="19px" src="../images/katalog/SearchIcon.png">
-                <input type="text">
+                <button type="submit"> <img width="19px" height="19px" src="../images/katalog/SearchIcon.png"> </button>
+                <input type="text" name="search" <?php echo "value=".$_GET['search'] ?>>
             </div>
+            </form>
         </div>
         <div class="cards">
             <?php
@@ -58,16 +60,14 @@
                     die( print_r( sqlsrv_errors(), true));  
                 }
 
-                if (!isset($_GET['sort'])) {
-                    $tsql = "SELECT idBatteries, nameBatteries, priceBatteries, photoBatteries FROM menu ORDER BY nameBatteries ASC";
+                if (!isset($_GET['sort']) or $_GET['sort'] == 1) {
+                    $tsql = "SELECT idBatteries, nameBatteries, priceBatteries, photoBatteries FROM menu WHERE (lower(nameBatteries) LIKE '%".$_GET["search"]."%') ORDER BY nameBatteries ASC";
                 } else if ($_GET['sort'] == 2) {
-                    $tsql = "SELECT idBatteries, nameBatteries, priceBatteries, photoBatteries FROM menu ORDER BY nameBatteries DESC";
+                    $tsql = "SELECT idBatteries, nameBatteries, priceBatteries, photoBatteries FROM menu WHERE (lower(nameBatteries) LIKE '%".$_GET["search"]."%') ORDER BY nameBatteries DESC";
                 } else if ($_GET['sort'] == 3) {
-                    $tsql = "SELECT idBatteries, nameBatteries, priceBatteries, photoBatteries FROM menu ORDER BY priceBatteries ASC";
+                    $tsql = "SELECT idBatteries, nameBatteries, priceBatteries, photoBatteries FROM menu WHERE (lower(nameBatteries) LIKE '%".$_GET["search"]."%') ORDER BY priceBatteries ASC";
                 } else if ($_GET['sort'] == 4) {
-                    $tsql = "SELECT idBatteries, nameBatteries, priceBatteries, photoBatteries FROM menu ORDER BY priceBatteries DESC";
-                } else {
-                    $tsql = "SELECT idBatteries, nameBatteries, priceBatteries, photoBatteries FROM menu ORDER BY nameBatteries ASC";
+                    $tsql = "SELECT idBatteries, nameBatteries, priceBatteries, photoBatteries FROM menu WHERE (lower(nameBatteries) LIKE '%".$_GET["search"]."%') ORDER BY priceBatteries DESC";
                 }
                 $stmt = sqlsrv_query($conn, $tsql);
                 if( $stmt === false )  
