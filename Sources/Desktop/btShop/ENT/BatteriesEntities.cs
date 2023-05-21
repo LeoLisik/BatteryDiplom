@@ -8,7 +8,7 @@ namespace tuningAtelier.ENT
     public partial class BatteriesEntities : DbContext
     {
         public BatteriesEntities()
-            : base(nameOrConnectionString: "Data Source=26.159.241.191;Initial Catalog=Batteries;User ID=da;Password=da")
+            : base("name=BatteriesEntities1")
         {
         }
 
