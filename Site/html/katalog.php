@@ -13,15 +13,15 @@
         <div class="dropdown">
             <a id="menu-button"><img width="68px" height="58px" src="../images/header/Menu.png" alt="menu"></a>
             <div class="dropdown-options">
-                <a href="#">Главная</a>
+                <a href="index.html">Главная</a>
                 <a href="katalog.html">Каталог</a>
-                <a href="katalog.html">Корзина</a>
-                <a href="katalog.html">Профиль</a>
-                <!-- TODO: отображение поверх слайдера -->
+                <a href="cart.html">Корзина</a>
+                <a href="profile.html">Профиль</a>
+                <a href="orders.html">История заказов</a>
             </div>
         </div>
-        <a href="#" id="header-logo"><img width="200px" height="60px" src="../images/logo.svg" alt="logo">
-        <a href="#" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>
+        <a href="index.html" id="header-logo"><img width="200px" height="60px" src="../images/logo.svg" alt="logo">
+        <a href="profile.html" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>
         <a href="cart.html" id="cart-button"><img width="50px" height="50px" src="../images/header/Cart.png" alt="cart"></a>
     </header>
 
