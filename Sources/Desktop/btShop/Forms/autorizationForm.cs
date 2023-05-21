@@ -150,6 +150,10 @@ namespace tuningAtelier
                                         strem.WriteLine(textBoxLogin.Text + "\n" + RcaCryptDecrypt.Crypt(textBoxPassword.Text));
                                 }
                             }
+                            else if (userData.role == "Менеджер по продажам")
+                            {
+
+                            }
                             else
                             {
                                 wrongPasswordCount = 0;

@@ -68,48 +68,17 @@
     <Compile Include="Controls\listItem.Designer.cs">
       <DependentUpon>listItem.cs</DependentUpon>
     </Compile>
-    <Compile Include="ENT\batter.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>batter.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ENT\batter.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>batter.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ENT\batter.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>batter.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="ENT\batteriesBucket.cs">
-      <DependentUpon>batter.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ENT\menu.cs">
-      <DependentUpon>batter.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ENT\order.cs">
-      <DependentUpon>batter.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ENT\Shop.cs">
-      <DependentUpon>batter.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ENT\statusOrder.cs">
-      <DependentUpon>batter.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ENT\user.cs">
-      <DependentUpon>batter.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ENT\userGenders.cs">
-      <DependentUpon>batter.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ENT\userRoles.cs">
-      <DependentUpon>batter.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ENT\userStatus.cs">
-      <DependentUpon>batter.tt</DependentUpon>
-    </Compile>
+    <Compile Include="ENT\batteriesBucket.cs" />
+    <Compile Include="ENT\BatteriesEntities.cs" />
+    <Compile Include="ENT\menu.cs" />
+    <Compile Include="ENT\order.cs" />
+    <Compile Include="ENT\Shop.cs" />
+    <Compile Include="ENT\statusOrder.cs" />
+    <Compile Include="ENT\sysdiagrams.cs" />
+    <Compile Include="ENT\user.cs" />
+    <Compile Include="ENT\userGenders.cs" />
+    <Compile Include="ENT\userRoles.cs" />
+    <Compile Include="ENT\userStatus.cs" />
     <Compile Include="Forms\adminForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -164,13 +133,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EntityDeploy Include="ENT\batter.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>batter.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="ENT\batter.edmx.diagram">
-      <DependentUpon>batter.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -217,18 +179,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ENT\batter.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>batter.edmx</DependentUpon>
-      <LastGenOutput>batter.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="ENT\batter.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>batter.edmx</DependentUpon>
-      <LastGenOutput>batter.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

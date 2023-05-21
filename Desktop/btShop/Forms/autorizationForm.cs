@@ -150,6 +150,19 @@ namespace tuningAtelier
                                         strem.WriteLine(textBoxLogin.Text + "\n" + RcaCryptDecrypt.Crypt(textBoxPassword.Text));
                                 }
                             }
+                            else if (userData.role == "Менеджер по продажам")
+                            {
+                                wrongPasswordCount = 0;
+                                managerForm ManagerForm = new managerForm();
+                                ManagerForm.Owner = this;
+                                ManagerForm.Show();
+                                this.Hide();
+                                if (checkBoxMemorize.Checked)
+                                {
+                                    using (StreamWriter strem = new StreamWriter(filePath))
+                                        strem.WriteLine(textBoxLogin.Text + "\n" + RcaCryptDecrypt.Crypt(textBoxPassword.Text));
+                                }
+                            }
                             else
                             {
                                 wrongPasswordCount = 0;
@@ -201,7 +214,8 @@ namespace tuningAtelier
                         {
                             wrongPasswordCount = 0;
                             managerForm ManagerForm = new managerForm();
-                            ManagerForm.Show(this);
+                            ManagerForm.Owner = this;
+                            ManagerForm.Show();
                             this.Hide();
                             if (checkBoxMemorize.Checked)
                             {
