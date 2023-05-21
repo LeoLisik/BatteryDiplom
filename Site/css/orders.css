@@ -1,3 +1,7 @@
+main {
+    margin-left: 5%;
+}
+
 .wrapper {
     padding: 3% 5%;
     display: flex;
@@ -38,10 +42,6 @@ a:hover{
     text-decoration: none;
     color: #cf0000;
     border-bottom-color: rgba(208, 64, 0, 0.2);
-}
-
-main {
-    margin-left: 5%;
 }
 
 table {
