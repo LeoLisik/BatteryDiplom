@@ -3,7 +3,6 @@ main {
 }
 
 h2{
-    /* text-align: center; */
     margin: 30px 0 60px 260px;
     font-family: sans-serif;
     font-size: 30px;
@@ -13,7 +12,6 @@ h2{
     padding: 3% 5%;
     display: flex;
     justify-content: space-around;
-    /* flex: 1 0 auto; */
     font-family: sans-serif;
 }
 
@@ -47,8 +45,6 @@ a:hover{
 }
 
 form{
-  /* transform: translate(20%, 0%); */
-  /* text-align: center; */
     margin-left: 25%
 }
 
@@ -56,7 +52,6 @@ form{
     margin-bottom: 20px;
     transform: translate(-3%, 0%); 
     font-size: 18px;
-    /* text-align: center; */
 }
 
 #form-img{
@@ -64,15 +59,10 @@ form{
 }
 
 .form-button{
-    /* margin-bottom: 15px; */
     transform: translate(-40%, 0%);
 }
 
 form button {
-    /* margin-bottom: 15px;
-    transform: translate(-3%, 0%);  */
-    /* height: 100px; */
-    /* text-align: center; */
     position: relative;
     left: 57%;
     transform: translate(-50%, 0);
@@ -82,12 +72,7 @@ form button {
     width: 300px;
 }
 
-#form-img label{
-    /* text-align: center; */
-}
-
 .form-item label {
-    /* float: left; */
     margin-right: 10px;
 }
 
