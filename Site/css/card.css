@@ -49,7 +49,6 @@ h2{
 }
 
 #add {
-    background: rgb(251, 33, 76);
     background: linear-gradient(0deg, rgba(251, 33, 76, 1) 0%, rgb(156, 21, 48) 100%);
     color: #fff;
 }

@@ -1,0 +1,127 @@
+.tabs__pane {
+    display: none;
+}
+
+.tabs__pane_show {
+    display: block;
+}
+
+.tabs {
+    border: 1px solid #e0e0e0;
+    box-shadow: 5px 6px 5px rgba(0, 0, 0, 0.1);
+    max-width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+    margin-bottom: 3%;
+} 
+
+.tabs__nav {
+    display: flex;
+    flex-wrap: wrap;
+    list-style-type: none;
+    background: #fafafa;
+    margin: 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.tabs__btn {
+    padding: 0.5rem 0.75rem;
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    flex-shrink: 0;
+    flex-grow: 1;
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-size: 17px;
+} 
+
+/* Отображение активной кнопки */
+.tabs__btn_active {
+    background: #e0e0e0;
+    cursor: default;
+}
+
+/* Отоброжение при наведении на кнопку */
+.tabs__btn:not(.tabs__btn_active):hover,
+.tabs__btn:not(.tabs__btn_active):focus {
+    background-color: #eee;
+}
+
+.tabs__content {
+    padding: 1rem;
+}
+
+form{
+    margin-left: 20%
+}
+
+.form-button{
+    transform: translate(-3%, 0%);
+}
+
+.form-item p{
+    font-family: sans-serif;
+    font-size: 16px;
+    margin: 25px 0 5px 0;
+}
+
+input {
+    display: inline-block;
+    border: none;
+    border-bottom: 2px solid rgb(0, 0, 0);
+    background-color: #f3f1f1;
+    font-size: 14px;
+    font-family: sans-serif;
+    height: 20px;
+    width: 195px;
+}
+
+#atuin-btn {
+    transform: translate(-5%, 0%);
+    border: 4px solid #0ac050;
+    padding: 12px 30px;
+    font-weight: bold;
+    background: linear-gradient(0deg, rgb(11, 239, 11) 0%, #04d454 100%);
+    transition: box-shadow 0.3s, transform 0.3s;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 18px;
+    font-family: sans-serif;
+    width: 250px;
+}
+
+#atuin-btn:hover,
+#atuin-btn:active,
+#atuin-btn:focus {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2), 0 16px 20px rgba(0,0,0,0.2);
+}
+#atuin-btn:focus:before {
+    left: 100%;
+}
+
+.btn{
+    width: 28px;
+    height: 28px;
+    line-height: 10px;
+    margin-bottom: 4px;
+}
+
+.show-img{
+    margin: 2px 10px 0 0;
+    width: 15px;
+    height: 15px;
+    vertical-align: middle;
+}
+
+.warning{
+    color: #dd0808;
+    font-weight: bold;
+    font-size: 22px;
+    font-family: sans-serif;
+    margin-bottom: 20px;
+}
+
