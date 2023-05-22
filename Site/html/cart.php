@@ -67,6 +67,19 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "r
                         <h2>Корзина пуста и готова к вашим покупкам</h2>
                         ';
         } else {
+            echo '
+                <div class="stuffs">
+                    <h2>Оформление заказа</h2>
+                    <table>
+                    <tr class="title">
+                        <th></th>
+                        <th>Наименование</th>
+                        <th>Цена</th>
+                        <th>Количество</th>
+                        <th>Сумма </th>
+                        <th></th>
+                    </tr>
+            ';
             foreach ($cart as $item) {
                 $tsql = "SELECT idBatteries, nameBatteries, priceBatteries, photoBatteries FROM menu WHERE idBatteries = " . $item;
                 $stmt = sqlsrv_query($conn, $tsql);
@@ -77,17 +90,6 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "r
                 $row = sqlsrv_fetch_array($stmt);
                 $sum += $row[2];
                 echo '
-                        <div class="stuffs">
-                        <h2>Оформление заказа</h2>
-                        <table>
-                        <tr class="title">
-                            <th></th>
-                            <th>Наименование</th>
-                            <th>Цена</th>
-                            <th>Количество</th>
-                            <th>Сумма </th>
-                            <th></th>
-                        </tr>
                         <tr>
                         <td><img width="100px" height="100px" src="data:image/jpeg;base64,' . base64_encode($row[3]) . '"></td>
                         <td>' . $row[1] . '</td>
