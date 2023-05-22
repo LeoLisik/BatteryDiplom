@@ -103,9 +103,15 @@ if (isset($_GET['action']) and $_GET['action'] == "add") {
                                 <img width="298px" height="298px" src="data:image/jpeg;base64,' . base64_encode($row[3]) . '">
                                 <a href="card.php?product=' . $row[0] . '"><p class="stuff-name">' . $row[1] . '</p></a>
                                 <p class="price">' . $row[2] . ' руб.</p>
-                                <a href="?action=add&product=' . $row[0] . '"><button id="add">В корзину</button></a>
-                            </div>
                         ';
+                    if (isset($_GET['sort'])) {
+                        echo '<a href="?action=add&product=' . $row[0] . '&sort=' . $_GET['sort'] . '&search=' . $_GET["search"] . '"><button id="add">В корзину</button></a>';
+                    } else {
+                        echo '<a href="?action=add&product=' . $row[0] . '"><button id="add">В корзину</button></a>';
+                    }
+                    echo '
+                        </div>
+                    ';
                 }
             } while ($row);
             sqlsrv_free_stmt($stmt);
