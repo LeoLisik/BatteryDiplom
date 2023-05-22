@@ -90,7 +90,7 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "r
                 echo '
                         <tr>
                         <td><img width="100px" height="100px" src="data:image/jpeg;base64,' . base64_encode($row[3]) . '"></td>
-                        <td>' . $row[1] . '</td>
+                        <td><a href="card.php?product='.$row[0].'">' . $row[1] . '</td></a>
                         <td>' . $row[2] . ' руб.</td>
                         <td><div class="number">
                             <button class="number-minus" type="button" onclick="this.nextElementSibling.stepDown(); this.nextElementSibling.onchange();">-</button>

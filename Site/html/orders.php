@@ -38,7 +38,6 @@
         <main>
             <h2>Мои заказы</h2>
             <?php
-            session_start();
             $serverName = "26.159.241.191";
             $uid = "da";
             $pwd = "da";

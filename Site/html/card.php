@@ -3,6 +3,20 @@
         echo "<center><h1>Упс, товар не найден =(</h1></center>";  
         die();  
     }
+    if (isset($_GET['action']) and $_GET['action'] == "add") {
+        session_start();
+        if (isset($_COOKIE['cart'])) {
+            $cookie = unserialize($_COOKIE['cart']);
+        } else {
+            $cookie = array();
+        }
+        if (in_array($_GET['product'], $cookie)) {
+            echo '<script>alert("Товар уже в корзине");</script>';
+        } else {
+            array_push($cookie, $_GET['product']);
+            setcookie('cart', serialize($cookie));
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -62,7 +76,7 @@
                     <div id="card-info">
                         <p id="price">'.$row[2].' руб.</p>
                         <p id="discription">'.$row[1].'</p>
-                        <button id="add">Добавить в корзину</button>
+                        <a href="?action=add&product=' . $_GET['product'] . '"><button id="add">Добавить в корзину</button></a>
                         <button id="pay">Купить в один клик</button>
                     </div>
                     ';
