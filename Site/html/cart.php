@@ -39,11 +39,9 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "r
 
     <main>
         <?php
-        session_start();
         if (isset($_GET['action']) and isset($_GET['product']) and isset($_COOKIE['cart']) and $_GET['action'] == "remove") {
             $cart = unserialize($_COOKIE['cart']);
             unset($cart[array_search($_GET['product'], $cart)]);
-            setcookie('cart', serialize($cart));
         } else {
             $cart = unserialize($_COOKIE['cart']);
         }

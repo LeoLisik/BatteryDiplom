@@ -6,8 +6,12 @@ if (isset($_GET['action']) and $_GET['action'] == "add") {
     } else {
         $cookie = array();
     }
-    array_push($cookie, $_GET['product']);
-    setcookie('cart', serialize($cookie));
+    if (in_array($_GET['product'], $cookie)) {
+        echo '<script>alert("Товар уже в корзине");</script>';
+    } else {
+        array_push($cookie, $_GET['product']);
+        setcookie('cart', serialize($cookie));
+    }
 }
 ?>
 <!DOCTYPE html>
