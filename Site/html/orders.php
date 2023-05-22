@@ -37,32 +37,52 @@
         </nav>
         <main>
             <h2>Мои заказы</h2>
+            <?php
+            session_start();
+            $serverName = "26.159.241.191";
+            $uid = "da";
+            $pwd = "da";
+            $connectionInfo = array(
+                "UID" => $uid,
+                "PWD" => $pwd,
+                "Database" => "Batteries",
+                "CharacterSet" => "UTF-8"
+            );
+            $conn = sqlsrv_connect($serverName, $connectionInfo);
+            if ($conn === false) {
+                echo "Ошибка, сервис временно недоступен.</br>";
+                die(print_r(sqlsrv_errors(), true));
+            }
+            $tsql = "SELECT idOrder, orderDate, totalPrice, [status] FROM [order]"; //WHERE idUser = " . $item
+            $stmt = sqlsrv_query($conn, $tsql);
+            if ($stmt === false) {
+                echo "Ошибка, сервис временно недоступен.</br>";
+                die(print_r(sqlsrv_errors(), true));
+            }
+            echo '
             <table>
-                <tr id="title">
-                    <th>Номер заказа</th>
-                    <th>Дата и время</th>
-                    <th>Цена</th>
-                    <th>Статус</th>
-                </tr>
-                <tr>
-                    <td> <a href="order.php"> 10000001 </a> </td>
-                    <td>30.10.2021 13:48</td>
-                    <td>1000 руб</td>
-                    <td>Отказ</td>
-                </tr>
-                <tr>
-                    <td> <a href="order.php"> 10000002 </a> </td>
-                    <td>31.10.2021 13:48</td>
-                    <td>10135 руб</td>
-                    <td>Одобрено</td>
-                </tr>
-                <tr>
-                    <td> <a href="order.php"> 10000003 </a> </td>
-                    <td>31.10.2021 13:48</td>
-                    <td>1000 руб</td>
-                    <td>Одобрено</td>
-                </tr>
-            </table>
+            <tr id="title">
+                <th>Номер заказа</th>
+                <th>Дата и время</th>
+                <th>Цена</th>
+                <th>Статус</th>
+            </tr>
+            ';
+            do {
+                $row = sqlsrv_fetch_array($stmt);
+                if ($row) {
+                    echo '
+                        <tr>
+                        <td> <a href="order.php">'.$row[0].'</a> </td>
+                        <td>'.$row[1]->format('Y-m-d H:i:s').'</td>
+                        <td>'.$row[2].' руб</td>
+                        <td>'.$row[3].'</td>
+                        </tr>
+                    ';
+                }
+            } while ($row);
+            echo '</table>';
+            ?>
         </main>
     </div>
     
