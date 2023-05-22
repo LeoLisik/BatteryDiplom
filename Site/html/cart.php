@@ -26,15 +26,15 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "r
             <a id="menu-button"><img width="68px" height="58px" src="../images/header/Menu.png" alt="menu"></a>
             <div class="dropdown-options">
                 <a href="index.html">Главная</a>
-                <a href="katalog.html">Каталог</a>
-                <a href="cart.html">Корзина</a>
-                <a href="profile.html">Профиль</a>
-                <a href="orders.html">История заказов</a>
+                <a href="katalog.php">Каталог</a>
+                <a href="cart.php">Корзина</a>
+                <a href="profile.php">Профиль</a>
+                <a href="orders.php">История заказов</a>
             </div>
         </div>
         <a href="index.html" id="header-logo"><img width="200px" height="60px" src="../images/logo.svg" alt="logo">
-            <a href="profile.html" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>
-            <a href="cart.html" id="cart-button"><img width="50px" height="50px" src="../images/header/Cart.png" alt="cart"></a>
+            <a href="profile.php" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>
+            <a href="cart.php" id="cart-button"><img width="50px" height="50px" src="../images/header/Cart.png" alt="cart"></a>
     </header>
 
     <main>
