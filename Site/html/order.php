@@ -36,36 +36,83 @@
             </ul>
         </nav>
         <main>
-            <h2>Заказ 10000001 от 30.10.2021 13:48 Статус: Отказ</h2>
-            <table>
-                <tr>
-                    <th>№</th>
-                    <th>Изображение</th>
-                    <th>Артикул</th>
-                    <th>Товар</th>
-                    <th>Цена</th>
-                    <th>Стоимость</th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td><img width="90px" height="90px" src="../images/test.jpg"></td>
-                    <td>20000001</td>
-                    <td>Аккумулятор Alpha line 44</td>
-                    <td>4790 руб.</td>
-                    <td>4790 руб.</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td><img width="90px" height="90px" src="../images/test.jpg"></td>
-                    <td>20000001</td>
-                    <td>Аккумулятор Alpha line 44</td>
-                    <td>100 руб.</td>
-                    <td>200 руб.</td>
-                </tr>
-                <tr>
-                    <td id="price" colspan="6">Итого: 2000 руб.</td>
-                </tr>
-            </table>
+            <?php
+                if (!isset($_GET['order'])) {
+                    echo "<h2>Ошибка, как вы сюда попали?</h2>";
+                    die(print_r(sqlsrv_errors(), true));
+                }
+                session_start();
+                $serverName = "26.159.241.191";
+                $uid = "da";
+                $pwd = "da";
+                $connectionInfo = array(
+                    "UID" => $uid,
+                    "PWD" => $pwd,
+                    "Database" => "Batteries",
+                    "CharacterSet" => "UTF-8"
+                );
+                $conn = sqlsrv_connect($serverName, $connectionInfo);
+                if ($conn === false) {
+                    echo "Ошибка, сервис временно недоступен.</br>";
+                    die(print_r(sqlsrv_errors(), true));
+                }
+                $tsql = "SELECT idOrder, orderDate, totalPrice, [status] FROM [order] WHERE idOrder = ".$_GET['order']; //WHERE idUser = " . $item
+                $stmt = sqlsrv_query($conn, $tsql);
+                if ($stmt === false) {
+                    echo "Ошибка, сервис временно недоступен.</br>";
+                    die(print_r(sqlsrv_errors(), true));
+                }
+                $row = sqlsrv_fetch_array($stmt);
+                if (!$row) 
+                { 
+                    echo "<h2>Ошибка, как вы сюда попали?</h2>";
+                    die(print_r(sqlsrv_errors(), true));
+                }
+                $totalPrice = $row[2];
+                echo '
+                    <h2>Заказ '.$row[0].' от '.$row[1]->format('Y-m-d H:i:s').' Статус: '.$row[3].'</h2>
+                    <table>
+                    <tr>
+                        <th>№</th>
+                        <th>Изображение</th>
+                        <th>Артикул</th>
+                        <th>Товар</th>
+                        <th>Цена</th>
+                        <th>Стоимость</th>
+                    </tr>
+                ';
+                $tsql = "SELECT idBatteries, nameBatteries, priceBatteries, photoBatteries FROM menu WHERE idBatteries = (SELECT idBatteries FROM batteriesBucket WHERE idOrder = ".$_GET['order'].")";
+                $stmt = sqlsrv_query($conn, $tsql);
+                if ($stmt === false) {
+                    echo "Ошибка, сервис временно недоступен.</br>";
+                    die(print_r(sqlsrv_errors(), true));
+                }
+                $productCounter = 0;
+                $sum = 0;
+                do {
+                    $productCounter++;
+                    $row = sqlsrv_fetch_array($stmt);
+                    if ($row) {
+                        $sum += $row[2];
+                        echo '
+                        <tr>
+                        <td>'.$productCounter.'</td>
+                        <td><img width="90px" height="90px" src="data:image/jpeg;base64,' . base64_encode($row[3]) . '"></td>
+                        <td>'.$row[0].'</td>
+                        <td>'.$row[1].'</td>
+                        <td>'.$row[2].' руб.</td>
+                        <td>4790 руб.</td>
+                        </tr>
+                        ';
+                    }
+                } while($row);
+                echo '
+                    <tr>
+                    <td id="price" colspan="6">Итого: '.$sum.' руб.</td>
+                    </tr>
+                    </table>
+                ';
+            ?>
         </main>
     </div>
 

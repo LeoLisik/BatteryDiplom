@@ -73,7 +73,7 @@
                 if ($row) {
                     echo '
                         <tr>
-                        <td> <a href="order.php">'.$row[0].'</a> </td>
+                        <td> <a href="order.php?order='.$row[0].'">'.$row[0].'</a> </td>
                         <td>'.$row[1]->format('Y-m-d H:i:s').'</td>
                         <td>'.$row[2].' руб</td>
                         <td>'.$row[3].'</td>
