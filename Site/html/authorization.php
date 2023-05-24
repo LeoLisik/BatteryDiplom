@@ -16,6 +16,40 @@
 </head>
 <body>
     <header>
+    <?php
+        if(isset($_POST["loginAuth"])) {
+            $serverName = "26.159.241.191";
+            $uid = "da";
+            $pwd = "da";
+            $connectionInfo = array(
+                "UID" => $uid,
+                "PWD" => $pwd,
+                "Database" => "Batteries",
+                            "CharacterSet" => "UTF-8"
+            );
+            $conn = sqlsrv_connect($serverName, $connectionInfo);
+            if ($conn === false) {
+                echo "Ошибка, сервис временно недоступен.</br>";
+                die(print_r(sqlsrv_errors(), true));
+            }
+            $log = $_POST['loginAuth'];
+            $pass = $_POST['passwordAuth'];
+            $tsql = "SELECT idUser FROM [user] WHERE (login='" . $log . "' OR phoneNumber='" . $log . "') AND password='" . $pass ."'";
+            $stmt = sqlsrv_query($conn, $tsql);
+            if ($stmt === false) {
+                echo "Ошибка, сервис временно недоступен.</br>";
+                die(print_r(sqlsrv_errors(), true));
+            }
+            $row = sqlsrv_fetch_array($stmt);
+            if($row[0] != false)
+            {
+                session_start();
+                setcookie("idUser", $row[0]);
+                echo "<script>window.location.href = 'index.php';</script>";
+            }
+            sqlsrv_close($conn);
+        }      
+        ?>        
         <div class="dropdown">
             <a id="menu-button"><img width="68px" height="58px" src="../images/header/Menu.png" alt="menu"></a>
             <div class="dropdown-options">
@@ -86,23 +120,24 @@
               </div>
               <div class="tabs__pane">
                 <!-- вторая страница -->
-                <form>
+                <form method="post">
                     <div class="form-item">
                         <p><span class="warning">*</span>Почта/номер телефона:</p>
-                        <input type="text"></input>
+                        <input type="text" name="loginAuth"></input>
                     </div>
                     <div class="form-item">
                         <p><span class="warning">*</span>Пароль:</label>                            
-                        <input type="password" id="password2">
+                        <input type="password" id="password2" name="passwordAuth">
                         <button class="btn btn-primary btn-md" id="show2"><img src="../images/authorization/closeEye.png" id="show-img2" class="show-img" width="15px" height="15px" alt="Кнопка «button»"></button>
                     </div>
                     <div class="form-button">
                         <button id="atuin-btn">Войти</button>
                     </div>
-                </form>   
+                </form>           
               </div>
             </div>
           </div>
+        
     </main>
 
     <footer>
