@@ -1,6 +1,84 @@
 <?php
+session_start();
+if (isset($_POST['phone'])) {
+    //TODO: валидация (Не забыть проверить уже зареганый телефон)
+    $serverName = "26.159.241.191";
+    $uid = "da";
+    $pwd = "da";
+    $connectionInfo = array(
+        "UID" => $uid,
+        "PWD" => $pwd,
+        "Database" => "Batteries",
+        "CharacterSet" => "UTF-8"
+    );
+    $conn = sqlsrv_connect($serverName, $connectionInfo);
+    if ($conn === false) {
+        echo "Ошибка, сервис временно недоступен.</br>";
+        die(print_r(sqlsrv_errors(), true));
+    }
+
+    if ($_POST['email'] != "") {
+        $email = "'".$_POST['email']."'";
+    } else {
+        $email = "NULL";
+    }
+    $tsql = "INSERT INTO [user] ([name], phoneNumber, [login], [status], [role]) VALUES ('".$_POST['name']."', '".$_POST['phone']."', ".$email.", 'Активен', 'Пользователь');";
+    $stmt = sqlsrv_query($conn, $tsql);
+    if ($stmt === false) {
+        echo "Ошибка, сервис временно недоступен1.</br>";
+        die(print_r(sqlsrv_errors(), true));
+    }
+    sqlsrv_free_stmt($stmt);
+
+    $tsql = "SELECT idUser FROM [user] WHERE phoneNumber = '".$_POST['phone']."'";
+    $stmt = sqlsrv_query($conn, $tsql);
+    if ($stmt === false) {
+        echo "Ошибка, сервис временно недоступен2.</br>";
+        die(print_r(sqlsrv_errors(), true));
+    }
+    $row = sqlsrv_fetch_array($stmt);
+    $idUser = $row[0];
+    sqlsrv_free_stmt($stmt);
+
+    $orderDate = substr(date(DATE_ATOM), 0, -6);
+    $tsql = "INSERT INTO [order] (idUser, idShop, [status], totalPrice, orderDate) 
+            VALUES (".$idUser.", 4, 'Активен', 1000, '".$orderDate."')";
+    $stmt = sqlsrv_query($conn, $tsql);
+    if ($stmt === false) {
+        echo "Ошибка, сервис временно недоступен3.</br>";
+        die(print_r(sqlsrv_errors(), true));
+    }
+    sqlsrv_free_stmt($stmt);
+
+    $tsql = "SELECT idOrder FROM [order] WHERE orderDate = '".$orderDate."'";
+    $stmt = sqlsrv_query($conn, $tsql);
+    if ($stmt === false) {
+        echo "Ошибка, сервис временно недоступен4.</br>";
+        die(print_r(sqlsrv_errors(), true));
+    }
+    $row = sqlsrv_fetch_array($stmt);
+    $idOrder = $row[0];
+    sqlsrv_free_stmt($stmt);
+
+    $cart = unserialize($_COOKIE['cart']);
+    $tsql = "INSERT INTO batteriesBucket (idOrder, idBatteries) 
+            VALUES (";
+    foreach ($cart as $idProduct) {
+        $tsql .= $idOrder.", ".$idProduct."), (";
+    }
+    $tsql = substr($tsql, 0, -3); // Удалить последнюю запятую
+    $stmt = sqlsrv_query($conn, $tsql);
+    if ($stmt === false) {
+        echo "Ошибка, сервис временно недоступен.</br>";
+        die(print_r(sqlsrv_errors(), true));
+    }
+    sqlsrv_free_stmt($stmt);
+    sqlsrv_close($conn);
+    echo '<script>alert("Ваш заказ принят! В ближайшее время наш менеджер свяжется с вами.");</script>';
+}
+?>
+<?php
 if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "remove") {
-    session_start();
     if (isset($_COOKIE['cart'])) {
         $cart = unserialize($_COOKIE['cart']);
         unset($cart[array_search($_GET['product'], $cart)]);
@@ -110,28 +188,28 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "r
                     </div>
                         <div class="contact-info">
                             <h2>Контактная информация</h2>
-                            <form>
+                            <form method="post">
                                 <div class="contact-block">
                                     <div class="form-field">
                                         <div class="obligatory-field"><p class="warning">*</p>
                                             <p>Ваше имя:</p></div>
-                                            <input type="text">
+                                            <input name="name" type="text">
                                     </div>
                                     <div class="form-field">
                                         <div class="obligatory-field"><p class="warning">*</p>
                                             <p>Номер телефона:</p></div>
-                                            <input type="text">
+                                            <input name="phone" type="text">
                                     </div>
                                 </div>
                                 <div class="contact-block" id="right-block">
                                         <div class="form-field">
                                             <p>Электронная почта:</p>
-                                            <input type="email">
+                                            <input name="email" type="email">
                                         </div>
                                         
                                         <div class="form-field">
                                             <p>Промокод:</p>
-                                            <input type="text">
+                                            <input name="promo" type="text">
                                         </div>
                                 </div>
                                 <div>
