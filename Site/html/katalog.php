@@ -6,10 +6,11 @@ if (isset($_GET['action']) and $_GET['action'] == "add") {
     } else {
         $cookie = array();
     }
-    if (in_array($_GET['product'], $cookie)) {
-        echo '<script>alert("Товар уже в корзине");</script>';
+    if (array_key_exists($_GET['product'], $cookie)) {
+        echo '<script>alert("Товар уже в корзине. Изменить количество товара можно в корзине.");</script>';
     } else {
-        array_push($cookie, $_GET['product']);
+        $cookie[$_GET['product']] = 1;
+        //array_push($cookie, $_GET['product']);
         setcookie('cart', serialize($cookie));
     }
 }
@@ -31,14 +32,15 @@ if (isset($_GET['action']) and $_GET['action'] == "add") {
         <div class="dropdown">
             <a id="menu-button"><img width="68px" height="58px" src="../images/header/Menu.png" alt="menu"></a>
             <div class="dropdown-options">
-                <a href="index.html">Главная</a>
+                <a href="index.php">Главная</a>
                 <a href="katalog.php">Каталог</a>
                 <a href="cart.php">Корзина</a>
                 <a href="profile.php">Профиль</a>
                 <a href="orders.php">История заказов</a>
             </div>
         </div>
-        <a href="index.html" id="header-logo"><img width="200px" height="60px" src="../images/logo.svg" alt="logo">
+        <a href="index.php" id="header-logo"><img width="200px" height="60px" src="../images/logo.svg" alt="logo">
+            <!-- Подкачка фото -->
             <a href="profile.php" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>
             <a href="cart.php" id="cart-button"><img width="50px" height="50px" src="../images/header/Cart.png" alt="cart"></a>
     </header>
@@ -99,9 +101,9 @@ if (isset($_GET['action']) and $_GET['action'] == "add") {
                 die(print_r(sqlsrv_errors(), true));
             }
 
-            do {
-                $row = sqlsrv_fetch_array($stmt);
-                if ($row) {
+            $row = sqlsrv_fetch_array($stmt);
+            if ($row) {
+                while ($row) {
                     echo '
                             <div class="card">
                                 <img width="298px" height="298px" src="data:image/jpeg;base64,' . base64_encode($row[3]) . '">
@@ -116,8 +118,11 @@ if (isset($_GET['action']) and $_GET['action'] == "add") {
                     echo '
                         </div>
                     ';
+                    $row = sqlsrv_fetch_array($stmt);
                 }
-            } while ($row);
+            } else {
+                echo '<h3>Товаров по вашим фильтрам не найдено</h3>';
+            }
             sqlsrv_free_stmt($stmt);
             sqlsrv_close($conn);
             ?>
@@ -135,10 +140,10 @@ if (isset($_GET['action']) and $_GET['action'] == "add") {
         </div>
         <div id="right-footer">
             <p>Мы в социальных сетях:</p>
-            <a href="#"><img width="40px" height="40px" src="../images/footer/OKIcon.png"></a>
-            <a href="#"><img width="40px" height="40px" src="../images/footer/VKIcon.png"></a>
-            <a href="#"><img width="40px" height="40px" src="../images/footer/TelegramIcon.png"></a>
-            <a href="#"><img width="40px" height="40px" src="../images/footer/YoutubeIcon.png"></a>
+            <a href="https://ok.ru/"><img width="40px" height="40px" src="../images/footer/OKIcon.png"></a>
+            <a href="https://vk.com/"><img width="40px" height="40px" src="../images/footer/VKIcon.png"></a>
+            <a href="https://web.telegram.org/"><img width="40px" height="40px" src="../images/footer/TelegramIcon.png"></a>
+            <a href="https://www.youtube.com/"><img width="40px" height="40px" src="../images/footer/YoutubeIcon.png"></a>
         </div>
         <div id="botton-footer">
             <p>Обращаем Ваше внимание на то, что все объявления о

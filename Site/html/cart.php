@@ -17,54 +17,78 @@ if (isset($_POST['phone'])) {
         die(print_r(sqlsrv_errors(), true));
     }
 
-    if ($_POST['email'] != "") {
-        $email = "'".$_POST['email']."'";
-    } else {
-        $email = "NULL";
+    // Получение пользователя
+    if (isset($_COOKIE['idUser'])) {
+        $idUser = $_COOKIE['idUser'];
     }
-    $tsql = "INSERT INTO [user] ([name], phoneNumber, [login], [status], [role]) VALUES ('".$_POST['name']."', '".$_POST['phone']."', ".$email.", 'Активен', 'Пользователь');";
-    $stmt = sqlsrv_query($conn, $tsql);
-    if ($stmt === false) {
-        echo "Ошибка, сервис временно недоступен1.</br>";
-        die(print_r(sqlsrv_errors(), true));
-    }
-    sqlsrv_free_stmt($stmt);
+    if (!isset($_COOKIE['idUser'])) {
+        $tsql = "SELECT idUser FROM [user] WHERE phoneNumber = '" . $_POST['phone'] . "'";
+        $stmt = sqlsrv_query($conn, $tsql);
+        if ($stmt === false) {
+            echo "Ошибка, сервис временно недоступен";
+            die();
+        }
+        $row = sqlsrv_fetch_array($stmt);
+        if ($row) {
+            // Извлечение существующего пользователя
+            $idUser = $row[0];
+            sqlsrv_free_stmt($stmt);
+        } else {
+            // Создание пользователя
+            if ($_POST['email'] != "") {
+                $email = "'" . $_POST['email'] . "'";
+            } else {
+                $email = "NULL";
+            }
+            $tsql = "INSERT INTO [user] ([name], phoneNumber, [login], [status], [role]) VALUES ('" . $_POST['name'] . "', '" . $_POST['phone'] . "', " . $email . ", 'Активен', 'Пользователь');";
+            $stmt = sqlsrv_query($conn, $tsql);
+            if ($stmt === false) {
+                echo "Ошибка, сервис временно недоступен.</br>";
+                die(print_r(sqlsrv_errors(), true));
+            }
+            sqlsrv_free_stmt($stmt);
 
-    $tsql = "SELECT idUser FROM [user] WHERE phoneNumber = '".$_POST['phone']."'";
-    $stmt = sqlsrv_query($conn, $tsql);
-    if ($stmt === false) {
-        echo "Ошибка, сервис временно недоступен2.</br>";
-        die(print_r(sqlsrv_errors(), true));
+            // Получение id созданного пользователя
+            $tsql = "SELECT idUser FROM [user] WHERE phoneNumber = '" . $_POST['phone'] . "'";
+            $stmt = sqlsrv_query($conn, $tsql);
+            if ($stmt === false) {
+                echo "Ошибка, сервис временно недоступен.</br>";
+                die(print_r(sqlsrv_errors(), true));
+            }
+            $row = sqlsrv_fetch_array($stmt);
+            $idUser = $row[0];
+            sqlsrv_free_stmt($stmt);
+        }
     }
-    $row = sqlsrv_fetch_array($stmt);
-    $idUser = $row[0];
-    sqlsrv_free_stmt($stmt);
 
+    // Создание заказа
     $orderDate = substr(date(DATE_ATOM), 0, -6);
     $tsql = "INSERT INTO [order] (idUser, idShop, [status], totalPrice, orderDate) 
-            VALUES (".$idUser.", 4, 'Активен', 1000, '".$orderDate."')";
+            VALUES (" . $idUser . ", 4, 'Активен', 1000, '" . $orderDate . "')";
     $stmt = sqlsrv_query($conn, $tsql);
     if ($stmt === false) {
-        echo "Ошибка, сервис временно недоступен3.</br>";
+        echo "Ошибка, сервис временно недоступен.</br>";
         die(print_r(sqlsrv_errors(), true));
     }
     sqlsrv_free_stmt($stmt);
 
-    $tsql = "SELECT idOrder FROM [order] WHERE orderDate = '".$orderDate."'";
+    // Получение id созданного заказа
+    $tsql = "SELECT idOrder FROM [order] WHERE orderDate = '" . $orderDate . "'";
     $stmt = sqlsrv_query($conn, $tsql);
     if ($stmt === false) {
-        echo "Ошибка, сервис временно недоступен4.</br>";
+        echo "Ошибка, сервис временно недоступен.</br>";
         die(print_r(sqlsrv_errors(), true));
     }
     $row = sqlsrv_fetch_array($stmt);
     $idOrder = $row[0];
     sqlsrv_free_stmt($stmt);
 
+    // Создание товаров в заказе
     $cart = unserialize($_COOKIE['cart']);
-    $tsql = "INSERT INTO batteriesBucket (idOrder, idBatteries) 
+    $tsql = "INSERT INTO batteriesBucket (idOrder, idBatteries, count) 
             VALUES (";
-    foreach ($cart as $idProduct) {
-        $tsql .= $idOrder.", ".$idProduct."), (";
+    foreach ($cart as $key => $value) {
+        $tsql .= $idOrder . ", " . $key . ", " . $value . "), (";
     }
     $tsql = substr($tsql, 0, -3); // Удалить последнюю запятую
     $stmt = sqlsrv_query($conn, $tsql);
@@ -81,7 +105,16 @@ if (isset($_POST['phone'])) {
 if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "remove") {
     if (isset($_COOKIE['cart'])) {
         $cart = unserialize($_COOKIE['cart']);
-        unset($cart[array_search($_GET['product'], $cart)]);
+        unset($cart[$_GET['product']]);
+        setcookie('cart', serialize($cart));
+    }
+}
+?>
+<?php
+if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "changeAmount") {
+    if (isset($_COOKIE['cart'])) {
+        $cart = unserialize($_COOKIE['cart']);
+        $cart[$_GET['product']] = $_GET['amount'];
         setcookie('cart', serialize($cart));
     }
 }
@@ -103,14 +136,15 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "r
         <div class="dropdown">
             <a id="menu-button"><img width="68px" height="58px" src="../images/header/Menu.png" alt="menu"></a>
             <div class="dropdown-options">
-                <a href="index.html">Главная</a>
+                <a href="index.php">Главная</a>
                 <a href="katalog.php">Каталог</a>
                 <a href="cart.php">Корзина</a>
                 <a href="profile.php">Профиль</a>
                 <a href="orders.php">История заказов</a>
             </div>
         </div>
-        <a href="index.html" id="header-logo"><img width="200px" height="60px" src="../images/logo.svg" alt="logo">
+        <a href="index.php" id="header-logo"><img width="200px" height="60px" src="../images/logo.svg" alt="logo">
+            <!-- Подкачка фото -->
             <a href="profile.php" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>
             <a href="cart.php" id="cart-button"><img width="50px" height="50px" src="../images/header/Cart.png" alt="cart"></a>
     </header>
@@ -119,7 +153,10 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "r
         <?php
         if (isset($_GET['action']) and isset($_GET['product']) and isset($_COOKIE['cart']) and $_GET['action'] == "remove") {
             $cart = unserialize($_COOKIE['cart']);
-            unset($cart[array_search($_GET['product'], $cart)]);
+            unset($cart[$_GET['product']]);
+        } else if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "changeAmount") {
+            $cart = unserialize($_COOKIE['cart']);
+            $cart[$_GET['product']] = $_GET['amount'];
         } else {
             $cart = unserialize($_COOKIE['cart']);
         }
@@ -156,30 +193,30 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "r
                         <th></th>
                     </tr>
             ';
-            foreach ($cart as $item) {
-                $tsql = "SELECT idBatteries, nameBatteries, priceBatteries, photoBatteries FROM menu WHERE idBatteries = " . $item;
+            foreach ($cart as $key => $item) {
+                $tsql = "SELECT idBatteries, nameBatteries, priceBatteries, photoBatteries FROM menu WHERE idBatteries = " . $key;
                 $stmt = sqlsrv_query($conn, $tsql);
                 if ($stmt === false) {
                     echo "Ошибка, сервис временно недоступен.</br>";
                     die(print_r(sqlsrv_errors(), true));
                 }
                 $row = sqlsrv_fetch_array($stmt);
-                $sum += $row[2];
+                $sum += $row[2] * $item;
                 echo '
                         <tr>
                         <td><img width="100px" height="100px" src="data:image/jpeg;base64,' . base64_encode($row[3]) . '"></td>
-                        <td><a href="card.php?product='.$row[0].'">' . $row[1] . '</td></a>
+                        <td><a href="card.php?product=' . $row[0] . '">' . $row[1] . '</td></a>
                         <td>' . $row[2] . ' руб.</td>
                         <td><div class="number">
-                            <button class="number-minus" type="button" onclick="this.nextElementSibling.stepDown(); this.nextElementSibling.onchange();">-</button>
-                            <input type="number" min="1" value="1">
+                            <button class="number-minus" type="button" onclick="this.nextElementSibling.stepDown(); this.nextElementSibling.onchange();">-</button> <!-- Убрать кнопки или реализовать их использование -->
+                            <input name="amount" type="number" min="1" onchange="window.location.href = `?action=changeAmount&product=' . $key . '&amount=${this.value}`" value="' . $item . '">
                             <button class="number-plus" type="button" onclick="this.previousElementSibling.stepUp(); this.previousElementSibling.onchange();">+</button>
                         </div></td>
-                        <td>2000 руб.</td> <!-- $row[цена]*$row[кол-во] -->
+                        <td>' . $row[2] * $item . ' руб.</td>
                         <td><a href="?action=remove&product=' . $row[0] . '"><button class="delete"></button></a></td>
                         </tr>
                         ';
-            }
+            } // TODO: Изменить контактную информацию, когда пользователь в аккаунте
             echo '
                     <tr>
                         <td id="price" colspan="6">Итого: ' . $sum . ' руб.</td>
@@ -237,10 +274,10 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "r
         </div>
         <div id="right-footer">
             <p>Мы в социальных сетях:</p>
-            <a href="#"><img width="40px" height="40px" src="../images/footer/OKIcon.png"></a>
-            <a href="#"><img width="40px" height="40px" src="../images/footer/VKIcon.png"></a>
-            <a href="#"><img width="40px" height="40px" src="../images/footer/TelegramIcon.png"></a>
-            <a href="#"><img width="40px" height="40px" src="../images/footer/YoutubeIcon.png"></a>
+            <a href="https://ok.ru/"><img width="40px" height="40px" src="../images/footer/OKIcon.png"></a>
+            <a href="https://vk.com/"><img width="40px" height="40px" src="../images/footer/VKIcon.png"></a>
+            <a href="https://web.telegram.org/"><img width="40px" height="40px" src="../images/footer/TelegramIcon.png"></a>
+            <a href="https://www.youtube.com/"><img width="40px" height="40px" src="../images/footer/YoutubeIcon.png"></a>
         </div>
         <div id="botton-footer">
             <p>Обращаем Ваше внимание на то, что все объявления о
