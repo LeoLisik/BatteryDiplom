@@ -64,7 +64,7 @@ if (isset($_POST['phone'])) {
     // Создание заказа
     $orderDate = substr(date(DATE_ATOM), 0, -6);
     $tsql = "INSERT INTO [order] (idUser, idShop, [status], totalPrice, orderDate) 
-            VALUES (" . $idUser . ", 4, 'Активен', 1000, '" . $orderDate . "')";
+            VALUES (" . $idUser . ", 4, 'Активен', 0, '" . $orderDate . "')";
     $stmt = sqlsrv_query($conn, $tsql);
     if ($stmt === false) {
         echo "Ошибка, сервис временно недоступен.</br>";
@@ -96,12 +96,29 @@ if (isset($_POST['phone'])) {
         echo "Ошибка, сервис временно недоступен.</br>";
         die(print_r(sqlsrv_errors(), true));
     }
+
+    // Подсчет и запись суммы
+    $tsql = "SELECT SUM(priceBatteries * [count]) FROM menu JOIN [batteriesBucket] AS cart ON cart.idBatteries = menu.idBatteries WHERE cart.idOrder = " . $idOrder . ";";
+    $stmt = sqlsrv_query($conn, $tsql);
+    if ($stmt === false) {
+        echo "Ошибка, сервис временно недоступен.</br>";
+        die(print_r(sqlsrv_errors(), true));
+    }
+    $row = sqlsrv_fetch_array($stmt);
+    $tsql = "UPDATE [order] SET totalPrice = " . $row[0] . " WHERE idOrder = " . $idOrder . ";";
+    $stmt = sqlsrv_query($conn, $tsql);
+    if ($stmt === false) {
+        echo "Ошибка, сервис временно недоступен.</br>";
+        die(print_r(sqlsrv_errors(), true));
+    }
+
     sqlsrv_free_stmt($stmt);
     sqlsrv_close($conn);
+    setcookie("cart", "", time() - 3600);
     echo '<script>alert("Ваш заказ принят! В ближайшее время наш менеджер свяжется с вами.");</script>';
 }
 ?>
-<?php
+<?php // ! Эти действия дублируются в середине страницы на клиенте (При редактировании менять и там)
 if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "remove") {
     if (isset($_COOKIE['cart'])) {
         $cart = unserialize($_COOKIE['cart']);
@@ -110,7 +127,7 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "r
     }
 }
 ?>
-<?php
+<?php // ! Эти действия дублируются в середине страницы на клиенте (При редактировании менять и там)
 if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "changeAmount") {
     if (isset($_COOKIE['cart'])) {
         $cart = unserialize($_COOKIE['cart']);
@@ -143,15 +160,15 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "c
                 <a href="orders.php">История заказов</a>
             </div>
         </div>
-        <a href="index.php" id="header-logo"><img width="200px" height="60px" src="../images/logo.svg" alt="logo">
+        <a href="index.php" id="header-logo"><img width="200px" height="60px" src="../images/logo.svg" alt="logo"></a>
         <!-- Подкачка фото -->
-        <a href="profile.php" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png"
-                alt="user-icon"></a>
+        <a href="profile.php" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>
         <a href="#" id="cart-button"><img width="50px" height="50px" src="../images/header/Cart.png" alt="cart"></a>
     </header>
 
     <main>
         <?php
+        // * Повторение действий с куки на клиенте
         if (isset($_GET['action']) and isset($_GET['product']) and isset($_COOKIE['cart']) and $_GET['action'] == "remove") {
             $cart = unserialize($_COOKIE['cart']);
             unset($cart[$_GET['product']]);
@@ -160,6 +177,9 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "c
             $cart[$_GET['product']] = $_GET['amount'];
         } else {
             $cart = unserialize($_COOKIE['cart']);
+        }
+        if (isset($_POST['phone'])) {
+            $cart = array();
         }
         $serverName = "26.159.241.191";
         $uid = "da";
@@ -217,7 +237,7 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "c
                         <td><a href="?action=remove&product=' . $row[0] . '"><button class="delete"></button></a></td>
                         </tr>
                         ';
-            } // TODO: Изменить контактную информацию, когда пользователь в аккаунте
+            }
             echo '
                     <tr>
                         <td id="price" colspan="6">Итого: ' . $sum . ' руб.</td>
@@ -226,38 +246,51 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "c
                     </div>
                         <div class="contact-info">
                             <h2>Контактная информация</h2>
-                            <form method="post">
-                                <div class="contact-block">
-                                    <div class="form-field">
-                                        <div class="obligatory-field"><p class="warning">*</p>
-                                            <p>Ваше имя:</p></div>
-                                            <input name="name" type="text">
-                                    </div>
-                                    <div class="form-field">
-                                        <div class="obligatory-field"><p class="warning">*</p>
-                                            <p>Номер телефона:</p></div>
-                                            <input name="phone" type="text">
-                                    </div>
-                                </div>
-                                <div class="contact-block" id="right-block">
-                                        <div class="form-field">
-                                            <p>Электронная почта:</p>
-                                            <input name="email" type="email">
-                                        </div>
-                                        
-                                        <div class="form-field">
-                                            <p>Промокод:</p>
-                                            <input name="promo" type="text">
-                                        </div>
-                                </div>
-                                <div>
-                                    <button type="submit">Отправить</button>
-                                </div>
-                            </form>
+                ';
+            if (!isset($_COOKIE['idUser'])) {
+            echo '
+                <form method="post">
+                    <div class="contact-block">
+                        <div class="form-field">
+                            <div class="obligatory-field"><p class="warning">*</p>
+                                <p>Ваше имя:</p></div>
+                                <input name="name" type="text">
                         </div>
-                    ';
-        }
-        if ($stmt != null) {
+                        <div class="form-field">
+                            <div class="obligatory-field"><p class="warning">*</p>
+                                <p>Номер телефона:</p></div>
+                                <input name="phone" type="text">
+                        </div>
+                    </div>
+                    <div class="contact-block" id="right-block">
+                            <div class="form-field">
+                                <p>Электронная почта:</p>
+                                <input name="email" type="email">
+                            </div>
+                            
+                            <div class="form-field">
+                                <p>Промокод:</p>
+                                <input name="promo" type="text">
+                            </div>
+                    </div>
+                    <div>
+                        <button type="submit">Отправить</button>
+                    </div>
+                </form>
+                </div>
+                ';
+            }
+            if (isset($_COOKIE['idUser'])) {
+                echo '
+                <form method="post">
+                    <div>
+                        <h3>Ваши контактные данные будут взяты из вашего профиля</h3>
+                        <button type="submit">Оформить заказ</button>
+                    </div>
+                </form>
+                </div>
+                ';
+            }
             sqlsrv_free_stmt($stmt);
         }
         sqlsrv_close($conn);
@@ -277,10 +310,8 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "c
             <p>Мы в социальных сетях:</p>
             <a href="https://ok.ru/"><img width="40px" height="40px" src="../images/footer/OKIcon.png"></a>
             <a href="https://vk.com/"><img width="40px" height="40px" src="../images/footer/VKIcon.png"></a>
-            <a href="https://web.telegram.org/"><img width="40px" height="40px"
-                    src="../images/footer/TelegramIcon.png"></a>
-            <a href="https://www.youtube.com/"><img width="40px" height="40px"
-                    src="../images/footer/YoutubeIcon.png"></a>
+            <a href="https://web.telegram.org/"><img width="40px" height="40px" src="../images/footer/TelegramIcon.png"></a>
+            <a href="https://www.youtube.com/"><img width="40px" height="40px" src="../images/footer/YoutubeIcon.png"></a>
         </div>
         <div id="botton-footer">
             <p>Обращаем Ваше внимание на то, что все объявления о
@@ -288,8 +319,7 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "c
                 носят исключительно информационный характер и ни при каких условиях не являются публичной офертой,
                 определяемой положениями Статьи 437 Гражданского кодекса Российской Федерации.
                 Для получения точной информации о наличии модели с требуемой комплектацией и техническими
-                характеристиками,
-                пожалуйста, обращайтесь к менеджерам по продажам. <br><br>
+                характеристиками, пожалуйста, обращайтесь к менеджерам по продажам. <br><br>
                 Вы принимаете условия политики конфиденциальности и пользовательского соглашения каждый раз,
                 когда оставляете свои данные в любой форме обратной связи.</p>
         </div>
