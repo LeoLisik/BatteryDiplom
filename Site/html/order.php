@@ -13,7 +13,7 @@
 <body>
     <header>
         <div class="dropdown">
-            <a id="menu-button"><img width="68px" height="58px" src="../images/header/Menu.png" alt="menu"></a>
+            <a id="menu-button"><img width="68px" height="58px" src="../images/header/Menu.png" alt="menu" ></a>
             <div class="dropdown-options">
                 <a href="index.php">Главная</a>
                 <a href="katalog.php">Каталог</a>
@@ -23,9 +23,9 @@
             </div>
         </div>
         <a href="index.php" id="header-logo"><img width="200px" height="60px" src="../images/logo.svg" alt="logo">
-            <!-- Выгрузка картинок -->
-            <a href="profile.php" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>
-            <a href="cart.php" id="cart-button"><img width="50px" height="50px" src="../images/header/Cart.png" alt="cart"></a>
+        <!-- Выгрузка картинок -->
+        <a href="profile.php" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>
+        <a href="cart.php" id="cart-button"><img width="50px" height="50px" src="../images/header/Cart.png" alt="cart"></a>
     </header>
 
     <div class="wrapper">

@@ -138,15 +138,16 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "c
             <div class="dropdown-options">
                 <a href="index.php">Главная</a>
                 <a href="katalog.php">Каталог</a>
-                <a href="cart.php">Корзина</a>
+                <a href="#">Корзина</a>
                 <a href="profile.php">Профиль</a>
                 <a href="orders.php">История заказов</a>
             </div>
         </div>
         <a href="index.php" id="header-logo"><img width="200px" height="60px" src="../images/logo.svg" alt="logo">
-            <!-- Подкачка фото -->
-            <a href="profile.php" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>
-            <a href="cart.php" id="cart-button"><img width="50px" height="50px" src="../images/header/Cart.png" alt="cart"></a>
+        <!-- Подкачка фото -->
+        <a href="profile.php" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png"
+                alt="user-icon"></a>
+        <a href="#" id="cart-button"><img width="50px" height="50px" src="../images/header/Cart.png" alt="cart"></a>
     </header>
 
     <main>
@@ -276,15 +277,18 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "c
             <p>Мы в социальных сетях:</p>
             <a href="https://ok.ru/"><img width="40px" height="40px" src="../images/footer/OKIcon.png"></a>
             <a href="https://vk.com/"><img width="40px" height="40px" src="../images/footer/VKIcon.png"></a>
-            <a href="https://web.telegram.org/"><img width="40px" height="40px" src="../images/footer/TelegramIcon.png"></a>
-            <a href="https://www.youtube.com/"><img width="40px" height="40px" src="../images/footer/YoutubeIcon.png"></a>
+            <a href="https://web.telegram.org/"><img width="40px" height="40px"
+                    src="../images/footer/TelegramIcon.png"></a>
+            <a href="https://www.youtube.com/"><img width="40px" height="40px"
+                    src="../images/footer/YoutubeIcon.png"></a>
         </div>
         <div id="botton-footer">
             <p>Обращаем Ваше внимание на то, что все объявления о
                 моделях аккумуляторов, размещенные на настоящем интернет-сайте,
                 носят исключительно информационный характер и ни при каких условиях не являются публичной офертой,
                 определяемой положениями Статьи 437 Гражданского кодекса Российской Федерации.
-                Для получения точной информации о наличии модели с требуемой комплектацией и техническими характеристиками,
+                Для получения точной информации о наличии модели с требуемой комплектацией и техническими
+                характеристиками,
                 пожалуйста, обращайтесь к менеджерам по продажам. <br><br>
                 Вы принимаете условия политики конфиденциальности и пользовательского соглашения каждый раз,
                 когда оставляете свои данные в любой форме обратной связи.</p>

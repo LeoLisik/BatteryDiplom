@@ -1,3 +1,12 @@
+<?php
+session_start();
+if (isset($_GET['action']) and $_GET['action'] == "exit") {
+    setcookie ("idUser", "", time() - 3600);
+    echo "<script>window.location.href = 'index.php';</script>";
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -18,14 +27,14 @@
                 <a href="index.php">Главная</a>
                 <a href="katalog.php">Каталог</a>
                 <a href="cart.php">Корзина</a>
-                <a href="profile.php">Профиль</a>
+                <a href="#">Профиль</a>
                 <a href="orders.php">История заказов</a>
             </div>
         </div>
         <a href="index.php" id="header-logo"><img width="200px" height="60px" src="../images/logo.svg" alt="logo">
-            <!-- выгрузка картинки -->
-            <a href="profile.php" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>
-            <a href="cart.php" id="cart-button"><img width="50px" height="50px" src="../images/header/Cart.png" alt="cart"></a>
+        <!-- выгрузка картинки -->
+        <a href="#" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>
+        <a href="cart.php" id="cart-button"><img width="50px" height="50px" src="../images/header/Cart.png" alt="cart"></a>
     </header>
 
     <div class="wrapper">
@@ -80,6 +89,7 @@
                     <button>Сохранить</button>
                 </div>
             </form>
+            <a href="?action=exit"><button id="exit">Выход</button></a>
         </main>
     </div>
 

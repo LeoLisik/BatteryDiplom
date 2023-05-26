@@ -1,4 +1,20 @@
 <?php
+// function getPhoto(){
+    //     $tsql = "SELECT userPhoto FROM [user] WHERE idUser =" . $_COOKIE["idUser"];
+    //     $stmt = sqlsrv_query($conn, $tsql);
+    //     if ($stmt === false) {
+    //         echo "Ошибка, сервис временно недоступен.</br>";
+    //         die(print_r(sqlsrv_errors(), true));
+    //     }
+    //     $row = sqlsrv_fetch_array($stmt);
+    //     if($row[0] != false){
+    //          echo ' <a alt="user-icon" href="index.php?action=account" id="user-button"><img width="55px" height="55px" src="data:image/jpeg;base64,' . base64_encode($row[0]) . '"></a>';
+    //     }
+    //        else{
+    //          echo ' <a href="index.php?action=account" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>';
+    //     }
+    // }
+
 session_start();
 if (isset($_POST["loginAuth"])) {
     $serverName = "26.159.241.191";
@@ -56,17 +72,17 @@ if (isset($_POST["loginAuth"])) {
         <div class="dropdown">
             <a id="menu-button"><img width="68px" height="58px" src="../images/header/Menu.png" alt="menu"></a>
             <div class="dropdown-options">
-                <a href="#">Главная</a>
+                <a href="index.php">Главная</a>
                 <a href="katalog.php">Каталог</a>
                 <a href="cart.php">Корзина</a>
-                <a href="profile.php">Профиль</a>
+                <a href="#">Профиль</a>
                 <a href="orders.php">История заказов</a>
             </div>
         </div>
-        <a href="#" id="header-logo"><img width="200px" height="60px" src="../images/logo.svg" alt="logo">
-            <!-- Выгрузить фото -->
-            <a href="profile.php" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>
-            <a href="cart.php" id="cart-button"><img width="50px" height="50px" src="../images/header/Cart.png" alt="cart"></a>
+        <a href="index.php" id="header-logo"><img width="200px" height="60px" src="../images/logo.svg" alt="logo">
+        <!-- Выгрузить фото -->
+        <a href="#" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>
+        <a href="cart.php" id="cart-button"><img width="50px" height="50px" src="../images/header/Cart.png" alt="cart"></a>
     </header>
 
     <main>
@@ -76,69 +92,69 @@ if (isset($_POST["loginAuth"])) {
                 <button class="tabs__btn">Авторизация</button>
             </div>
             <div class="tabs__content">
-                <div class="tabs__pane tabs__pane_show">
-                    <!-- первая страница -->
-                    <form>
-                        <div id="form-img">
-                            <label for="pct" id="photo"></label>
-                            <input type="file" accept="image/jpeg,image/png" id="pct">
-                        </div>
-                        <div class="form-item">
-                            <p>E-mail:</p>
-                            <input type="text"></input>
-                        </div>
-                        <div class="form-item">
-                            <p><span class="warning">*</span>Имя:</p>
-                            <input type="text"></input>
-                        </div>
-                        <div class="form-item">
-                            <p>Фамилия:</p>
-                            <input type="text"></input>
-                        </div>
-                        <div class="form-item">
-                            <p>Отчество:</p>
-                            <input type="text"></input>
-                        </div>
-                        <div class="form-item">
-                            <p>Номер телефона:<span class="warning">*</span></p>
-                            <input type="text"></input>
-                        </div>
-                        <div class="form-item">
-                            <p>Дата рождения:</p>
-                            <input type="date"></input>
-                        </div>
-                        <div class="form-item">
-                            <p><span class="warning">*</span>Пароль:</label>
-                                <input type="password" id="password">
-                                <button class="btn btn-primary btn-md" id="show"><img src="../images/authorization/closeEye.png" id="show-img" class="show-img" width="15px" height="15px" alt="Кнопка «button»"></button>
-                        </div>
-                        <div class="form-item">
-                            <p><span class="warning">*</span>Повторите пароль:</label>
-                                <input type="password" id="password1">
-                                <button class="btn btn-primary btn-md" id="show1"><img src="../images/authorization/closeEye.png" id="show-img1" class="show-img" alt="Кнопка «button»"></button>
-                        </div>
-                        <div class="form-button">
-                            <button id="atuin-btn">Зарегистрироваться</button>
-                        </div>
-                    </form>
-                </div>
-                <div class="tabs__pane">
-                    <!-- вторая страница -->
-                    <form method="post">
-                        <div class="form-item">
-                            <p><span class="warning">*</span>Почта/номер телефона:</p>
-                            <input type="text" name="loginAuth"></input>
-                        </div>
-                        <div class="form-item">
-                            <p><span class="warning">*</span>Пароль:</label>
-                                <input type="password" id="password2" name="passwordAuth">
-                                <button class="btn btn-primary btn-md" id="show2"><img src="../images/authorization/closeEye.png" id="show-img2" class="show-img" width="15px" height="15px" alt="Кнопка «button»"></button>
-                        </div>
-                        <div class="form-button">
-                            <button id="atuin-btn">Войти</button>
-                        </div>
-                    </form>
-                </div>
+<div class="tabs__pane tabs__pane_show">
+                <!-- первая страница -->
+                <form>
+                    <div id="form-img">
+                        <label for="pct" id="photo"></label>
+                        <input type="file" accept="image/jpeg,image/png" id="pct">
+                    </div>
+                    <div class="form-item">
+                        <p>E-mail:</p>
+                        <input type="text" ></input>
+                    </div>
+                    <div class="form-item">
+                        <p><span class="warning">*</span>Имя:</p>
+                        <input type="text"></input>
+                    </div>
+                    <div class="form-item">
+                        <p>Фамилия:</p>
+                        <input type="text" ></input>
+                    </div>
+                    <div class="form-item">
+                        <p>Отчество:</p>
+                        <input type="text" ></input>
+                    </div>
+                    <div class="form-item">
+                        <p>Номер телефона:<span class="warning">*</span></p>
+                        <input type="text" ></input>
+                    </div>
+                    <div class="form-item">
+                        <p>Дата рождения:</p>
+                        <input type="date" ></input>
+                    </div>
+                    <div class="form-item">
+                        <p><span class="warning">*</span>Пароль:</label>                            
+                        <input type="password" id="password">
+                        <button class="btn btn-primary btn-md" id="show"><img src="../images/authorization/closeEye.png" id="show-img" class="show-img" width="15px" height="15px" alt="Кнопка «button»"></button>
+                    </div>
+                    <div class="form-item">
+                        <p><span class="warning">*</span>Повторите пароль:</label>
+                        <input type="password" id="password1">
+                        <button  class="btn btn-primary btn-md" id="show1"><img src="../images/authorization/closeEye.png" id="show-img1" class="show-img" alt="Кнопка «button»"></button>
+                    </div>
+                    <div class="form-button">
+                        <button id="atuin-btn">Зарегистрироваться</button>
+                    </div>
+                </form>
+              </div>
+              <div class="tabs__pane">
+                <!-- вторая страница -->
+                <form method="post">
+                    <div class="form-item">
+                        <p><span class="warning">*</span>Почта/номер телефона:</p>
+                        <input type="text" name="loginAuth"></input>
+                    </div>
+                    <div class="form-item">
+                        <p><span class="warning">*</span>Пароль:</label>                            
+                        <input type="password" id="password2" name="passwordAuth">
+                        <button class="btn btn-primary btn-md" id="show2"><img src="../images/authorization/closeEye.png" id="show-img2" class="show-img" width="15px" height="15px" alt="Кнопка «button»"></button>
+                    </div>
+                    <div class="form-button">
+                        <a><button>Войти</button></a>
+                    </div>
+                </form>           
+              </div>
             </div>
         </div>
 
