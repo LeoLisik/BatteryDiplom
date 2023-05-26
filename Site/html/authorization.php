@@ -1,3 +1,53 @@
+<?php
+    // function getPhoto(){
+    //     $tsql = "SELECT userPhoto FROM [user] WHERE idUser =" . $_COOKIE["idUser"];
+    //     $stmt = sqlsrv_query($conn, $tsql);
+    //     if ($stmt === false) {
+    //         echo "Ошибка, сервис временно недоступен.</br>";
+    //         die(print_r(sqlsrv_errors(), true));
+    //     }
+    //     $row = sqlsrv_fetch_array($stmt);
+    //     if($row[0] != false){
+    //          echo ' <a alt="user-icon" href="index.php?action=account" id="user-button"><img width="55px" height="55px" src="data:image/jpeg;base64,' . base64_encode($row[0]) . '"></a>';
+    //     }
+    //        else{
+    //          echo ' <a href="index.php?action=account" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>';
+    //     }
+    // }
+
+    if(isset($_POST["loginAuth"])) {
+        $serverName = "26.159.241.191";
+        $uid = "da";
+        $pwd = "da";
+        $connectionInfo = array(
+            "UID" => $uid,
+            "PWD" => $pwd,
+            "Database" => "Batteries",
+                        "CharacterSet" => "UTF-8"
+        );
+        $conn = sqlsrv_connect($serverName, $connectionInfo);
+        if ($conn === false) {
+            echo "Ошибка, сервис временно недоступен.</br>";
+            die(print_r(sqlsrv_errors(), true));
+        }
+        $log = $_POST['loginAuth'];
+        $pass = $_POST['passwordAuth'];
+        $tsql = "SELECT idUser FROM [user] WHERE (login='" . $log . "' OR phoneNumber='" . $log . "') AND password='" . $pass ."'";
+        $stmt = sqlsrv_query($conn, $tsql);
+        if ($stmt === false) {
+            echo "Ошибка, сервис временно недоступен.</br>";
+            die(print_r(sqlsrv_errors(), true));
+        }
+        $row = sqlsrv_fetch_array($stmt);
+        if($row[0] != false)
+        {
+            session_start();
+            setcookie("idUser", $row[0]);
+            echo "<script>window.location.href = 'index.php';</script>";
+        }
+        sqlsrv_close($conn);   
+    } 
+?>   
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -15,54 +65,20 @@
     <title>Battery</title>  
 </head>
 <body>
-    <header>
-    <?php
-        if(isset($_POST["loginAuth"])) {
-            $serverName = "26.159.241.191";
-            $uid = "da";
-            $pwd = "da";
-            $connectionInfo = array(
-                "UID" => $uid,
-                "PWD" => $pwd,
-                "Database" => "Batteries",
-                            "CharacterSet" => "UTF-8"
-            );
-            $conn = sqlsrv_connect($serverName, $connectionInfo);
-            if ($conn === false) {
-                echo "Ошибка, сервис временно недоступен.</br>";
-                die(print_r(sqlsrv_errors(), true));
-            }
-            $log = $_POST['loginAuth'];
-            $pass = $_POST['passwordAuth'];
-            $tsql = "SELECT idUser FROM [user] WHERE (login='" . $log . "' OR phoneNumber='" . $log . "') AND password='" . $pass ."'";
-            $stmt = sqlsrv_query($conn, $tsql);
-            if ($stmt === false) {
-                echo "Ошибка, сервис временно недоступен.</br>";
-                die(print_r(sqlsrv_errors(), true));
-            }
-            $row = sqlsrv_fetch_array($stmt);
-            if($row[0] != false)
-            {
-                session_start();
-                setcookie("idUser", $row[0]);
-                echo "<script>window.location.href = 'index.php';</script>";
-            }
-            sqlsrv_close($conn);
-        }      
-        ?>        
+    <header>     
         <div class="dropdown">
             <a id="menu-button"><img width="68px" height="58px" src="../images/header/Menu.png" alt="menu"></a>
             <div class="dropdown-options">
-                <a href="#">Главная</a>
-                <a href="katalog.html">Каталог</a>
-                <a href="cart.html">Корзина</a>
-                <a href="profile.html">Профиль</a>
-                <a href="orders.html">История заказов</a>
+                <a href="index.php">Главная</a>
+                <a href="katalog.php">Каталог</a>
+                <a href="cart.php">Корзина</a>
+                <a href="#">Профиль</a>
+                <a href="orders.php">История заказов</a>
             </div>
         </div>
-        <a href="#" id="header-logo"><img width="200px" height="60px" src="../images/logo.svg" alt="logo">
-        <a href="profile.html" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>
-        <a href="cart.html" id="cart-button"><img width="50px" height="50px" src="../images/header/Cart.png" alt="cart"></a>
+        <a href="index.php" id="header-logo"><img width="200px" height="60px" src="../images/logo.svg" alt="logo">
+        <a href="#" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>
+        <a href="cart.php" id="cart-button"><img width="50px" height="50px" src="../images/header/Cart.png" alt="cart"></a>
     </header>
 
     <main>
@@ -131,7 +147,7 @@
                         <button class="btn btn-primary btn-md" id="show2"><img src="../images/authorization/closeEye.png" id="show-img2" class="show-img" width="15px" height="15px" alt="Кнопка «button»"></button>
                     </div>
                     <div class="form-button">
-                        <button id="atuin-btn">Войти</button>
+                        <a><button>Войти</button></a>
                     </div>
                 </form>           
               </div>

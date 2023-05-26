@@ -69,7 +69,7 @@ form button {
     margin-top: 20px;
     font-size: 20px;
     font-family: sans-serif;
-    width: 300px;
+    width: 300px; 
 }
 
 .form-item label {
@@ -88,4 +88,13 @@ input {
     font-size: 14px;
     font-family: sans-serif;
     height: 20px;
+}
+
+#exit{
+    position: relative;
+    left: 23.4%;
+    margin-top: 20px;
+    font-size: 20px;
+    font-family: sans-serif;
+    width: 300px; 
 }
