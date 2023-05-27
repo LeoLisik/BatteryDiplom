@@ -16,6 +16,8 @@ namespace tuningAtelier.ENT
 
         public int idBatteries { get; set; }
 
+        public int count { get; set; }
+
         public virtual menu menu { get; set; }
 
         public virtual order order { get; set; }

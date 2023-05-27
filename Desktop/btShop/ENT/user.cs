@@ -18,19 +18,15 @@ namespace tuningAtelier.ENT
         [Key]
         public int idUser { get; set; }
 
-        [Required]
         [StringLength(50)]
         public string login { get; set; }
 
-        [Required]
         [StringLength(50)]
         public string password { get; set; }
 
-        [Required]
         [StringLength(50)]
         public string gender { get; set; }
 
-        [Required]
         [StringLength(50)]
         public string surname { get; set; }
 
@@ -38,7 +34,6 @@ namespace tuningAtelier.ENT
         [StringLength(50)]
         public string name { get; set; }
 
-        [Required]
         [StringLength(50)]
         public string patronymic { get; set; }
 
@@ -49,7 +44,6 @@ namespace tuningAtelier.ENT
         [StringLength(50)]
         public string role { get; set; }
 
-        [Required]
         [StringLength(50)]
         public string birthday { get; set; }
 

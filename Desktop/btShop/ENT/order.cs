@@ -28,10 +28,7 @@ namespace tuningAtelier.ENT
 
         public double? totalPrice { get; set; }
 
-        [Column(TypeName = "date")]
         public DateTime orderDate { get; set; }
-
-        public TimeSpan orderTime { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<batteriesBucket> batteriesBucket { get; set; }

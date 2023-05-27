@@ -8,7 +8,7 @@ namespace tuningAtelier.ENT
     public partial class BatteriesEntities : DbContext
     {
         public BatteriesEntities()
-            : base(nameOrConnectionString: "Data Source=26.159.241.191;Initial Catalog=Batteries;User ID=da;Password=da")
+            : base("name=BatteryDB")
         {
         }
 
@@ -47,9 +47,8 @@ namespace tuningAtelier.ENT
 
             modelBuilder.Entity<userGenders>()
                 .HasMany(e => e.user)
-                .WithRequired(e => e.userGenders)
-                .HasForeignKey(e => e.gender)
-                .WillCascadeOnDelete(false);
+                .WithOptional(e => e.userGenders)
+                .HasForeignKey(e => e.gender);
 
             modelBuilder.Entity<userRoles>()
                 .HasMany(e => e.user)

@@ -65,3 +65,4 @@ C:\Users\Leyukeli\Files\BatteryDiplom\Desktop\btShop\obj\Debug\btShop.csproj.Cop
 C:\Users\Leyukeli\Files\BatteryDiplom\Desktop\btShop\obj\Debug\tuningAtelier.exe
 C:\Users\Leyukeli\Files\BatteryDiplom\Desktop\btShop\obj\Debug\tuningAtelier.pdb
 C:\Users\Leyukeli\Files\BatteryDiplom\Desktop\btShop\obj\Debug\tuningAtelier.Forms.OrderView.resources
+C:\Users\trufe\BatteryDiplom\Desktop\btShop\obj\Debug\tuningAtelier.Forms.OrderView.resources

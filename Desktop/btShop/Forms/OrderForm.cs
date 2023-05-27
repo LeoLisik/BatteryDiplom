@@ -40,19 +40,23 @@ namespace tuningAtelier.Forms
                 pricePlace.Text = Order.totalPrice.ToString();
                 orderDatePlace.Text = Order.orderDate.ToString();
 
-                List<batteriesBucket> buckets = db.batteriesBucket.Where(p => p.idOrder == Order.idOrder).ToList();
-                List<menu> menus = new List<menu>();
-                foreach (batteriesBucket bucket in buckets)
+                var menus = db.menu.Join(db.batteriesBucket, p => p.idBatteries, j => j.idBatteries, (p, j) => new
                 {
-                    menus.Add(db.menu.Single(p => p.idBatteries == bucket.idBatteries));
-                }
-                staffsView.DataSource = menus.Select(p => new
-                {
+                    idOrder = j.idOrder,
                     Photo = p.photoBatteries,
                     Price = p.priceBatteries,
                     StaffName = p.nameBatteries,
-                    Count = 1,
-                    Sum = 1,
+                    Count = j.count,
+                    Sum = p.priceBatteries * j.count,
+                }).Where(p => p.idOrder == Order.idOrder).ToList();
+
+                staffsView.DataSource = menus.Select(p => new
+                {
+                    Photo = p.Photo,
+                    Price = p.Price,
+                    StaffName = p.StaffName,
+                    Count = p.Count,
+                    Sum = p.Sum,
                 }).ToList();
             }
         }

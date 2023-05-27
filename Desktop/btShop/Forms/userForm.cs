@@ -51,8 +51,7 @@ namespace tuningAtelier.Forms
                 {
                     idUser = userData.idUser,
                     status = "Активен",
-                    orderDate = DateTime.Now.Date,
-                    orderTime = DateTime.Now.TimeOfDay
+                    orderDate = DateTime.Now,
                 });
                 db.SaveChanges();
             }
