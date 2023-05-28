@@ -229,13 +229,13 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "c
                             <form method="post">
                                 <div class="contact-block">
                                     <div class="form-field">
-                                        <div class="obligatory-field"><p class="warning">*</p>
-                                            <p>Ваше имя:</p></div>
+                                        <div class="obligatory-field">
+                                            <p>Ваше имя:<span class="warning">*</span></p></div>
                                             <input name="name" type="text">
                                     </div>
                                     <div class="form-field">
-                                        <div class="obligatory-field"><p class="warning">*</p>
-                                            <p>Номер телефона:</p></div>
+                                        <div class="obligatory-field">
+                                            <p>Номер телефона:<span class="warning">*</span></p></p></div>
                                             <input name="phone" type="text">
                                     </div>
                                 </div>
