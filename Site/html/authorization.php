@@ -48,36 +48,24 @@ if (isset($_POST["loginAuth"])) {
                 $row = sqlsrv_fetch_array($stmt);
                 setcookie("idUser", $row[0]);
                 echo "<script>window.location.href = 'index.php';</script>";
-                // echo "why";
             } 
-            //! Не работает загрузка фото
-            // else {
-            //     $name = $_FILES['photoUser']['name'];
-            //     $tmp = $_FILES['photoUser']['tmp_name'];
-            //     // echo $tmp;
-            //     $data = file_get_contents($tmp);
-            //     $test = mb_convert_encoding($data, "UTF-8");
-            //     // $str = str_replace('"', '', $test);
-            //     // $str = str_replace('״', '', $str);
-            //     // $str = str_replace("'", '', $str); 
-            //     // $str = str_replace("`", '', $str); 
-            //     // echo $str;
-            //     $tsql = "INSERT INTO [user] (login, password, gender, surname, name, patronymic, role, birthday, phoneNumber, status, userPhoto) OUTPUT Inserted.[idUser]
-            //     VALUES ('" . $_POST['mail'] . "', '" . $_POST['password'] . "', '" . $_POST['gender'] . "', '" . $_POST['surname'] . "', '" . $_POST['name'] . "', '" . $_POST['patronymic'] . "', 'Пользователь', '" .
-            //         $_POST['birhday'] . "', '" . $_POST['phone'] ."', 'Активен', STRING_ESCAPE('" . $test . "', 'json'))";
-            //     $stmt = sqlsrv_query($conn, $tsql);
-            //     if ($stmt === false) {
-            //         echo "Ошибка1</br>";
-            //         die(print_r(sqlsrv_errors(), true));
-            //     }
-            //     $row = sqlsrv_fetch_array($stmt);
-            //     setcookie("idUser", $row[0]);
-            //     echo "<script>window.location.href = 'index.php';</script>"; 
-            //     // echo $data;
-            //     $base64 = 'data:image/ ;base64,' . base64_encode($str);
-            //     echo "<img src=\"$base64\" alt=\"\" />";
-            // }
-            //! Не работает загрузка фото
+            else {
+                $name = $_FILES['photoUser']['name'];
+                $tmp = $_FILES['photoUser']['tmp_name'];
+                $data = file_get_contents($tmp);
+                $test = mb_convert_encoding($data, "UTF-8");
+                $tsql = "INSERT INTO [user] (login, password, gender, surname, name, patronymic, role, birthday, phoneNumber, status, userPhoto) OUTPUT Inserted.[idUser]
+                VALUES ('" . $_POST['mail'] . "', '" . $_POST['password'] . "', '" . $_POST['gender'] . "', '" . $_POST['surname'] . "', '" . $_POST['name'] . "', '" . $_POST['patronymic'] . "', 'Пользователь', '" .
+                    $_POST['birhday'] . "', '" . $_POST['phone'] ."', 'Активен', CAST('" . base64_encode($data) . "' AS image))";
+                $stmt = sqlsrv_query($conn, $tsql);
+                if ($stmt === false) {
+                    echo "Ошибка1</br>";
+                    die(print_r(sqlsrv_errors(), true));
+                }
+                $row = sqlsrv_fetch_array($stmt);
+                setcookie("idUser", $row[0]);
+                echo "<script>window.location.href = 'index.php';</script>"; 
+            }
         } else {
             $error = "Пароли не совпадают";
         }

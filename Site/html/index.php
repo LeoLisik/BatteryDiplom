@@ -58,8 +58,11 @@ if (isset($_GET['action']) and $_GET['action'] == "account") {
                     die(print_r(sqlsrv_errors(), true));
                 }
                 $row = sqlsrv_fetch_array($stmt);
+                // echo '<br><br><br><br><br>!!!!!!!!!';
+                // echo $row[0];
+                // echo '<br><br><br><br><br>!!!!!!!!!';
                 if ($row[0] != false) {
-                    echo ' <a alt="user-icon" href="index.php?action=account" id="user-button"><img width="55px" height="55px" src="data:image/jpeg;base64,' . base64_encode($row[0]) . '"></a>';
+                    echo ' <a alt="user-icon" href="index.php?action=account" id="user-button"><img width="55px" height="55px" src="data:image/ ;base64,' . $row[0] . '"></a>';
                 } else {
                     echo ' <a href="index.php?action=account" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>';
                 }
@@ -121,6 +124,7 @@ if (isset($_GET['action']) and $_GET['action'] == "account") {
                 </div>
             </div>
         </div>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d2243.3197397979347!2d37.70127287683545!3d55.78768567309712!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1z0YPQu9C40YbQsCDQrdC70LXQutGC0YDQvtC30LDQstC-0LTRgdC60LDRjywgMjEg0YHRgjYsINCc0L7RgdC60LLQsA!5e0!3m2!1sru!2sru!4v1685356932859!5m2!1sru!2sru" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         <div class="about">
             <img width="500px" height="150px" src="../images/logo.svg">
             <p>Всё, за что берётся компания АКМ БАГ, делается серьёзно и обстоятельно. <br><br>

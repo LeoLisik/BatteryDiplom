@@ -12,6 +12,7 @@ html,
 body {
   height: 100%;
   margin: 0px;
+  width: 100%;
 }
 
 header{
@@ -119,13 +120,21 @@ header{
     float: right;
 }
 
+iframe {
+    width: 70%;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
 .about {
     float: left;
-    margin: 1% 15%; 
+    /* margin: 1% 15%;  */
     padding: 4% 3%;
     background: #f3f1f1;
     box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.1);
     min-width: 68%;
+    margin-left: 50%;
+    transform: translate(-50%, 0px);
 }
 
 .about p {
