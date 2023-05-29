@@ -29,17 +29,19 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle67 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle68 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle69 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle70 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle71 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle72 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle73 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle74 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle75 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle76 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle77 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle16 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle17 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle18 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.comboBoxChangeUserStatus = new System.Windows.Forms.ComboBox();
             this.comboBoxChangeUserRole = new System.Windows.Forms.ComboBox();
             this.tabPageChangingUserData = new System.Windows.Forms.TabPage();
@@ -141,6 +143,17 @@
             this.comboBoxSortGender = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.textBoxSearch = new System.Windows.Forms.TextBox();
+            this.tabPageStatistic = new System.Windows.Forms.TabPage();
+            this.countResultBtn1 = new System.Windows.Forms.Button();
+            this.dateToPlace1 = new System.Windows.Forms.MaskedTextBox();
+            this.dateByPlace1 = new System.Windows.Forms.MaskedTextBox();
+            this.productSelectPlace = new System.Windows.Forms.ComboBox();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.dateByPlace2 = new System.Windows.Forms.MaskedTextBox();
+            this.dateToPlace2 = new System.Windows.Forms.MaskedTextBox();
+            this.countResultBtn2 = new System.Windows.Forms.Button();
+            this.outputPlace = new System.Windows.Forms.Label();
+            this.outputPlace2 = new System.Windows.Forms.Label();
             this.tabPageChangingUserData.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxChangeUserPhoto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewUsers)).BeginInit();
@@ -150,6 +163,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxProfileImage)).BeginInit();
             this.tabPageAddNew.SuspendLayout();
             this.tabPageAllUserData.SuspendLayout();
+            this.tabPageStatistic.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // comboBoxChangeUserStatus
@@ -428,8 +443,8 @@
             // status
             // 
             this.status.DataPropertyName = "status";
-            dataGridViewCellStyle67.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.status.DefaultCellStyle = dataGridViewCellStyle67;
+            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.status.DefaultCellStyle = dataGridViewCellStyle12;
             this.status.HeaderText = "status";
             this.status.MinimumWidth = 6;
             this.status.Name = "status";
@@ -438,8 +453,8 @@
             // phoneNumber
             // 
             this.phoneNumber.DataPropertyName = "phoneNumber";
-            dataGridViewCellStyle68.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.phoneNumber.DefaultCellStyle = dataGridViewCellStyle68;
+            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.phoneNumber.DefaultCellStyle = dataGridViewCellStyle13;
             this.phoneNumber.HeaderText = "phoneNumber";
             this.phoneNumber.MinimumWidth = 6;
             this.phoneNumber.Name = "phoneNumber";
@@ -502,8 +517,8 @@
             // idUser
             // 
             this.idUser.DataPropertyName = "idUser";
-            dataGridViewCellStyle69.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.idUser.DefaultCellStyle = dataGridViewCellStyle69;
+            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.idUser.DefaultCellStyle = dataGridViewCellStyle14;
             this.idUser.HeaderText = "idUser";
             this.idUser.MinimumWidth = 6;
             this.idUser.Name = "idUser";
@@ -512,8 +527,8 @@
             // login
             // 
             this.login.DataPropertyName = "login";
-            dataGridViewCellStyle70.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.login.DefaultCellStyle = dataGridViewCellStyle70;
+            dataGridViewCellStyle15.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.login.DefaultCellStyle = dataGridViewCellStyle15;
             this.login.HeaderText = "login";
             this.login.MinimumWidth = 6;
             this.login.Name = "login";
@@ -522,8 +537,8 @@
             // password
             // 
             this.password.DataPropertyName = "password";
-            dataGridViewCellStyle71.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.password.DefaultCellStyle = dataGridViewCellStyle71;
+            dataGridViewCellStyle16.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.password.DefaultCellStyle = dataGridViewCellStyle16;
             this.password.HeaderText = "password";
             this.password.MinimumWidth = 6;
             this.password.Name = "password";
@@ -532,8 +547,8 @@
             // gender
             // 
             this.gender.DataPropertyName = "gender";
-            dataGridViewCellStyle72.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.gender.DefaultCellStyle = dataGridViewCellStyle72;
+            dataGridViewCellStyle17.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.gender.DefaultCellStyle = dataGridViewCellStyle17;
             this.gender.HeaderText = "gender";
             this.gender.MinimumWidth = 6;
             this.gender.Name = "gender";
@@ -542,8 +557,8 @@
             // surname
             // 
             this.surname.DataPropertyName = "surname";
-            dataGridViewCellStyle73.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.surname.DefaultCellStyle = dataGridViewCellStyle73;
+            dataGridViewCellStyle18.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.surname.DefaultCellStyle = dataGridViewCellStyle18;
             this.surname.HeaderText = "surname";
             this.surname.MinimumWidth = 6;
             this.surname.Name = "surname";
@@ -552,8 +567,8 @@
             // name
             // 
             this.name.DataPropertyName = "name";
-            dataGridViewCellStyle74.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.name.DefaultCellStyle = dataGridViewCellStyle74;
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.name.DefaultCellStyle = dataGridViewCellStyle19;
             this.name.HeaderText = "name";
             this.name.MinimumWidth = 6;
             this.name.Name = "name";
@@ -562,8 +577,8 @@
             // patronymic
             // 
             this.patronymic.DataPropertyName = "patronymic";
-            dataGridViewCellStyle75.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.patronymic.DefaultCellStyle = dataGridViewCellStyle75;
+            dataGridViewCellStyle20.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.patronymic.DefaultCellStyle = dataGridViewCellStyle20;
             this.patronymic.HeaderText = "patronymic";
             this.patronymic.MinimumWidth = 6;
             this.patronymic.Name = "patronymic";
@@ -581,8 +596,8 @@
             // role
             // 
             this.role.DataPropertyName = "role";
-            dataGridViewCellStyle76.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.role.DefaultCellStyle = dataGridViewCellStyle76;
+            dataGridViewCellStyle21.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.role.DefaultCellStyle = dataGridViewCellStyle21;
             this.role.HeaderText = "role";
             this.role.MinimumWidth = 6;
             this.role.Name = "role";
@@ -591,8 +606,8 @@
             // birthday
             // 
             this.birthday.DataPropertyName = "birthday";
-            dataGridViewCellStyle77.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
-            this.birthday.DefaultCellStyle = dataGridViewCellStyle77;
+            dataGridViewCellStyle22.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F);
+            this.birthday.DefaultCellStyle = dataGridViewCellStyle22;
             this.birthday.HeaderText = "birthday";
             this.birthday.MinimumWidth = 6;
             this.birthday.Name = "birthday";
@@ -985,6 +1000,7 @@
             this.tabPage.Controls.Add(this.tabPageAddNew);
             this.tabPage.Controls.Add(this.tabPageAllUserData);
             this.tabPage.Controls.Add(this.tabPageChangingUserData);
+            this.tabPage.Controls.Add(this.tabPageStatistic);
             this.tabPage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabPage.Location = new System.Drawing.Point(0, 0);
             this.tabPage.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
@@ -1268,6 +1284,131 @@
             this.textBoxSearch.Size = new System.Drawing.Size(183, 20);
             this.textBoxSearch.TabIndex = 3;
             // 
+            // tabPageStatistic
+            // 
+            this.tabPageStatistic.Controls.Add(this.outputPlace2);
+            this.tabPageStatistic.Controls.Add(this.outputPlace);
+            this.tabPageStatistic.Controls.Add(this.dateByPlace2);
+            this.tabPageStatistic.Controls.Add(this.dateToPlace2);
+            this.tabPageStatistic.Controls.Add(this.countResultBtn2);
+            this.tabPageStatistic.Controls.Add(this.chart1);
+            this.tabPageStatistic.Controls.Add(this.productSelectPlace);
+            this.tabPageStatistic.Controls.Add(this.dateByPlace1);
+            this.tabPageStatistic.Controls.Add(this.dateToPlace1);
+            this.tabPageStatistic.Controls.Add(this.countResultBtn1);
+            this.tabPageStatistic.Location = new System.Drawing.Point(4, 22);
+            this.tabPageStatistic.Name = "tabPageStatistic";
+            this.tabPageStatistic.Size = new System.Drawing.Size(575, 380);
+            this.tabPageStatistic.TabIndex = 5;
+            this.tabPageStatistic.Text = "Статистика";
+            this.tabPageStatistic.UseVisualStyleBackColor = true;
+            // 
+            // countResultBtn1
+            // 
+            this.countResultBtn1.Location = new System.Drawing.Point(177, 98);
+            this.countResultBtn1.Name = "countResultBtn1";
+            this.countResultBtn1.Size = new System.Drawing.Size(81, 21);
+            this.countResultBtn1.TabIndex = 0;
+            this.countResultBtn1.Text = "Рассчитать";
+            this.countResultBtn1.UseVisualStyleBackColor = true;
+            this.countResultBtn1.Click += new System.EventHandler(this.countProduct);
+            // 
+            // dateToPlace1
+            // 
+            this.dateToPlace1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dateToPlace1.Location = new System.Drawing.Point(158, 41);
+            this.dateToPlace1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.dateToPlace1.Mask = "00/00/0000";
+            this.dateToPlace1.Name = "dateToPlace1";
+            this.dateToPlace1.Size = new System.Drawing.Size(100, 26);
+            this.dateToPlace1.TabIndex = 86;
+            this.dateToPlace1.ValidatingType = typeof(System.DateTime);
+            // 
+            // dateByPlace1
+            // 
+            this.dateByPlace1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dateByPlace1.Location = new System.Drawing.Point(22, 41);
+            this.dateByPlace1.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.dateByPlace1.Mask = "00/00/0000";
+            this.dateByPlace1.Name = "dateByPlace1";
+            this.dateByPlace1.Size = new System.Drawing.Size(100, 26);
+            this.dateByPlace1.TabIndex = 87;
+            this.dateByPlace1.ValidatingType = typeof(System.DateTime);
+            // 
+            // productSelectPlace
+            // 
+            this.productSelectPlace.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.productSelectPlace.FormattingEnabled = true;
+            this.productSelectPlace.Location = new System.Drawing.Point(22, 98);
+            this.productSelectPlace.Margin = new System.Windows.Forms.Padding(2);
+            this.productSelectPlace.Name = "productSelectPlace";
+            this.productSelectPlace.Size = new System.Drawing.Size(150, 21);
+            this.productSelectPlace.TabIndex = 90;
+            // 
+            // chart1
+            // 
+            chartArea2.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea2);
+            this.chart1.Location = new System.Drawing.Point(275, 41);
+            this.chart1.Name = "chart1";
+            series2.ChartArea = "ChartArea1";
+            series2.Name = "Series1";
+            this.chart1.Series.Add(series2);
+            this.chart1.Size = new System.Drawing.Size(300, 300);
+            this.chart1.TabIndex = 91;
+            this.chart1.Text = "chart1";
+            // 
+            // dateByPlace2
+            // 
+            this.dateByPlace2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dateByPlace2.Location = new System.Drawing.Point(22, 254);
+            this.dateByPlace2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.dateByPlace2.Mask = "00/00/0000";
+            this.dateByPlace2.Name = "dateByPlace2";
+            this.dateByPlace2.Size = new System.Drawing.Size(100, 26);
+            this.dateByPlace2.TabIndex = 94;
+            this.dateByPlace2.ValidatingType = typeof(System.DateTime);
+            // 
+            // dateToPlace2
+            // 
+            this.dateToPlace2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dateToPlace2.Location = new System.Drawing.Point(158, 254);
+            this.dateToPlace2.Margin = new System.Windows.Forms.Padding(2, 3, 2, 3);
+            this.dateToPlace2.Mask = "00/00/0000";
+            this.dateToPlace2.Name = "dateToPlace2";
+            this.dateToPlace2.Size = new System.Drawing.Size(100, 26);
+            this.dateToPlace2.TabIndex = 93;
+            this.dateToPlace2.ValidatingType = typeof(System.DateTime);
+            // 
+            // countResultBtn2
+            // 
+            this.countResultBtn2.Location = new System.Drawing.Point(76, 311);
+            this.countResultBtn2.Name = "countResultBtn2";
+            this.countResultBtn2.Size = new System.Drawing.Size(119, 30);
+            this.countResultBtn2.TabIndex = 92;
+            this.countResultBtn2.Text = "Рассчитать";
+            this.countResultBtn2.UseVisualStyleBackColor = true;
+            this.countResultBtn2.Click += new System.EventHandler(this.countProfit);
+            // 
+            // outputPlace
+            // 
+            this.outputPlace.AutoSize = true;
+            this.outputPlace.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.outputPlace.Location = new System.Drawing.Point(22, 169);
+            this.outputPlace.Name = "outputPlace";
+            this.outputPlace.Size = new System.Drawing.Size(189, 20);
+            this.outputPlace.TabIndex = 95;
+            this.outputPlace.Text = "Здесь будет результат";
+            // 
+            // outputPlace2
+            // 
+            this.outputPlace2.AutoSize = true;
+            this.outputPlace2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.outputPlace2.Location = new System.Drawing.Point(22, 199);
+            this.outputPlace2.Name = "outputPlace2";
+            this.outputPlace2.Size = new System.Drawing.Size(0, 20);
+            this.outputPlace2.TabIndex = 96;
+            // 
             // adminForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1292,6 +1433,9 @@
             this.tabPageAddNew.PerformLayout();
             this.tabPageAllUserData.ResumeLayout(false);
             this.tabPageAllUserData.PerformLayout();
+            this.tabPageStatistic.ResumeLayout(false);
+            this.tabPageStatistic.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1399,5 +1543,16 @@
         private System.Windows.Forms.ComboBox comboBoxSortGender;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox textBoxSearch;
+        private System.Windows.Forms.TabPage tabPageStatistic;
+        private System.Windows.Forms.ComboBox productSelectPlace;
+        private System.Windows.Forms.MaskedTextBox dateByPlace1;
+        private System.Windows.Forms.MaskedTextBox dateToPlace1;
+        private System.Windows.Forms.Button countResultBtn1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.MaskedTextBox dateByPlace2;
+        private System.Windows.Forms.MaskedTextBox dateToPlace2;
+        private System.Windows.Forms.Button countResultBtn2;
+        private System.Windows.Forms.Label outputPlace2;
+        private System.Windows.Forms.Label outputPlace;
     }
 }
