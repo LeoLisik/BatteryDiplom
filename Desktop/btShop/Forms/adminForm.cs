@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -26,6 +27,7 @@ namespace tuningAtelier.Forms
             InitializeComponent();
             enterForm = main;
             userLogin = login;
+            insertProducts();
         }
         #region Func
         private void Form_FormClosing(object sender, FormClosingEventArgs e)
@@ -527,6 +529,54 @@ namespace tuningAtelier.Forms
             tabPage.SelectedTab = tabPageAllUserData;
             tabPageChangingUserData.Parent = null;
         }
+        #endregion
+
+        #region Statistic
+        
+        private void insertProducts()
+        {
+            using (BatteriesEntities db = new BatteriesEntities())
+            {
+                productSelectPlace.DataSource = db.menu.Select(p => new { id = p.idBatteries, nameB = p.nameBatteries }).ToList();
+                productSelectPlace.DisplayMember = "nameB";
+                productSelectPlace.ValueMember = "id";
+            }
+        }
+
+        private void countProduct(object sender, EventArgs e)
+        {
+            DateTime dateBy = new DateTime(int.Parse(dateByPlace1.Text.Split(new char[] { '.' })[2]), int.Parse(dateByPlace1.Text.Split(new char[] { '.' })[1]), int.Parse(dateByPlace1.Text.Split(new char[] { '.' })[0]));
+            DateTime dateTo = new DateTime(int.Parse(dateToPlace1.Text.Split(new char[] { '.' })[2]), int.Parse(dateToPlace1.Text.Split(new char[] { '.' })[1]), int.Parse(dateToPlace1.Text.Split(new char[] { '.' })[0]));
+            int idProduct = int.Parse(productSelectPlace.SelectedValue.ToString());
+            using (BatteriesEntities db = new BatteriesEntities())
+            {
+                outputPlace.Text = db.order.Join(db.batteriesBucket, i => i.idOrder, j => j.idOrder, (i, j) => new
+                {
+                    count = j.count,
+                    id = j.idBatteries,
+                    date = i.orderDate
+                })
+                .Where(p => p.date >= dateBy)
+                .Where(p => p.date <= dateTo)
+                .Where(p => p.id == idProduct)
+                .Sum(p => p.count)
+                .ToString();
+            }
+        }
+
+        private void countProfit(object sender, EventArgs e)
+        {
+            DateTime dateBy = new DateTime(int.Parse(dateByPlace2.Text.Split(new char[] { '.' })[2]), int.Parse(dateByPlace2.Text.Split(new char[] { '.' })[1]), int.Parse(dateByPlace2.Text.Split(new char[] { '.' })[0]));
+            DateTime dateTo = new DateTime(int.Parse(dateToPlace2.Text.Split(new char[] { '.' })[2]), int.Parse(dateToPlace2.Text.Split(new char[] { '.' })[1]), int.Parse(dateToPlace2.Text.Split(new char[] { '.' })[0]));
+            using (BatteriesEntities db = new BatteriesEntities())
+            {
+                outputPlace.Text = db.order.Where(p => p.orderDate >= dateBy)
+                    .Where(p => p.orderDate <= dateTo)
+                    .Sum(p => p.totalPrice)
+                    .ToString();
+            }
+        }
+
         #endregion
     }
 }
