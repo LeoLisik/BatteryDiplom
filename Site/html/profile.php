@@ -1,12 +1,33 @@
 <?php
 session_start();
+session_start();
+$serverName = "26.159.241.191";
+$uid = "da";
+$pwd = "da";
+$connectionInfo = array(
+    "UID" => $uid,
+    "PWD" => $pwd,
+    "Database" => "Batteries",
+    "CharacterSet" => "UTF-8"
+);
+$conn = sqlsrv_connect($serverName, $connectionInfo);
+if ($conn === false) {
+    echo "Ошибка, сервис временно недоступен.</br>";
+    die(print_r(sqlsrv_errors(), true));
+}
+$tsql = "SELECT phoneNumber, name, surname, patronymic, gender, birthday, login, password FROM [user] WHERE idUser = " . $_COOKIE["idUser"];
+$stmt = sqlsrv_query($conn, $tsql);
+if ($stmt === false) {
+    echo "Ошибка</br>";
+    die(print_r(sqlsrv_errors(), true));
+}
+$row = sqlsrv_fetch_array($stmt);
+
 if (isset($_GET['action']) and $_GET['action'] == "exit") {
-    setcookie ("idUser", "", time() - 3600);
+    setcookie("idUser", "", time() - 3600);
     echo "<script>window.location.href = 'index.php';</script>";
 }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -32,9 +53,9 @@ if (isset($_GET['action']) and $_GET['action'] == "exit") {
             </div>
         </div>
         <a href="index.php" id="header-logo"><img width="200px" height="60px" src="../images/logo.svg" alt="logo">
-        <!-- выгрузка картинки -->
-        <a href="#" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>
-        <a href="cart.php" id="cart-button"><img width="50px" height="50px" src="../images/header/Cart.png" alt="cart"></a>
+            <!-- выгрузка картинки -->
+            <a href="#" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>
+            <a href="cart.php" id="cart-button"><img width="50px" height="50px" src="../images/header/Cart.png" alt="cart"></a>
     </header>
 
     <div class="wrapper">
@@ -53,42 +74,62 @@ if (isset($_GET['action']) and $_GET['action'] == "exit") {
         </nav>
         <main>
             <h2>Мой профиль</h2> <!-- Изменение данных -->
-            <form>
+        <?php 
+        echo '<form method="POST">
                 <div id="form-img">
                     <img width="200px" height="200px" src="..//images/test.jpg">
                 </div>
                 <div class="form-item">
-                    <label>E-mail:</label>
-                    <input type="text" value="trufelnaisveni@gmail.com"></input>
+                    <label>Номер телефона:<span class="warning">*</span></label>
+                    <input name="phone" type="phone" placeholder="8(965)111-2233" pattern="\d{1}[(][0-9]{2,3}[)]\d{3}-\d{4} value=' . $row[0] . '" required></input>
                 </div>
                 <div class="form-item">
-                    <label>Имя:</label>
-                    <input type="text" value="trufelnaisveni@gmail.com"></input>
+                    <label>Имя:<span class="warning">*</span></label>
+                    <input type="text" value="' . $row[1] . '" required></input>
                 </div>
                 <div class="form-item">
                     <label>Фамилия:</label>
-                    <input type="text" value="trufelnaisveni@gmail.com"></input>
+                    <input type="text" value="' . $row[2] . '"></input>
                 </div>
                 <div class="form-item">
                     <label>Отчество:</label>
-                    <input type="text" value="trufelnaisveni@gmail.com"></input>
-                </div>
-                <div class="form-item">
-                    <label>Номер телефона:</label>
-                    <input type="text" value="trufelnaisveni@gmail.com"></input>
-                </div>
-                <div class="form-item">
+                    <input type="text" value="' . $row[3] . '"></input>
+                </div>';
+                if($row[4] == "Мужской"){
+                    echo '<div class="form-item" id="check">
+                    <p>Пол:</p>
+                    <input type="radio" id="man" name="gender" value="Мужской" checked>
+                    <label for="man"> Муж</label>
+                    <input type="radio" id="woman" name="gender" value="Женский">
+                    <label for="woman"> Жен</label>
+                </div>';
+                }
+                else{
+                    echo '<div class="form-item" id="check">
+                    <p>Пол:</p>
+                    <input type="radio" id="man" name="gender" value="Мужской">
+                    <label for="man"> Муж</label>
+                    <input type="radio" id="woman" name="gender" value="Женский" checked>
+                    <label for="woman"> Жен</label>
+                </div>';
+                }
+                echo '<div class="form-item">
                     <label>Дата рождения:</label>
-                    <input type="text" value="trufelnaisveni@gmail.com"></input>
+                    <input type="date" name="birhday" id="mydate">
                 </div>
                 <div class="form-item">
-                    <label>Пароль:</label>
-                    <input type="text" value="trufelnaisveni@gmail.com"></input>
+                    <label>E-mail:</label>
+                    <input type="text" value="' . $row[6] . '"></input>
+                </div>
+                <div class="form-item">
+                    <label>Пароль:<span class="warning">*</span></label>
+                    <input type="text" value="trufelnaisveni@gmail.com" required></input>
                 </div>
                 <div class="form-button">
                     <button>Сохранить</button>
                 </div>
-            </form>
+            </form>';
+            ?>
             <a href="?action=exit"><button id="exit">Выход</button></a>
         </main>
     </div>

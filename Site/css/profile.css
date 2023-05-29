@@ -81,6 +81,35 @@ form button {
     float: none;
 }
 
+.warning{
+    color: #dd0808;
+    font-weight: bold;
+    font-size: 22px;
+    font-family: sans-serif;
+    margin-bottom: 20px;
+}
+
+#check{
+    display: inline-flex;
+    width: 65%;
+    font-family: sans-serif;
+    margin-left: -8px;
+}
+
+#check input{
+    margin: 3px 3px 0 30px;
+}
+
+#check label{
+    margin: 5px 2px 0 2px;
+    font-size: 15px;
+}
+
+#check p{
+    margin: 3px 2px 0 0px;
+    font-size: 18px;
+}
+
 input {
     border: none;
     border-bottom: 2px solid rgb(0, 0, 0);

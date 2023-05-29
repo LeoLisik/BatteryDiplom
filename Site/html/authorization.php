@@ -1,39 +1,23 @@
 <?php
-// function getPhoto(){
-    //     $tsql = "SELECT userPhoto FROM [user] WHERE idUser =" . $_COOKIE["idUser"];
-    //     $stmt = sqlsrv_query($conn, $tsql);
-    //     if ($stmt === false) {
-    //         echo "Ошибка, сервис временно недоступен.</br>";
-    //         die(print_r(sqlsrv_errors(), true));
-    //     }
-    //     $row = sqlsrv_fetch_array($stmt);
-    //     if($row[0] != false){
-    //          echo ' <a alt="user-icon" href="index.php?action=account" id="user-button"><img width="55px" height="55px" src="data:image/jpeg;base64,' . base64_encode($row[0]) . '"></a>';
-    //     }
-    //        else{
-    //          echo ' <a href="index.php?action=account" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>';
-    //     }
-    // }
-
 session_start();
+$serverName = "26.159.241.191";
+$uid = "da";
+$pwd = "da";
+$connectionInfo = array(
+    "UID" => $uid,
+    "PWD" => $pwd,
+    "Database" => "Batteries",
+    "CharacterSet" => "UTF-8"
+);
+$conn = sqlsrv_connect($serverName, $connectionInfo);
+if ($conn === false) {
+    echo "Ошибка, сервис временно недоступен.</br>";
+    die(print_r(sqlsrv_errors(), true));
+}
 if (isset($_POST["loginAuth"])) {
-    $serverName = "26.159.241.191";
-    $uid = "da";
-    $pwd = "da";
-    $connectionInfo = array(
-        "UID" => $uid,
-        "PWD" => $pwd,
-        "Database" => "Batteries",
-        "CharacterSet" => "UTF-8"
-    );
-    $conn = sqlsrv_connect($serverName, $connectionInfo);
-    if ($conn === false) {
-        echo "Ошибка, сервис временно недоступен.</br>";
-        die(print_r(sqlsrv_errors(), true));
-    }
     $log = $_POST['loginAuth'];
     $pass = $_POST['passwordAuth'];
-    $tsql = "SELECT idUser FROM [user] WHERE (login='" . $log . "' OR phoneNumber='" . $log . "') AND password='" . $pass . "'";
+    $tsql = "SELECT idUser, userPhoto FROM [user] WHERE (login='" . $log . "' OR phoneNumber='" . $log . "') AND password='" . $pass . "' AND status='Активен'";
     $stmt = sqlsrv_query($conn, $tsql);
     if ($stmt === false) {
         echo "Ошибка, сервис временно недоступен.</br>";
@@ -44,10 +28,62 @@ if (isset($_POST["loginAuth"])) {
         setcookie("idUser", $row[0]);
         echo "<script>window.location.href = 'index.php';</script>";
     } else {
-        echo '<script>alert("Введены неверные логин и/или пароль");</script>';
+        $error = "Введены неверные логин и/или пароль";
     }
-    sqlsrv_close($conn);
+} elseif (isset($_POST["name"])) {
+    $arrInputNotSpace = array($_POST['name'], $_POST['surname'], $_POST['patronymic'], $_POST['password']);
+    if (ctype_space($_POST['name']) or ctype_space($_POST['surname']) or ctype_space($_POST['patronymic']) or ctype_space($_POST['password'])) {
+        $error = "Поля должны быть пустыми или чем-то заполнены";
+    } else {
+        if ($_POST['password'] == $_POST['repeat']) {
+            if (!$_FILES['photoUser']['tmp_name'][0]) {
+                $tsql = "INSERT INTO [user] (login, password, gender, surname, name, patronymic, role, birthday, phoneNumber, status) OUTPUT Inserted.[idUser]
+                VALUES ('" . $_POST['mail'] . "', '" . $_POST['password'] . "', '" . $_POST['gender'] . "', '" . $_POST['surname'] . "', '" . $_POST['name'] . "', '" . $_POST['patronymic'] . "', 'Пользователь', '" .
+                    $_POST['birhday'] . "', '" . $_POST['phone'] . "', 'Активен')";
+                $stmt = sqlsrv_query($conn, $tsql);
+                if ($stmt === false) {
+                    echo "Ошибка</br>";
+                    die(print_r(sqlsrv_errors(), true));
+                }
+                $row = sqlsrv_fetch_array($stmt);
+                setcookie("idUser", $row[0]);
+                echo "<script>window.location.href = 'index.php';</script>";
+                // echo "why";
+            } 
+            //! Не работает загрузка фото
+            // else {
+            //     $name = $_FILES['photoUser']['name'];
+            //     $tmp = $_FILES['photoUser']['tmp_name'];
+            //     // echo $tmp;
+            //     $data = file_get_contents($tmp);
+            //     $test = mb_convert_encoding($data, "UTF-8");
+            //     // $str = str_replace('"', '', $test);
+            //     // $str = str_replace('״', '', $str);
+            //     // $str = str_replace("'", '', $str); 
+            //     // $str = str_replace("`", '', $str); 
+            //     // echo $str;
+            //     $tsql = "INSERT INTO [user] (login, password, gender, surname, name, patronymic, role, birthday, phoneNumber, status, userPhoto) OUTPUT Inserted.[idUser]
+            //     VALUES ('" . $_POST['mail'] . "', '" . $_POST['password'] . "', '" . $_POST['gender'] . "', '" . $_POST['surname'] . "', '" . $_POST['name'] . "', '" . $_POST['patronymic'] . "', 'Пользователь', '" .
+            //         $_POST['birhday'] . "', '" . $_POST['phone'] ."', 'Активен', STRING_ESCAPE('" . $test . "', 'json'))";
+            //     $stmt = sqlsrv_query($conn, $tsql);
+            //     if ($stmt === false) {
+            //         echo "Ошибка1</br>";
+            //         die(print_r(sqlsrv_errors(), true));
+            //     }
+            //     $row = sqlsrv_fetch_array($stmt);
+            //     setcookie("idUser", $row[0]);
+            //     echo "<script>window.location.href = 'index.php';</script>"; 
+            //     // echo $data;
+            //     $base64 = 'data:image/ ;base64,' . base64_encode($str);
+            //     echo "<img src=\"$base64\" alt=\"\" />";
+            // }
+            //! Не работает загрузка фото
+        } else {
+            $error = "Пароли не совпадают";
+        }
+    }
 }
+sqlsrv_close($conn);
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -80,81 +116,103 @@ if (isset($_POST["loginAuth"])) {
             </div>
         </div>
         <a href="index.php" id="header-logo"><img width="200px" height="60px" src="../images/logo.svg" alt="logo">
-        <!-- Выгрузить фото -->
-        <a href="#" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>
-        <a href="cart.php" id="cart-button"><img width="50px" height="50px" src="../images/header/Cart.png" alt="cart"></a>
+            <!-- Выгрузить фото -->
+            <a href="#" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>
+            <a href="cart.php" id="cart-button"><img width="50px" height="50px" src="../images/header/Cart.png" alt="cart"></a>
     </header>
 
     <main>
+        <?php echo "<p id='error'>" . $error . "</p>"; ?>
         <div class="tabs">
             <div class="tabs__nav">
                 <button class="tabs__btn tabs__btn_active">Регистрация</button>
                 <button class="tabs__btn">Авторизация</button>
             </div>
             <div class="tabs__content">
-<div class="tabs__pane tabs__pane_show">
-                <!-- первая страница -->
-                <form>
-                    <div id="form-img">
-                        <label for="pct" id="photo"></label>
-                        <input type="file" accept="image/jpeg,image/png" id="pct">
-                    </div>
-                    <div class="form-item">
-                        <p>E-mail:</p>
-                        <input type="text" ></input>
-                    </div>
-                    <div class="form-item">
-                        <p><span class="warning">*</span>Имя:</p>
-                        <input type="text"></input>
-                    </div>
-                    <div class="form-item">
-                        <p>Фамилия:</p>
-                        <input type="text" ></input>
-                    </div>
-                    <div class="form-item">
-                        <p>Отчество:</p>
-                        <input type="text" ></input>
-                    </div>
-                    <div class="form-item">
-                        <p>Номер телефона:<span class="warning">*</span></p>
-                        <input type="text" ></input>
-                    </div>
-                    <div class="form-item">
-                        <p>Дата рождения:</p>
-                        <input type="date" ></input>
-                    </div>
-                    <div class="form-item">
-                        <p><span class="warning">*</span>Пароль:</label>                            
-                        <input type="password" id="password">
-                        <button class="btn btn-primary btn-md" id="show"><img src="../images/authorization/closeEye.png" id="show-img" class="show-img" width="15px" height="15px" alt="Кнопка «button»"></button>
-                    </div>
-                    <div class="form-item">
-                        <p><span class="warning">*</span>Повторите пароль:</label>
-                        <input type="password" id="password1">
-                        <button  class="btn btn-primary btn-md" id="show1"><img src="../images/authorization/closeEye.png" id="show-img1" class="show-img" alt="Кнопка «button»"></button>
-                    </div>
-                    <div class="form-button">
-                        <button id="atuin-btn">Зарегистрироваться</button>
-                    </div>
-                </form>
-              </div>
-              <div class="tabs__pane">
-                <!-- вторая страница -->
-                <form method="post">
-                    <div class="form-item">
-                        <p><span class="warning">*</span>Почта/номер телефона:</p>
-                        <input type="text" name="loginAuth"></input>
-                    </div>
-                    <div class="form-item">
-                        <p><span class="warning">*</span>Пароль:</label>                            
-                        <input type="password" id="password2" name="passwordAuth">
-                        <button class="btn btn-primary btn-md" id="show2"><img src="../images/authorization/closeEye.png" id="show-img2" class="show-img" width="15px" height="15px" alt="Кнопка «button»"></button>
-                    </div>
-                    <div class="form-button">
-                        <a><button>Войти</button></a>
-                    </div>
-                </form>           
-              </div>
+                <div class="tabs__pane tabs__pane_show">
+                    <!-- первая страница -->
+                    <form method="post" enctype="multipart/form-data">
+                        <div id="form-img">
+                            <label for="pct" name="test" id="photo"></label>
+                            <input name="photoUser" type="file" accept="image/jpeg,image/png" id="pct">
+                        </div>
+                        <div class="form-item">
+                            <p>Номер телефона:<span class="warning">*</span></p>
+                            <input name="phone" type="phone" placeholder="8(965)111-2233" pattern="\d{1}[(][0-9]{2,3}[)]\d{3}-\d{4}" value="<?= @$_POST['phone'] ?>" required></input>
+                        </div>
+                        <div class="form-item">
+                            <p>Имя:<span class="warning">*</span></p>
+                            <input name="name" type="text" value="<?= @$_POST['name'] ?>" required></input>
+                        </div>
+                        <div class="form-item">
+                            <p>Фамилия:</p>
+                            <input name="surname" type="text" value="<?= @$_POST['surname'] ?>"></input>
+                        </div>
+                        <div class="form-item">
+                            <p>Отчество:</p>
+                            <input name="patronymic" type="text" value="<?= @$_POST['patronymic'] ?>"></input>
+                        </div>
+                        <div id="check">
+                            <p>Пол:</p>
+                            <input type="radio" id="man" name="gender" value='Мужской' checked>
+                            <label for="man"> Муж</label>
+                            <input type="radio" id="woman" name="gender" value='Женский'>
+                            <label for="woman"> Жен</label>
+                        </div>
+                        <div class="form-item">
+                            <p>E-mail:</p>
+                            <input name="mail" type="email"></input>
+                        </div>
+                        <div class="form-item">
+                            <p>Дата рождения:</p>
+                            <!-- <input name="birthday" type="date" ></input> -->
+                            <script>
+                                window.addEventListener('load',
+                                    function(e) {
+                                        var d = new Date();
+                                        var day = d.getDate();
+                                        if (day < 10) day = '0' + day;
+                                        var month = d.getMonth() + 1;
+                                        if (month < 10) month = '0' + month;
+                                        var year = d.getFullYear();
+                                        document.getElementById("mydate").max = year + "-" + month + "-" + day;
+                                        document.getElementById("mydate").value = (year - 18) + "-" + month + "-" + day;
+                                    }, false);
+                            </script>
+                            <input type="date" name="birhday" id="mydate">
+                        </div>
+                        <div class="form-item">
+                            <p>Пароль:<span class="warning">*</span></p>
+                            <input name="password" type="password" id="password" required>
+                            <button class="btn btn-primary btn-md" id="show"><img src="../images/authorization/closeEye.png" id="show-img" class="show-img" width="15px" height="15px" alt="Кнопка «button»"></button>
+                        </div>
+                        <div class="form-item">
+                            <p>Повторите пароль:<span class="warning">*</span></p>
+                            <input name="repeat" type="password" id="password1" required>
+                            <button class="btn btn-primary btn-md" id="show1"><img src="../images/authorization/closeEye.png" id="show-img1" class="show-img" alt="Кнопка «button»"></button>
+                        </div>
+                        <div class="form-button">
+                            <button id="atuin-btn">Зарегистрироваться</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="tabs__pane">
+                    <!-- вторая страница -->
+                    <form method="post">
+                        <div class="form-item">
+                            <p><span class="warning">*</span>Почта/номер телефона:</p>
+                            <input type="text" name="loginAuth" value="<?= @$_POST['loginAuth'] ?>" required></input>
+                        </div>
+                        <div class="form-item">
+                            <p><span class="warning">*</span>Пароль:</label>
+                                <input type="password" id="password2" name="passwordAuth" required>
+                                <button class="btn btn-primary btn-md" id="show2"><img src="../images/authorization/closeEye.png" id="show-img2" class="show-img" width="15px" height="15px" alt="Кнопка «button»"></button>
+                        </div>
+                        <div class="form-button">
+                            <a><button id="atuin-btn">Войти</button></a>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 

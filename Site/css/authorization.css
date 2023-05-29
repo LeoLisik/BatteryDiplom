@@ -1,3 +1,12 @@
+#error{
+    text-align: center;
+    color: #dd0808;
+    font-family: sans-serif;
+    font-size: 16px;
+    margin-top: 30px;
+    font-weight:bold;
+}
+
 .tabs__pane {
     display: none;
 }
@@ -66,6 +75,21 @@ form{
     font-family: sans-serif;
     font-size: 16px;
     margin: 25px 0 5px 0;
+}
+
+#check{
+    display: inline-flex;
+    width: 65%;
+    font-size: 15px;
+    font-family: sans-serif;
+}
+
+#check input{
+    margin: 12px 3px 0 30px;
+}
+
+#check label{
+    margin: 15px 2px 0 2px;
 }
 
 input {

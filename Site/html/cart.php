@@ -246,37 +246,38 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "c
                     </div>
                         <div class="contact-info">
                             <h2>Контактная информация</h2>
+<<<<<<< HEAD
                 ';
             if (!isset($_COOKIE['idUser'])) {
             echo '
-                <form method="post">
-                    <div class="contact-block">
-                        <div class="form-field">
-                            <div class="obligatory-field"><p class="warning">*</p>
-                                <p>Ваше имя:</p></div>
-                                <input name="name" type="text">
-                        </div>
-                        <div class="form-field">
-                            <div class="obligatory-field"><p class="warning">*</p>
-                                <p>Номер телефона:</p></div>
-                                <input name="phone" type="text">
-                        </div>
-                    </div>
-                    <div class="contact-block" id="right-block">
-                            <div class="form-field">
-                                <p>Электронная почта:</p>
-                                <input name="email" type="email">
-                            </div>
-                            
-                            <div class="form-field">
-                                <p>Промокод:</p>
-                                <input name="promo" type="text">
-                            </div>
-                    </div>
-                    <div>
-                        <button type="submit">Отправить</button>
-                    </div>
-                </form>
+                            <form method="post">
+                                <div class="contact-block">
+                                    <div class="form-field">
+                                        <div class="obligatory-field">
+                                            <p>Ваше имя:<span class="warning">*</span></p></div>
+                                            <input name="name" type="text">
+                                    </div>
+                                    <div class="form-field">
+                                        <div class="obligatory-field">
+                                            <p>Номер телефона:<span class="warning">*</span></p></p></div>
+                                            <input name="phone" type="text">
+                                    </div>
+                                </div>
+                                <div class="contact-block" id="right-block">
+                                        <div class="form-field">
+                                            <p>Электронная почта:</p>
+                                            <input name="email" type="email">
+                                        </div>
+                                        
+                                        <div class="form-field">
+                                            <p>Промокод:</p>
+                                            <input name="promo" type="text">
+                                        </div>
+                                </div>
+                                <div>
+                                    <button type="submit">Отправить</button>
+                                </div>
+                            </form>
                 </div>
                 ';
             }
