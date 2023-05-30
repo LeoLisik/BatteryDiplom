@@ -28,6 +28,11 @@ namespace tuningAtelier.Forms
             enterForm = main;
             userLogin = login;
             insertProducts();
+
+            dateTimePicker.MaxDate = DateTime.Today;
+            dateTimePicker.Value = DateTime.Today;
+            setupChart();
+            updateChart();
         }
         #region Func
         private void Form_FormClosing(object sender, FormClosingEventArgs e)
@@ -550,7 +555,7 @@ namespace tuningAtelier.Forms
             int idProduct = int.Parse(productSelectPlace.SelectedValue.ToString());
             using (BatteriesEntities db = new BatteriesEntities())
             {
-                outputPlace.Text = db.order.Join(db.batteriesBucket, i => i.idOrder, j => j.idOrder, (i, j) => new
+                var elements = db.order.Join(db.batteriesBucket, i => i.idOrder, j => j.idOrder, (i, j) => new
                 {
                     count = j.count,
                     id = j.idBatteries,
@@ -559,8 +564,14 @@ namespace tuningAtelier.Forms
                 .Where(p => p.date >= dateBy)
                 .Where(p => p.date <= dateTo)
                 .Where(p => p.id == idProduct)
-                .Sum(p => p.count)
-                .ToString();
+                .ToList();
+
+                if (int.Parse(elements.Sum(p => p.count).ToString()) == 0)
+                {
+                    outputPlace.Text = "Этот продукт не был продан за данный период";
+                } else {
+                    outputPlace.Text = "Этого продукта было продано " + elements.Sum(p => p.count).ToString() + " штук";
+                }
             }
         }
 
@@ -570,10 +581,61 @@ namespace tuningAtelier.Forms
             DateTime dateTo = new DateTime(int.Parse(dateToPlace2.Text.Split(new char[] { '.' })[2]), int.Parse(dateToPlace2.Text.Split(new char[] { '.' })[1]), int.Parse(dateToPlace2.Text.Split(new char[] { '.' })[0]));
             using (BatteriesEntities db = new BatteriesEntities())
             {
-                outputPlace.Text = db.order.Where(p => p.orderDate >= dateBy)
-                    .Where(p => p.orderDate <= dateTo)
+                var summ = db.order.Where(p => p.orderDate >= dateBy)
+                    .Where(p => p.orderDate <= dateTo && p.status == "Выполнен")
                     .Sum(p => p.totalPrice)
                     .ToString();
+                if (summ == "")
+                {
+                    outputPlace.Text = "За заданный период доходов небыло";
+                }
+                else
+                {
+                    outputPlace.Text = "За данный период было заработано " + summ + " руб.";
+                }
+            }
+        }
+
+        private void setupChart()
+        {
+            chart.Titles.Add("Статистика заказов за выбранную дату");
+            chart.Titles[0].Font = new Font("Times new roman", 14);
+
+            chart.Series.Add("Активные");
+            chart.Series.Add("Подтвержденные");
+            chart.Series.Add("Выполненые");
+            chart.Series.Add("Отмененные");
+
+            chart.Series[0].Color = Color.Gray;
+            chart.Series[1].Color = Color.Yellow;
+            chart.Series[2].Color = Color.Green;
+            chart.Series[3].Color = Color.Red;
+
+            chart.Legends.Add("Main");
+        }
+
+        private void chartDateValueChanged(object sender, EventArgs e)
+        {
+            updateChart();
+        }
+
+        private void updateChart()
+        {
+            foreach (var item in chart.Series)
+            {
+                item.Points.Clear();
+            }
+
+            DateTime dateBy = dateTimePicker.Value.Date;
+            DateTime dateTo = dateBy.AddDays(1);
+
+            using (BatteriesEntities db = new BatteriesEntities())
+            {
+                var todayOrders = db.order.Where(p => p.orderDate >= dateBy && p.orderDate < dateTo).ToList();
+                chart.Series[0].Points.AddY(todayOrders.Where(p => p.status == "Активен").ToList().Count);
+                chart.Series[1].Points.AddY(todayOrders.Where(p => p.status == "Подтвержден").ToList().Count);
+                chart.Series[2].Points.AddY(todayOrders.Where(p => p.status == "Выполнен").ToList().Count);
+                chart.Series[3].Points.AddY(todayOrders.Where(p => p.status == "Отменен").ToList().Count);
             }
         }
 
