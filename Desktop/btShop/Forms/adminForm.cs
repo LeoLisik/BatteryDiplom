@@ -29,9 +29,9 @@ namespace tuningAtelier.Forms
             userLogin = login;
             insertProducts();
 
+            setupChart();
             dateTimePicker.MaxDate = DateTime.Today;
             dateTimePicker.Value = DateTime.Today;
-            setupChart();
             updateChart();
         }
         #region Func
@@ -570,7 +570,7 @@ namespace tuningAtelier.Forms
                 {
                     outputPlace.Text = "Этот продукт не был продан за данный период";
                 } else {
-                    outputPlace.Text = "Этого продукта было продано " + elements.Sum(p => p.count).ToString() + " штук";
+                    outputPlace.Text = "Этого продукта было продано \n" + elements.Sum(p => p.count).ToString() + " штук";
                 }
             }
         }
@@ -591,7 +591,7 @@ namespace tuningAtelier.Forms
                 }
                 else
                 {
-                    outputPlace.Text = "За данный период было заработано " + summ + " руб.";
+                    outputPlace.Text = "За данный период было заработано\n " + summ + " руб.";
                 }
             }
         }
@@ -632,13 +632,25 @@ namespace tuningAtelier.Forms
             using (BatteriesEntities db = new BatteriesEntities())
             {
                 var todayOrders = db.order.Where(p => p.orderDate >= dateBy && p.orderDate < dateTo).ToList();
-                chart.Series[0].Points.AddY(todayOrders.Where(p => p.status == "Активен").ToList().Count);
-                chart.Series[1].Points.AddY(todayOrders.Where(p => p.status == "Подтвержден").ToList().Count);
-                chart.Series[2].Points.AddY(todayOrders.Where(p => p.status == "Выполнен").ToList().Count);
-                chart.Series[3].Points.AddY(todayOrders.Where(p => p.status == "Отменен").ToList().Count);
+                if (todayOrders.Count > 0)
+                {
+                    int tmp = todayOrders.Where(p => p.status == "Активен").ToList().Count;
+                    chart.Series[0].Points.Add(tmp);
+                    tmp = todayOrders.Where(p => p.status == "Подтвержден").ToList().Count;
+                    chart.Series[1].Points.Add(tmp);
+                    tmp = todayOrders.Where(p => p.status == "Выполнен").ToList().Count;
+                    chart.Series[2].Points.Add(tmp);
+                    tmp = todayOrders.Where(p => p.status == "Отменен").ToList().Count;
+                    chart.Series[3].Points.Add(tmp);
+                }
             }
         }
 
         #endregion
+
+        private void dataGridViewUsers_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+
+        }
     }
 }

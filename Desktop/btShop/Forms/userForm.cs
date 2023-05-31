@@ -75,7 +75,7 @@ namespace tuningAtelier.Forms
             {
                 if (db.order.Where(p => p.idUser == userData.idUser && p.status == "Активен").Count() > 0)
                 {
-                    var mainOrder = db.order.Single(p => p.idUser == userData.idUser && p.status == "Активен");
+                    var mainOrder = db.order.Where(p => p.idUser == userData.idUser && p.status == "Активен").OrderByDescending(p => p.orderDate).ToList()[0];
                     mainOrder.status = "Отменен";
                     db.Entry(mainOrder).State = System.Data.Entity.EntityState.Modified;
                 }
@@ -162,7 +162,13 @@ namespace tuningAtelier.Forms
             maskedTextBoxPhoneNumber.Text = userData.phoneNumber;
             if (userData.userPhoto != null)
             {
-                pictureBoxProfileImage.Image = convertByteArrayToImage(userData.userPhoto);
+                try
+                {
+                    pictureBoxProfileImage.Image = convertByteArrayToImage(userData.userPhoto);
+                } catch
+                {
+                    pictureBoxProfileImage.Image = null;
+                }
             }
             if (userData.gender == "Мужской")
             {
@@ -183,9 +189,9 @@ namespace tuningAtelier.Forms
 
         private Image convertByteArrayToImage(byte[] data)
         {
-            using (MemoryStream memoryStream = new MemoryStream(data))
+            using (MemoryStream memoryStream = new MemoryStream(data, 0, data.Length))
             {
-                return Image.FromStream(memoryStream);
+                return Image.FromStream(memoryStream, true);
             }
         }
 
@@ -243,7 +249,7 @@ namespace tuningAtelier.Forms
             {
                 if (db.order.Where(p => p.idUser == userData.idUser && p.status == "Активен").Count() > 0)
                 {
-                    var order = db.order.Single(p => p.idUser == userData.idUser && p.status == "Активен");
+                    var order = db.order.Where(p => p.idUser == userData.idUser && p.status == "Активен").OrderByDescending(p => p.orderDate).ToList()[0];
                     if (db.batteriesBucket.Where(p => p.idOrder == order.idOrder).Count() > 0)
                     {
                         bucketListItem[] bucketListItems = new bucketListItem[db.batteriesBucket.Where(p => p.idOrder == order.idOrder).Count()];

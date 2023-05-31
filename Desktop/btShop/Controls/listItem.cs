@@ -146,7 +146,7 @@ namespace tuningAtelier.Controls
         {
             using (BatteriesEntities db = new BatteriesEntities())
             {
-                var order = db.order.Single(p => p.idUser == goodsForm.userData.idUser && p.status == "Активен");
+                var order = db.order.Where(p => p.idUser == goodsForm.userData.idUser && p.status == "Активен").OrderByDescending(p => p.orderDate).ToList()[0];
                 db.batteriesBucket.Add(new batteriesBucket
                 {
                     idOrder = order.idOrder,
