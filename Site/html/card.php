@@ -1,4 +1,13 @@
 <?php
+if (isset($_GET['action']) and $_GET['action'] == "account") {
+    if (isset($_COOKIE["idUser"])) {
+        echo "<script>window.location.href = 'profile.php';</script>";
+    } else {
+        echo "<script>window.location.href = 'authorization.php';</script>";
+    }
+}
+?>
+<?php
 session_start();
 if (!isset($_GET['product'])) {
     echo "<center><h1>Упс, товар не найден =(</h1></center>";
@@ -41,13 +50,44 @@ if (isset($_GET['action']) and $_GET['action'] == "buy") {
                 <a href="index.php">Главная</a>
                 <a href="katalog.php">Каталог</a>
                 <a href="cart.php">Корзина</a>
-                <a href="profile.php">Профиль</a>
+                <a href="index.php?action=account">Профиль</a>
                 <a href="orders.php">История заказов</a>
             </div>
         </div>
         <a href="index.php" id="header-logo"><img width="200px" height="60px" src="../images/logo.svg" alt="logo">
-        <!-- TODO: Выкачка фото -->
-        <a href="profile.php" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>
+        <?php
+            if (isset($_COOKIE["idUser"])) {
+                $serverName = "26.159.241.191";
+                $uid = "da";
+                $pwd = "da";
+                $connectionInfo = array(
+                    "UID" => $uid,
+                    "PWD" => $pwd,
+                    "Database" => "Batteries",
+                    "CharacterSet" => "UTF-8"
+                );
+                $conn = sqlsrv_connect($serverName, $connectionInfo);
+                if ($conn === false) {
+                    echo "Ошибка, сервис временно недоступен.</br>";
+                    die(print_r(sqlsrv_errors(), true));
+                }
+                $tsql = "SELECT userPhoto FROM [user] WHERE idUser =" . $_COOKIE["idUser"];
+                $stmt = sqlsrv_query($conn, $tsql);
+                if ($stmt === false) {
+                    echo "Ошибка, сервис временно недоступен.</br>";
+                    die(print_r(sqlsrv_errors(), true));
+                }
+                $row = sqlsrv_fetch_array($stmt);
+                if ($row[0] != false) {
+                    echo ' <a alt="user-icon" href="index.php?action=account" id="user-button"><img width="55px" height="55px" src="data:image/ ;base64,' . $row[0] . '"></a>';
+                } else {
+                    echo ' <a href="index.php?action=account" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>';
+                }
+                sqlsrv_close($conn);
+            } else {
+                echo ' <a href="index.php?action=account" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>';
+            }
+            ?>
         <a href="cart.php" id="cart-button"><img width="50px" height="50px" src="../images/header/Cart.png" alt="cart"></a>
     </header>
 
@@ -82,7 +122,6 @@ if (isset($_GET['action']) and $_GET['action'] == "buy") {
                         <p id="price">' . $row[2] . ' руб.</p>
                         <p id="discription">' . $row[1] . '</p>
                         <a href="?action=add&product=' . $_GET['product'] . '"><button id="add">Добавить в корзину</button></a>
-                        <button id="pay">Купить в один клик</button>
                     </div>
                     ';
         } else {

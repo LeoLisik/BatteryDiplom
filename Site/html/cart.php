@@ -1,7 +1,15 @@
 <?php
+if (isset($_GET['action']) and $_GET['action'] == "account") {
+    if (isset($_COOKIE["idUser"])) {
+        echo "<script>window.location.href = 'profile.php';</script>";
+    } else {
+        echo "<script>window.location.href = 'authorization.php';</script>";
+    }
+}
+?>
+<?php
 session_start();
 if (isset($_POST['phone'])) {
-    //TODO: валидация (Не забыть проверить уже зареганый телефон)
     $serverName = "26.159.241.191";
     $uid = "da";
     $pwd = "da";
@@ -16,13 +24,12 @@ if (isset($_POST['phone'])) {
         echo "Ошибка, сервис временно недоступен.</br>";
         die(print_r(sqlsrv_errors(), true));
     }
-
     // Получение пользователя
     if (isset($_COOKIE['idUser'])) {
         $idUser = $_COOKIE['idUser'];
     }
     if (!isset($_COOKIE['idUser'])) {
-        $tsql = "SELECT idUser FROM [user] WHERE phoneNumber = '" . $_POST['phone'] . "'";
+        $tsql = "SELECT idUser FROM [user] WHERE phoneNumber = '" . $_POST['phone'] . "' AND NOT [role] = 'Гость'";
         $stmt = sqlsrv_query($conn, $tsql);
         if ($stmt === false) {
             echo "Ошибка, сервис временно недоступен";
@@ -40,14 +47,13 @@ if (isset($_POST['phone'])) {
             } else {
                 $email = "NULL";
             }
-            $tsql = "INSERT INTO [user] ([name], phoneNumber, [login], [status], [role]) VALUES ('" . $_POST['name'] . "', '" . $_POST['phone'] . "', " . $email . ", 'Активен', 'Пользователь');";
+            $tsql = "INSERT INTO [user] ([name], phoneNumber, [login], [status], [role]) VALUES ('" . $_POST['name'] . "', '" . $_POST['phone'] . "', " . $email . ", 'Активен', 'Гость');";
             $stmt = sqlsrv_query($conn, $tsql);
             if ($stmt === false) {
                 echo "Ошибка, сервис временно недоступен.</br>";
                 die(print_r(sqlsrv_errors(), true));
             }
             sqlsrv_free_stmt($stmt);
-
             // Получение id созданного пользователя
             $tsql = "SELECT idUser FROM [user] WHERE phoneNumber = '" . $_POST['phone'] . "'";
             $stmt = sqlsrv_query($conn, $tsql);
@@ -60,18 +66,16 @@ if (isset($_POST['phone'])) {
             sqlsrv_free_stmt($stmt);
         }
     }
-
     // Создание заказа
     $orderDate = substr(date(DATE_ATOM), 0, -6);
     $tsql = "INSERT INTO [order] (idUser, idShop, [status], totalPrice, orderDate) 
-            VALUES (" . $idUser . ", 4, 'Активен', 1000, '" . $orderDate . "')";
+     VALUES (" . $idUser . ", 4, 'Активен', 0, '" . $orderDate . "')";
     $stmt = sqlsrv_query($conn, $tsql);
     if ($stmt === false) {
         echo "Ошибка, сервис временно недоступен.</br>";
         die(print_r(sqlsrv_errors(), true));
     }
     sqlsrv_free_stmt($stmt);
-
     // Получение id созданного заказа
     $tsql = "SELECT idOrder FROM [order] WHERE orderDate = '" . $orderDate . "'";
     $stmt = sqlsrv_query($conn, $tsql);
@@ -82,11 +86,10 @@ if (isset($_POST['phone'])) {
     $row = sqlsrv_fetch_array($stmt);
     $idOrder = $row[0];
     sqlsrv_free_stmt($stmt);
-
     // Создание товаров в заказе
     $cart = unserialize($_COOKIE['cart']);
     $tsql = "INSERT INTO batteriesBucket (idOrder, idBatteries, count) 
-            VALUES (";
+             VALUES (";
     foreach ($cart as $key => $value) {
         $tsql .= $idOrder . ", " . $key . ", " . $value . "), (";
     }
@@ -96,12 +99,29 @@ if (isset($_POST['phone'])) {
         echo "Ошибка, сервис временно недоступен.</br>";
         die(print_r(sqlsrv_errors(), true));
     }
+
+    // Подсчет и запись суммы
+    $tsql = "SELECT SUM(priceBatteries * [count]) FROM menu JOIN [batteriesBucket] AS cart ON cart.idBatteries = menu.idBatteries WHERE cart.idOrder = " . $idOrder . ";";
+    $stmt = sqlsrv_query($conn, $tsql);
+    if ($stmt === false) {
+        echo "Ошибка, сервис временно недоступен.</br>";
+        die(print_r(sqlsrv_errors(), true));
+    }
+    $row = sqlsrv_fetch_array($stmt);
+    $tsql = "UPDATE [order] SET totalPrice = " . $row[0] . " WHERE idOrder = " . $idOrder . ";";
+    $stmt = sqlsrv_query($conn, $tsql);
+    if ($stmt === false) {
+        echo "Ошибка, сервис временно недоступен.</br>";
+        die(print_r(sqlsrv_errors(), true));
+    }
+
     sqlsrv_free_stmt($stmt);
     sqlsrv_close($conn);
+    setcookie("cart", "", time() - 3600);
     echo '<script>alert("Ваш заказ принят! В ближайшее время наш менеджер свяжется с вами.");</script>';
 }
 ?>
-<?php
+<?php // ! Эти действия дублируются в середине страницы на клиенте (При редактировании менять и там)
 if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "remove") {
     if (isset($_COOKIE['cart'])) {
         $cart = unserialize($_COOKIE['cart']);
@@ -110,7 +130,7 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "r
     }
 }
 ?>
-<?php
+<?php // ! Эти действия дублируются в середине страницы на клиенте (При редактировании менять и там)
 if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "changeAmount") {
     if (isset($_COOKIE['cart'])) {
         $cart = unserialize($_COOKIE['cart']);
@@ -128,6 +148,11 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "c
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="../css/index.css">
     <link type="text/css" rel="stylesheet" href="../css/cart.css">
+    <script>
+        document.getElementById('check').onkeypress = function(e) {
+            return false;
+        }
+    </script>
     <title>Cart</title>
 </head>
 
@@ -139,19 +164,50 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "c
                 <a href="index.php">Главная</a>
                 <a href="katalog.php">Каталог</a>
                 <a href="#">Корзина</a>
-                <a href="profile.php">Профиль</a>
+                <a href="index.php?action=account">Профиль</a>
                 <a href="orders.php">История заказов</a>
             </div>
         </div>
-        <a href="index.php" id="header-logo"><img width="200px" height="60px" src="../images/logo.svg" alt="logo">
-        <!-- Подкачка фото -->
-        <a href="profile.php" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png"
-                alt="user-icon"></a>
+        <a href="index.php" id="header-logo"><img width="200px" height="60px" src="../images/logo.svg" alt="logo"></a>
+        <?php
+            if (isset($_COOKIE["idUser"])) {
+                $serverName = "26.159.241.191";
+                $uid = "da";
+                $pwd = "da";
+                $connectionInfo = array(
+                    "UID" => $uid,
+                    "PWD" => $pwd,
+                    "Database" => "Batteries",
+                    "CharacterSet" => "UTF-8"
+                );
+                $conn = sqlsrv_connect($serverName, $connectionInfo);
+                if ($conn === false) {
+                    echo "Ошибка, сервис временно недоступен.</br>";
+                    die(print_r(sqlsrv_errors(), true));
+                }
+                $tsql = "SELECT userPhoto FROM [user] WHERE idUser =" . $_COOKIE["idUser"];
+                $stmt = sqlsrv_query($conn, $tsql);
+                if ($stmt === false) {
+                    echo "Ошибка, сервис временно недоступен.</br>";
+                    die(print_r(sqlsrv_errors(), true));
+                }
+                $row = sqlsrv_fetch_array($stmt);
+                if ($row[0] != false) {
+                    echo ' <a alt="user-icon" href="index.php?action=account" id="user-button"><img width="55px" height="55px" src="data:image/ ;base64,' . $row[0] . '"></a>';
+                } else {
+                    echo ' <a href="index.php?action=account" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>';
+                }
+                sqlsrv_close($conn);
+            } else {
+                echo ' <a href="index.php?action=account" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>';
+            }
+            ?>
         <a href="#" id="cart-button"><img width="50px" height="50px" src="../images/header/Cart.png" alt="cart"></a>
     </header>
 
     <main>
         <?php
+        // * Повторение действий с куки на клиенте
         if (isset($_GET['action']) and isset($_GET['product']) and isset($_COOKIE['cart']) and $_GET['action'] == "remove") {
             $cart = unserialize($_COOKIE['cart']);
             unset($cart[$_GET['product']]);
@@ -160,6 +216,9 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "c
             $cart[$_GET['product']] = $_GET['amount'];
         } else {
             $cart = unserialize($_COOKIE['cart']);
+        }
+        if (isset($_POST['phone'])) {
+            $cart = array();
         }
         $serverName = "26.159.241.191";
         $uid = "da";
@@ -202,6 +261,9 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "c
                     die(print_r(sqlsrv_errors(), true));
                 }
                 $row = sqlsrv_fetch_array($stmt);
+                if($item < 1 OR $item == ''){
+                    $item = 1;
+                }
                 $sum += $row[2] * $item;
                 echo '
                         <tr>
@@ -209,61 +271,68 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "c
                         <td><a href="card.php?product=' . $row[0] . '">' . $row[1] . '</td></a>
                         <td>' . $row[2] . ' руб.</td>
                         <td><div class="number">
-                            <button class="number-minus" type="button" onclick="this.nextElementSibling.stepDown(); this.nextElementSibling.onchange();">-</button> <!-- Убрать кнопки или реализовать их использование -->
-                            <input name="amount" type="number" min="1" onchange="window.location.href = `?action=changeAmount&product=' . $key . '&amount=${this.value}`" value="' . $item . '">
-                            <button class="number-plus" type="button" onclick="this.previousElementSibling.stepUp(); this.previousElementSibling.onchange();">+</button>
+                            <input id="check" name="amount" type="number" min="1" onchange="window.location.href = `?action=changeAmount&product=' . $key . '&amount=${this.value}`" value="' . $item . '">
                         </div></td>
                         <td>' . $row[2] * $item . ' руб.</td>
                         <td><a href="?action=remove&product=' . $row[0] . '"><button class="delete"></button></a></td>
-                        </tr>
-                        ';
-            } // TODO: Изменить контактную информацию, когда пользователь в аккаунте
+                        </tr>';
+            }
             echo '
-                    <tr>
-                        <td id="price" colspan="6">Итого: ' . $sum . ' руб.</td>
-                    </tr>
-                    </table>
+                            <tr>
+                                <td id="price" colspan="6">Итого: ' . $sum . ' руб.</td>
+                            </tr>
+                            </table>
+                            </div>
+                                <div class="contact-info">
+                                    <h2>Контактная информация</h2>
+                                    ';
+            if (!isset($_COOKIE['idUser'])) {
+                echo '
+                                        <form method="post">
+                                            <div class="contact-block">
+                                                <div class="form-field">
+                                                    <div class="obligatory-field"><p class="warning">*</p>
+                                                        <p>Ваше имя:</p></div>
+                                                        <input name="name" type="text">
+                                                </div>
+                                                <div class="form-field">
+                                                <div class="obligatory-field"><p class="warning">*</p>
+                                                    <p>Номер телефона:</p></div>
+                                                    <input name="phone" type="text">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <button type="submit">Отправить</button>
+                                        </div>
+                                    </form>
+                                    </div>
+                                    ';
+            }
+            if (isset($_COOKIE['idUser'])) {
+                echo '<form method="post">
+                    <input name="phone" type="text">
+                            <div>
+                                <button type="submit">Оформить заказ</button>
+                            </div>
+                        </form>
                     </div>
-                        <div class="contact-info">
-                            <h2>Контактная информация</h2>
-                            <form method="post">
-                                <div class="contact-block">
-                                    <div class="form-field">
-                                        <div class="obligatory-field">
-                                            <p>Ваше имя:<span class="warning">*</span></p></div>
-                                            <input name="name" type="text">
-                                    </div>
-                                    <div class="form-field">
-                                        <div class="obligatory-field">
-                                            <p>Номер телефона:<span class="warning">*</span></p></p></div>
-                                            <input name="phone" type="text">
-                                    </div>
-                                </div>
-                                <div class="contact-block" id="right-block">
-                                        <div class="form-field">
-                                            <p>Электронная почта:</p>
-                                            <input name="email" type="email">
-                                        </div>
-                                        
-                                        <div class="form-field">
-                                            <p>Промокод:</p>
-                                            <input name="promo" type="text">
-                                        </div>
-                                </div>
-                                <div>
-                                    <button type="submit">Отправить</button>
-                                </div>
-                            </form>
-                        </div>
-                    ';
-        }
-        if ($stmt != null) {
+                    <style type="text/css">
+                        form input, h2{
+                            display: none;
+                        } 
+                        .contact-info{
+                            background: #ffffff;
+                            box-shadow: none;
+                            padding: 0;    
+                            margin: 0;
+                        }
+                    </style>';
+            }
             sqlsrv_free_stmt($stmt);
         }
         sqlsrv_close($conn);
         ?>
     </main>
-
     <footer>
         <div id="left-footer">
             <p>Задать вопрос:</p>
@@ -277,19 +346,15 @@ if (isset($_GET['action']) and isset($_GET['product']) and $_GET['action'] == "c
             <p>Мы в социальных сетях:</p>
             <a href="https://ok.ru/"><img width="40px" height="40px" src="../images/footer/OKIcon.png"></a>
             <a href="https://vk.com/"><img width="40px" height="40px" src="../images/footer/VKIcon.png"></a>
-            <a href="https://web.telegram.org/"><img width="40px" height="40px"
-                    src="../images/footer/TelegramIcon.png"></a>
-            <a href="https://www.youtube.com/"><img width="40px" height="40px"
-                    src="../images/footer/YoutubeIcon.png"></a>
+            <a href="https://web.telegram.org/"><img width="40px" height="40px" src="../images/footer/TelegramIcon.png"></a>
+            <a href="https://www.youtube.com/"><img width="40px" height="40px" src="../images/footer/YoutubeIcon.png"></a>
         </div>
         <div id="botton-footer">
             <p>Обращаем Ваше внимание на то, что все объявления о
                 моделях аккумуляторов, размещенные на настоящем интернет-сайте,
                 носят исключительно информационный характер и ни при каких условиях не являются публичной офертой,
                 определяемой положениями Статьи 437 Гражданского кодекса Российской Федерации.
-                Для получения точной информации о наличии модели с требуемой комплектацией и техническими
-                характеристиками,
-                пожалуйста, обращайтесь к менеджерам по продажам. <br><br>
+                Для получения точной информации о наличии модели с требуемой комплектацией и техническими характеристиками, пожалуйста, обращайтесь к менеджерам по продажам. <br><br>
                 Вы принимаете условия политики конфиденциальности и пользовательского соглашения каждый раз,
                 когда оставляете свои данные в любой форме обратной связи.</p>
         </div>
