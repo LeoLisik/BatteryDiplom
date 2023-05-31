@@ -1,5 +1,4 @@
 <?php
-
 if (isset($_GET['action']) and $_GET['action'] == "account") {
     if (isset($_COOKIE["idUser"])) {
         echo "<script>window.location.href = 'profile.php';</script>";
@@ -58,9 +57,6 @@ if (isset($_GET['action']) and $_GET['action'] == "account") {
                     die(print_r(sqlsrv_errors(), true));
                 }
                 $row = sqlsrv_fetch_array($stmt);
-                // echo '<br><br><br><br><br>!!!!!!!!!';
-                // echo $row[0];
-                // echo '<br><br><br><br><br>!!!!!!!!!';
                 if ($row[0] != false) {
                     echo ' <a alt="user-icon" href="index.php?action=account" id="user-button"><img width="55px" height="55px" src="data:image/ ;base64,' . $row[0] . '"></a>';
                 } else {

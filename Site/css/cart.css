@@ -50,31 +50,6 @@ table td {
     background: #f4f2f2;
 }
 
-.number input[type="number"]::-webkit-outer-spin-button,
-.number input[type="number"]::-webkit-inner-spin-button {
-	display: none;
-}
-
-.number-minus, .number-plus {
-	position: absolute;
-	top: 1px;
-	bottom: 1px;
-	width: 20px;
-	padding: 0;
-	border: none;
-	border-right: 1px 1px solid #ddd;
-	font-size: 16px;
-	font-weight: 600;
-}
-
-.number-minus {
-	left: 1px;
-}
-
-.number-plus {
-	right: 1px;
-}
-
 .delete{
     margin-left: 10px;
     width: 28px;
@@ -133,6 +108,8 @@ form button {
     left: 50%;
     transform: translate(-50%, 0);
     margin-top: 50px;
-    font-size: 19px;
+    font-size: 26px;
     font-family: sans-serif;
+    width: 300px;
+    height: 50px;
 }

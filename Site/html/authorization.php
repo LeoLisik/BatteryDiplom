@@ -1,23 +1,30 @@
 <?php
-session_start();
-$serverName = "26.159.241.191";
-$uid = "da";
-$pwd = "da";
-$connectionInfo = array(
-    "UID" => $uid,
-    "PWD" => $pwd,
-    "Database" => "Batteries",
-    "CharacterSet" => "UTF-8"
-);
-$conn = sqlsrv_connect($serverName, $connectionInfo);
-if ($conn === false) {
-    echo "Ошибка, сервис временно недоступен.</br>";
-    die(print_r(sqlsrv_errors(), true));
+if (isset($_GET['action']) and $_GET['action'] == "account") {
+    if (isset($_COOKIE["idUser"])) {
+        echo "<script>window.location.href = 'profile.php';</script>";
+    } else {
+        echo "<script>window.location.href = 'authorization.php';</script>";
+    }
 }
+?>
+<?php
 if (isset($_POST["loginAuth"])) {
-    $log = $_POST['loginAuth'];
-    $pass = $_POST['passwordAuth'];
-    $tsql = "SELECT idUser, userPhoto FROM [user] WHERE (login='" . $log . "' OR phoneNumber='" . $log . "') AND password='" . $pass . "' AND status='Активен'";
+    session_start();
+    $serverName = "26.159.241.191";
+    $uid = "da";
+    $pwd = "da";
+    $connectionInfo = array(
+        "UID" => $uid,
+        "PWD" => $pwd,
+        "Database" => "Batteries",
+        "CharacterSet" => "UTF-8"
+    );
+    $conn = sqlsrv_connect($serverName, $connectionInfo);
+    if ($conn === false) {
+        echo "Ошибка, сервис временно недоступен.</br>";
+        die(print_r(sqlsrv_errors(), true));
+    }
+    $tsql = "SELECT idUser, userPhoto FROM [user] WHERE (login='" . $_POST['loginAuth'] . "' OR phoneNumber='" . $_POST['loginAuth'] . "') AND password='" . $_POST['passwordAuth'] . "' AND status='Активен'";
     $stmt = sqlsrv_query($conn, $tsql);
     if ($stmt === false) {
         echo "Ошибка, сервис временно недоступен.</br>";
@@ -30,48 +37,97 @@ if (isset($_POST["loginAuth"])) {
     } else {
         $error = "Введены неверные логин и/или пароль";
     }
-} elseif (isset($_POST["name"])) {
-    $arrInputNotSpace = array($_POST['name'], $_POST['surname'], $_POST['patronymic'], $_POST['password']);
+
+    sqlsrv_close($conn);
+} elseif (isset($_POST["name"])) { //Если нажата кнопка регистрации
+    //Если в необязательных полях аходятся не толькок пробелы
     if (ctype_space($_POST['name']) or ctype_space($_POST['surname']) or ctype_space($_POST['patronymic']) or ctype_space($_POST['password'])) {
         $error = "Поля должны быть пустыми или чем-то заполнены";
     } else {
+        //Если пароли совпадают
         if ($_POST['password'] == $_POST['repeat']) {
-            if (!$_FILES['photoUser']['tmp_name'][0]) {
-                $tsql = "INSERT INTO [user] (login, password, gender, surname, name, patronymic, role, birthday, phoneNumber, status) OUTPUT Inserted.[idUser]
-                VALUES ('" . $_POST['mail'] . "', '" . $_POST['password'] . "', '" . $_POST['gender'] . "', '" . $_POST['surname'] . "', '" . $_POST['name'] . "', '" . $_POST['patronymic'] . "', 'Пользователь', '" .
-                    $_POST['birhday'] . "', '" . $_POST['phone'] . "', 'Активен')";
-                $stmt = sqlsrv_query($conn, $tsql);
-                if ($stmt === false) {
-                    echo "Ошибка</br>";
-                    die(print_r(sqlsrv_errors(), true));
-                }
-                $row = sqlsrv_fetch_array($stmt);
-                setcookie("idUser", $row[0]);
-                echo "<script>window.location.href = 'index.php';</script>";
-            } 
-            else {
-                $name = $_FILES['photoUser']['name'];
-                $tmp = $_FILES['photoUser']['tmp_name'];
-                $data = file_get_contents($tmp);
-                $test = mb_convert_encoding($data, "UTF-8");
-                $tsql = "INSERT INTO [user] (login, password, gender, surname, name, patronymic, role, birthday, phoneNumber, status, userPhoto) OUTPUT Inserted.[idUser]
-                VALUES ('" . $_POST['mail'] . "', '" . $_POST['password'] . "', '" . $_POST['gender'] . "', '" . $_POST['surname'] . "', '" . $_POST['name'] . "', '" . $_POST['patronymic'] . "', 'Пользователь', '" .
-                    $_POST['birhday'] . "', '" . $_POST['phone'] ."', 'Активен', CAST('" . base64_encode($data) . "' AS image))";
-                $stmt = sqlsrv_query($conn, $tsql);
-                if ($stmt === false) {
-                    echo "Ошибка1</br>";
-                    die(print_r(sqlsrv_errors(), true));
-                }
-                $row = sqlsrv_fetch_array($stmt);
-                setcookie("idUser", $row[0]);
-                echo "<script>window.location.href = 'index.php';</script>"; 
+            session_start();
+            $serverName = "26.159.241.191";
+            $uid = "da";
+            $pwd = "da";
+            $connectionInfo = array(
+                "UID" => $uid,
+                "PWD" => $pwd,
+                "Database" => "Batteries",
+                "CharacterSet" => "UTF-8"
+            );
+            $conn = sqlsrv_connect($serverName, $connectionInfo);
+            if ($conn === false) {
+                echo "Ошибка, сервис временно недоступен.</br>";
+                die(print_r(sqlsrv_errors(), true));
             }
+            if ($_POST['mail'] == "") {
+                $mail = "NULL";
+                $falseMail = "falseMail";
+            } else {
+                $mail = "'" . $_POST['mail'] . "'";
+                $falseMail = $_POST['mail'];
+            }
+
+            $tsql = "SELECT [idUser] FROM [dbo].[user] WHERE [idUser] = 1 AND NOT EXISTS(SELECT [idUser] FROM [dbo].[user] WHERE [phoneNumber] = '" . $_POST['phone'] . "' AND NOT [role] = 'Гость') 
+            AND NOT EXISTS(SELECT [idUser] FROM [dbo].[user] WHERE [login] = '" . $falseMail . "' AND NOT [role] = 'Гость');";
+            $stmt = sqlsrv_query($conn, $tsql);
+            if ($stmt === false) {
+                echo "Ошибка, сервис временно недоступен.</br>";
+                die(print_r(sqlsrv_errors(), true));
+            }
+            $row = sqlsrv_fetch_array($stmt);
+            if ($row) {
+                if ($_POST['surname'] == "") {
+                    $surname = "NULL";
+                } else {
+                    $surname = "'" . $_POST['surname'] . "'";
+                }
+
+                if ($_POST['patronymic'] == "") {
+                    $patronymic = "NULL";
+                } else {
+                    $patronymic = "'" . $_POST['patronymic'] . "'";
+                }
+
+                if (!$_FILES['photoUser']['tmp_name'][0]) {
+                    $tsql = "INSERT INTO [user] (login, password, gender, surname, name, patronymic, role, birthday, phoneNumber, status) OUTPUT Inserted.[idUser]
+                    VALUES (" . $mail . ", '" . $_POST['password'] . "', '" . $_POST['gender'] . "'," . $surname . ", '" . $_POST['name'] . "'," . $patronymic . ", 'Пользователь', '" .
+                        $_POST['birhday'] . "', '" . $_POST['phone'] . "', 'Активен')";
+                    $stmt = sqlsrv_query($conn, $tsql);
+                    if ($stmt === false) {
+                        echo "Ошибка</br>";
+                        die(print_r(sqlsrv_errors(), true));
+                    }
+                    $row = sqlsrv_fetch_array($stmt);
+                    setcookie("idUser", $row[0]);
+                    echo "<script>window.location.href = 'index.php';</script>";
+                } else {
+                    $name = $_FILES['photoUser']['name'];
+                    $tmp = $_FILES['photoUser']['tmp_name'];
+                    $data = file_get_contents($tmp);
+                    $test = mb_convert_encoding($data, "UTF-8");
+                    $tsql = "INSERT INTO [user] (login, password, gender, surname, name, patronymic, role, birthday, phoneNumber, status, userPhoto) OUTPUT Inserted.[idUser]
+                    VALUES (" . $mail . ", '" . $_POST['password'] . "', '" . $_POST['gender'] . "', " . $surname . ", '" . $_POST['name'] . "', " . $patronymic . ", 'Пользователь', '" .
+                        $_POST['birhday'] . "', '" . $_POST['phone'] . "', 'Активен', CAST('" . base64_encode($data) . "' AS image))";
+                    $stmt = sqlsrv_query($conn, $tsql);
+                    if ($stmt === false) {
+                        echo "Ошибка1</br>";
+                        die(print_r(sqlsrv_errors(), true));
+                    }
+                    $row = sqlsrv_fetch_array($stmt);
+                    setcookie("idUser", $row[0]);
+                    echo "<script>window.location.href = 'index.php';</script>";
+                }
+            } else {
+                $error = "Почта или телефон заняты";
+            }
+            sqlsrv_close($conn);
         } else {
             $error = "Пароли не совпадают";
         }
     }
 }
-sqlsrv_close($conn);
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -99,12 +155,11 @@ sqlsrv_close($conn);
                 <a href="index.php">Главная</a>
                 <a href="katalog.php">Каталог</a>
                 <a href="cart.php">Корзина</a>
-                <a href="#">Профиль</a>
+                <a href="index.php?action=account">Профиль</a>
                 <a href="orders.php">История заказов</a>
             </div>
         </div>
         <a href="index.php" id="header-logo"><img width="200px" height="60px" src="../images/logo.svg" alt="logo">
-            <!-- Выгрузить фото -->
             <a href="#" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>
             <a href="cart.php" id="cart-button"><img width="50px" height="50px" src="../images/header/Cart.png" alt="cart"></a>
     </header>
@@ -149,11 +204,10 @@ sqlsrv_close($conn);
                         </div>
                         <div class="form-item">
                             <p>E-mail:</p>
-                            <input name="mail" type="email"></input>
+                            <input name="mail" type="email" value="<?= @$_POST['mail'] ?>"></input>
                         </div>
                         <div class="form-item">
                             <p>Дата рождения:</p>
-                            <!-- <input name="birthday" type="date" ></input> -->
                             <script>
                                 window.addEventListener('load',
                                     function(e) {

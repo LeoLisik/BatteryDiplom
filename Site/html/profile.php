@@ -1,5 +1,13 @@
 <?php
-session_start();
+if (isset($_GET['action']) and $_GET['action'] == "account") {
+    if (isset($_COOKIE["idUser"])) {
+        echo "<script>window.location.href = 'profile.php';</script>";
+    } else {
+        echo "<script>window.location.href = 'authorization.php';</script>";
+    }
+}
+?>
+<?php
 session_start();
 $serverName = "26.159.241.191";
 $uid = "da";
@@ -15,7 +23,7 @@ if ($conn === false) {
     echo "Ошибка, сервис временно недоступен.</br>";
     die(print_r(sqlsrv_errors(), true));
 }
-$tsql = "SELECT phoneNumber, name, surname, patronymic, gender, birthday, login, password FROM [user] WHERE idUser = " . $_COOKIE["idUser"];
+$tsql = "SELECT name, surname, patronymic, login, [userPhoto] FROM [user] WHERE idUser = " . $_COOKIE["idUser"];
 $stmt = sqlsrv_query($conn, $tsql);
 if ($stmt === false) {
     echo "Ошибка</br>";
@@ -26,7 +34,65 @@ $row = sqlsrv_fetch_array($stmt);
 if (isset($_GET['action']) and $_GET['action'] == "exit") {
     setcookie("idUser", "", time() - 3600);
     echo "<script>window.location.href = 'index.php';</script>";
+} elseif (isset($_POST["name"])) { //Сохранение
+    if (ctype_space($_POST['name']) or ctype_space($_POST['surname']) or ctype_space($_POST['patronymic'])) {
+        $error = "Поля должны быть пустыми или чем-то заполнены";
+    } else {
+        if ($_POST['mail'] == "") {
+            $mail = "NULL";
+            $falseMail = "falseMail";
+        } else {
+            $mail = "'" . $_POST['mail'] . "'";
+            $falseMail = $_POST['mail'];
+        }
+
+        $tsql = "SELECT [idUser] FROM [dbo].[user] WHERE [idUser] = 1 AND NOT EXISTS(SELECT [idUser] FROM [dbo].[user] WHERE [login] = '" . $falseMail . "' AND [idUser] <> ". $_COOKIE["idUser"] ." AND NOT [role] = 'Гость');";
+        $stmt = sqlsrv_query($conn, $tsql);
+        if ($stmt === false) {
+            echo "Ошибка, сервис временно недоступен.</br>";
+            die(print_r(sqlsrv_errors(), true));
+        }
+        $row1 = sqlsrv_fetch_array($stmt);
+        if ($row1) {
+            if ($_POST['surname'] == "") {
+                $surname = "NULL";
+            } else {
+                $surname = "'" . $_POST['surname'] . "'";
+            }
+
+            if ($_POST['patronymic'] == "") {
+                $patronymic = "NULL";
+            } else {
+                $patronymic = "'" . $_POST['patronymic'] . "'";
+            }
+            if (!$_FILES['photoUser']['tmp_name'][0]) {
+                $tsql = "UPDATE [dbo].[user] set login = " . $mail . ", name = '" . $_POST['name'] . "', patronymic = " . $patronymic . ", surname = " . $surname . " WHERE idUser = " . $_COOKIE["idUser"] .  ";";
+                $stmt = sqlsrv_query($conn, $tsql);
+                if ($stmt === false) {
+                    echo "Ошибка</br>";
+                    die(print_r(sqlsrv_errors(), true));
+                }
+                echo "<script>window.location.href = 'profile.php';</script>";
+            } else {
+                $name = $_FILES['photoUser']['name'];
+                $tmp = $_FILES['photoUser']['tmp_name'];
+                $data = file_get_contents($tmp);
+                $test = mb_convert_encoding($data, "UTF-8");
+                $tsql = "UPDATE [dbo].[user] set login = " . $mail . ", name = '" . $_POST['name'] . "', patronymic = " . $patronymic . ", surname = " . $surname . ", [userPhoto] = CAST('". base64_encode($data) 
+                     . "' AS image) WHERE idUser = " . $_COOKIE["idUser"] .  ";";
+                $stmt = sqlsrv_query($conn, $tsql);
+                if ($stmt === false) {
+                    echo "Ошибка1</br>";
+                    die(print_r(sqlsrv_errors(), true));
+                }
+                echo "<script>window.location.href = 'profile.php';</script>";
+            }
+        } else {
+            $error = "Почта занята";
+        }
+    }
 }
+sqlsrv_close($conn);
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -37,6 +103,8 @@ if (isset($_GET['action']) and $_GET['action'] == "exit") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="../css/index.css">
     <link type="text/css" rel="stylesheet" href="../css/profile.css">
+    <link type="text/css" rel="stylesheet" href="../css/photo.css">
+    <script src="../js/itc-photo.js" defer></script>
     <title>Мой профиль</title>
 </head>
 
@@ -53,8 +121,39 @@ if (isset($_GET['action']) and $_GET['action'] == "exit") {
             </div>
         </div>
         <a href="index.php" id="header-logo"><img width="200px" height="60px" src="../images/logo.svg" alt="logo">
-            <!-- выгрузка картинки -->
-            <a href="#" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>
+        <?php
+            if (isset($_COOKIE["idUser"])) {
+                $serverName = "26.159.241.191";
+                $uid = "da";
+                $pwd = "da";
+                $connectionInfo = array(
+                    "UID" => $uid,
+                    "PWD" => $pwd,
+                    "Database" => "Batteries",
+                    "CharacterSet" => "UTF-8"
+                );
+                $conn = sqlsrv_connect($serverName, $connectionInfo);
+                if ($conn === false) {
+                    echo "Ошибка, сервис временно недоступен.</br>";
+                    die(print_r(sqlsrv_errors(), true));
+                }
+                $tsql = "SELECT userPhoto FROM [user] WHERE idUser =" . $_COOKIE["idUser"];
+                $stmt = sqlsrv_query($conn, $tsql);
+                if ($stmt === false) {
+                    echo "Ошибка, сервис временно недоступен.</br>";
+                    die(print_r(sqlsrv_errors(), true));
+                }
+                $row2 = sqlsrv_fetch_array($stmt);
+                if ($row2[0] != false) {
+                    echo ' <a alt="user-icon" href="index.php?action=account" id="user-button"><img width="55px" height="55px" src="data:image/ ;base64,' . $row2[0] . '"></a>';
+                } else {
+                    echo ' <a href="index.php?action=account" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>';
+                }
+                sqlsrv_close($conn);
+            } else {
+                echo ' <a href="index.php?action=account" id="user-button"><img width="55px" height="55px" src="../images/header/UserPhoto.png" alt="user-icon"></a>';
+            }
+            ?>
             <a href="cart.php" id="cart-button"><img width="50px" height="50px" src="../images/header/Cart.png" alt="cart"></a>
     </header>
 
@@ -74,62 +173,53 @@ if (isset($_GET['action']) and $_GET['action'] == "exit") {
         </nav>
         <main>
             <h2>Мой профиль</h2> <!-- Изменение данных -->
-        <?php 
-        echo '<form method="POST">
-                <div id="form-img">
-                    <img width="200px" height="200px" src="..//images/test.jpg">
-                </div>
-                <div class="form-item">
-                    <label>Номер телефона:<span class="warning">*</span></label>
-                    <input name="phone" type="phone" placeholder="8(965)111-2233" pattern="\d{1}[(][0-9]{2,3}[)]\d{3}-\d{4} value=' . $row[0] . '" required></input>
-                </div>
-                <div class="form-item">
-                    <label>Имя:<span class="warning">*</span></label>
-                    <input type="text" value="' . $row[1] . '" required></input>
-                </div>
-                <div class="form-item">
-                    <label>Фамилия:</label>
-                    <input type="text" value="' . $row[2] . '"></input>
-                </div>
-                <div class="form-item">
-                    <label>Отчество:</label>
-                    <input type="text" value="' . $row[3] . '"></input>
-                </div>';
-                if($row[4] == "Мужской"){
-                    echo '<div class="form-item" id="check">
-                    <p>Пол:</p>
-                    <input type="radio" id="man" name="gender" value="Мужской" checked>
-                    <label for="man"> Муж</label>
-                    <input type="radio" id="woman" name="gender" value="Женский">
-                    <label for="woman"> Жен</label>
+            <form method="POST" enctype="multipart/form-data">
+            <?php echo "<p id='error'>" . $error . "</p>"; ?>
+                <?php
+                if ($row[4] == null) {
+                    echo '<style type="text/css">
+                    #photo{
+                        background-image: url("../images/authorization/download.png");
+                    }
+                    </style>
+                    <div id="form-img">
+                    <label for="pct" name="test" id="photo"></label>
+                    <input name="photoUser" type="file" accept="image/jpeg,image/png" id="pct">
                 </div>';
                 }
                 else{
-                    echo '<div class="form-item" id="check">
-                    <p>Пол:</p>
-                    <input type="radio" id="man" name="gender" value="Мужской">
-                    <label for="man"> Муж</label>
-                    <input type="radio" id="woman" name="gender" value="Женский" checked>
-                    <label for="woman"> Жен</label>
+                    echo '<style type="text/css">
+                    #photo{
+                        background-image: url("data:image/ ;base64,' . $row[4] . '");
+                    }
+                    </style>
+                    <div id="form-img">
+                    <label for="pct" name="test" id="photo"></label>
+                    <input name="photoUser" type="file" accept="image/jpeg,image/png" id="pct">
                 </div>';
                 }
-                echo '<div class="form-item">
-                    <label>Дата рождения:</label>
-                    <input type="date" name="birhday" id="mydate">
+                echo '
+                <div class="form-item">
+                    <label>Имя:<span class="warning">*</span></label>
+                    <input name="name" type="text" value="' . $row[0] . '" required></input>
+                </div>
+                <div class="form-item">
+                    <label>Фамилия:</label>
+                    <input name="surname" type="text" value="' . $row[1] . '"></input>
+                </div>
+                <div class="form-item">
+                    <label>Отчество:</label>
+                    <input name="patronymic" type="text" value="' . $row[2] . '"></input>
                 </div>
                 <div class="form-item">
                     <label>E-mail:</label>
-                    <input type="text" value="' . $row[6] . '"></input>
-                </div>
-                <div class="form-item">
-                    <label>Пароль:<span class="warning">*</span></label>
-                    <input type="text" value="trufelnaisveni@gmail.com" required></input>
-                </div>
+                    <input type="email" name="mail" type="text" value="' . $row[3] . '"></input>
+                </div>';
+                ?>
                 <div class="form-button">
-                    <button>Сохранить</button>
+                    <a href="?action=save"><button>Сохранить</button></a>
                 </div>
-            </form>';
-            ?>
+            </form>
             <a href="?action=exit"><button id="exit">Выход</button></a>
         </main>
     </div>

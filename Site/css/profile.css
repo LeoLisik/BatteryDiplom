@@ -89,7 +89,7 @@ form button {
     margin-bottom: 20px;
 }
 
-#check{
+#check{ 
     display: inline-flex;
     width: 65%;
     font-family: sans-serif;
@@ -117,6 +117,15 @@ input {
     font-size: 14px;
     font-family: sans-serif;
     height: 20px;
+}
+
+#error{
+    color: #dd0808;
+    font-family: sans-serif;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-weight:bold;
 }
 
 #exit{

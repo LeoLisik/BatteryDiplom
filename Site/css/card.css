@@ -35,7 +35,7 @@ h2{
     font-size: 14px;
 }
 
-#add, #pay{
+#add{
     margin-top: 10px;
     display: inline-block;
     width: 225px;
@@ -49,8 +49,7 @@ h2{
 }
 
 #add {
-    background: linear-gradient(0deg, rgba(251, 33, 76, 1) 0%, rgb(156, 21, 48) 100%);
-    color: #fff;
+    background: linear-gradient(0deg, rgb(173, 255, 47, 1) 0%, rgb(124, 180, 40) 100%);
 }
 
 #add:hover{

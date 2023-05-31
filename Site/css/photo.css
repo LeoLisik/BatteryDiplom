@@ -7,7 +7,7 @@
     width: 190px;
     height: 190px;
     border: thick double;
-    background-image: url('../images/authorization/download.png');
+    /* background-image: url('../images/authorization/download.png'); */
     background-size: 99% 99%;
     background-repeat: no-repeat;
     background-position: center;
