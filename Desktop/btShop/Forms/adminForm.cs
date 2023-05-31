@@ -278,7 +278,13 @@ namespace tuningAtelier.Forms
             maskedTextBoxPhoneNumber.Text = userData.phoneNumber;
             if (userData.userPhoto != null)
             {
-                pictureBoxProfileImage.Image = convertByteArrayToImage(userData.userPhoto);
+                try
+                {
+                    pictureBoxProfileImage.Image = convertByteArrayToImage(userData.userPhoto);
+                } catch
+                {
+                    pictureBoxProfileImage.Image = null;
+                }
             }
             if (userData.gender == "Мужской")
             {
@@ -303,7 +309,13 @@ namespace tuningAtelier.Forms
             comboBoxChangeUserStatus.Text = userData.status;
             if (userData.userPhoto != null)
             {
-                pictureBoxChangeUserPhoto.Image = convertByteArrayToImage(userData.userPhoto);
+                try
+                {
+                    pictureBoxChangeUserPhoto.Image = convertByteArrayToImage(userData.userPhoto);
+                } catch
+                {
+                    pictureBoxAddNewUserPhoto.Image = null;
+                }
             }
             if (userData.gender == "Мужской")
             {

@@ -436,7 +436,7 @@ namespace tuningAtelier.Forms
             {
                 if (db.order.Where(p => p.idUser == userData.idUser && p.status == "Активен").Count() > 0)
                 {
-                    var order = db.order.Single(p => p.idUser == userData.idUser && p.status == "Активен");
+                    var order = db.order.Where(p => p.idUser == userData.idUser && p.status == "Активен").OrderByDescending(p => p.orderDate).ToList()[0]; //Изменить!
                     var atelier = db.Shop.Single(p => p.nameShop == comboBoxAtelier.Text);
                     order.totalPrice = totalPrice;
                     order.idShop = atelier.idShop;
